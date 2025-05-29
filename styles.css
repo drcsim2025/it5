@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background-color: #f4f6f8;
   color: #333;
   line-height: 1.6;
@@ -96,27 +96,34 @@ header input[type="text"] {
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
+  text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 #quiz h2 {
   color: #333;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .quiz-box {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 #question {
   font-weight: bold;
   font-size: 1.1rem;
   margin-bottom: 15px;
+  text-align: center;
 }
 
 #options button {
   display: block;
-  margin: 10px 0;
+  margin: 10px auto; /* 가운데 정렬 */
   padding: 10px 15px;
   width: 100%;
   max-width: 400px;
@@ -129,6 +136,7 @@ header input[type="text"] {
 }
 
 #options button:hover {
+  text-align: center;
   background-color: #e3f2fd;
 }
 
@@ -178,6 +186,8 @@ body.dark-mode nav a {
 
 body.dark-mode .term-card,
 body.dark-mode #quiz {
+  text-align: center;
+
   background-color: #1e1e1e;
   color: #eee;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
