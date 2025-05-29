@@ -1,0 +1,205 @@
+/* 기본 리셋 및 공통 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f6f8;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* 헤더 */
+header {
+  background-color: #1e88e5;
+  color: white;
+  padding: 30px 0;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+nav {
+  margin: 10px 0;
+}
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: opacity 0.3s ease;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
+header input[type="text"] {
+  margin-top: 15px;
+  padding: 10px;
+  width: 80%;
+  max-width: 400px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* 다크 모드 버튼 */
+.toggle-dark {
+  background-color: #fff;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 용어 카드 */
+.term-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.term-card:hover {
+  transform: translateY(-5px);
+}
+
+.term-card h2 {
+  color: #1e88e5;
+  margin-bottom: 10px;
+}
+
+/* 퀴즈 섹션 */
+#quiz {
+  margin-top: 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+#quiz h2 {
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.quiz-box {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#question {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+#options button {
+  display: block;
+  margin: 10px auto; /* 가운데 정렬 */
+  padding: 10px 15px;
+  width: 100%;
+  max-width: 400px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#options button:hover {
+  text-align: center;
+  background-color: #e3f2fd;
+}
+
+#result {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #1e88e5;
+}
+
+#nextBtn {
+  margin-top: 15px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  background-color: #1e88e5;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#nextBtn:hover {
+  background-color: #1565c0;
+}
+
+/* 푸터 */
+footer {
+  background-color: #eee;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  font-size: 0.9rem;
+}
+
+/* === 다크 모드 === */
+body.dark-mode {
+  background-color: #121212;
+  color: #eee;
+}
+
+body.dark-mode header {
+  background-color: #333;
+}
+
+body.dark-mode nav a {
+  color: #fff;
+}
+
+body.dark-mode .term-card,
+body.dark-mode #quiz {
+  text-align: center;
+
+  background-color: #1e1e1e;
+  color: #eee;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode #options button {
+  background-color: #222;
+  color: #eee;
+  border: 1px solid #444;
+}
+
+body.dark-mode .toggle-dark {
+  background-color: #444;
+  color: #eee;
+}
