@@ -1,18 +1,217 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-//<<<<<<< feature/main-file
-    <h1>ddd테adfaf테테테스c트d</h1>
-    <h1>ddd테adfaf테테테스c트dd</h1>
-    <h1>ddd테adfaf테테테스c트d</h1>
-    1132dd
-=======
-    <h1>dzdd</h1>
-//>>>>>>> main
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT 용어 사전</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      background-color: #f4f6f8;
+      color: #333;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    header {
+      background-color: #1e88e5;
+      color: white;
+      padding: 30px 0;
+      text-align: center;
+    }
+
+    nav {
+      margin: 10px 0;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    header input[type="text"] {
+      margin-top: 15px;
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .term-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .term-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .term-card h2 {
+      color: #1e88e5;
+      margin-bottom: 10px;
+    }
+
+    #quiz {
+      margin-top: 40px;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .quiz-box {
+      margin-top: 20px;
+    }
+
+    #options button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      max-width: 400px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+    }
+
+    #options button:hover {
+      background-color: #e3f2fd;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    footer {
+      background-color: #eee;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>IT 용어 사전</h1>
+      <nav>
+        <a href="#terms">용어 목록</a>
+        <a href="#quiz">일일 퀴즈 풀기</a>
+      </nav>
+      <input type="text" placeholder="용어를 검색하세요..." id="searchBox" />
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="terms">
+      <h2>📚 용어 목록</h2>
+      <div class="term-card">
+        <h2>API</h2>
+        <p>Application Programming Interface의 약자로, 소프트웨어 간의 상호작용을 위한 인터페이스입니다.</p>
+      </div>
+      <div class="term-card">
+        <h2>클라우드 컴퓨팅</h2>
+        <p>인터넷을 통해 서버, 저장소, 데이터베이스, 네트워킹 등을 제공하는 기술입니다.</p>
+      </div>
+      <!-- 더 많은 용어를 여기에 추가 가능 -->
+    </section>
+
+    <section id="quiz">
+      <h2>📘 일일 퀴즈 풀기</h2>
+      <div class="quiz-box">
+        <p id="question">퀴즈를 불러오는 중...</p>
+        <div id="options"></div>
+        <p id="result"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 나의 IT 용어 사전</p>
+  </footer>
+
+  <script>
+    const quizData = [
+      {
+        question: "API란 무엇을 의미할까요?",
+        options: [
+          "웹사이트 디자인 도구",
+          "프로그램 간 상호작용 인터페이스",
+          "데이터 저장 장치",
+          "보안 인증 방식"
+        ],
+        answer: "프로그램 간 상호작용 인터페이스"
+      },
+      {
+        question: "HTML의 역할은 무엇인가요?",
+        options: [
+          "웹페이지의 구조를 정의",
+          "데이터베이스 관리",
+          "서버 성능 측정",
+          "네트워크 연결 관리"
+        ],
+        answer: "웹페이지의 구조를 정의"
+      },
+      {
+        question: "CSS는 어떤 역할을 하나요?",
+        options: [
+          "웹 서버를 설정한다",
+          "웹페이지의 스타일을 지정한다",
+          "코드를 컴파일한다",
+          "데이터를 암호화한다"
+        ],
+        answer: "웹페이지의 스타일을 지정한다"
+      }
+    ];
+
+    function loadQuiz() {
+      const quiz = quizData[Math.floor(Math.random() * quizData.length)];
+      document.getElementById("question").textContent = quiz.question;
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      quiz.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.textContent = option;
+        btn.onclick = () => {
+          document.getElementById("result").textContent =
+            option === quiz.answer ? "✅ 정답입니다!" : "❌ 오답입니다. 다시 도전해보세요!";
+        };
+        optionsDiv.appendChild(btn);
+      });
+
+      document.getElementById("result").textContent = "";
+    }
+
+    window.onload = loadQuiz;
+  </script>
+</body>
 </html>
