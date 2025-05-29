@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>IT 용어 사전 & 퀴즈</title>
+    <title>HTML 용어 사전 & 퀴즈</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -38,7 +38,7 @@
           aria-controls="autocompleteList"
           aria-expanded="false"
           aria-haspopup="listbox"
-          placeholder="검색어 입력 (예: HTML, API, Docker)"
+          placeholder="검색어 입력 (예: span,form,table)"
         />
         <button id="searchBtn" aria-label="검색">🔍</button>
         <ul id="autocompleteList" role="listbox" hidden></ul>
@@ -53,58 +53,120 @@
       // 용어 데이터 (50개)
       const terms = [
         {
-          term: "API",
-          desc: "응용 프로그램 인터페이스로, 소프트웨어 간 상호작용 규칙.",
+          term: "span",
+          desc: "인라인 요소로, 텍스트 일부를 감싸 스타일링할 때 사용.",
         },
-        { term: "HTML", desc: "웹 페이지의 기본 구조를 만드는 마크업 언어." },
-        { term: "CSS", desc: "웹 페이지의 스타일과 레이아웃을 지정하는 언어." },
+        { term: "a", desc: "HTML에서 하이퍼링크를 정의하는 태그." },
+        { term: "img", desc: "이미지를 삽입하는 HTML 태그." },
+        { term: "ul", desc: "순서 없는 리스트를 만드는 HTML 태그." },
+        { term: "ol", desc: "순서 있는 리스트를 만드는 HTML 태그." },
+        { term: "form", desc: "사용자 입력을 받는 HTML 폼 요소." },
         {
-          term: "JavaScript",
-          desc: "웹 페이지에 동적인 기능을 추가하는 프로그래밍 언어.",
+          term: "input",
+          desc: "텍스트 필드, 체크박스 등의 사용자 입력 필드를 생성하는 HTML 태그.",
         },
-        { term: "HTTP", desc: "웹에서 데이터를 주고받는 프로토콜." },
-        { term: "HTTPS", desc: "HTTP에 보안 기능을 추가한 프로토콜." },
-        { term: "DOM", desc: "웹 문서의 객체 모델." },
-        { term: "AJAX", desc: "비동기 웹 통신 기술." },
-        { term: "JSON", desc: "데이터 교환에 사용되는 경량의 텍스트 형식." },
-        { term: "SQL", desc: "데이터베이스 질의 언어." },
-        { term: "Git", desc: "버전 관리 시스템." },
-        { term: "Node.js", desc: "서버 사이드에서 JavaScript 실행 환경." },
-        { term: "React", desc: "UI 라이브러리." },
-        { term: "Vue.js", desc: "프로그레시브 자바스크립트 프레임워크." },
-        { term: "Docker", desc: "컨테이너 기반 가상화 플랫폼." },
-        { term: "Kubernetes", desc: "컨테이너 오케스트레이션 도구." },
-        { term: "Cloud Computing", desc: "인터넷 기반 컴퓨팅 서비스." },
-        { term: "Machine Learning", desc: "기계 학습." },
-        { term: "AI", desc: "인공지능." },
-        { term: "Big Data", desc: "대규모 데이터 집합." },
-        { term: "Blockchain", desc: "분산 원장 기술." },
-        { term: "Encryption", desc: "데이터 암호화." },
-        { term: "Firewall", desc: "네트워크 보안 시스템." },
-        { term: "IP Address", desc: "인터넷 프로토콜 주소." },
-        { term: "DNS", desc: "도메인 이름 시스템." },
-        { term: "SSL", desc: "보안 소켓 계층 프로토콜." },
-        { term: "Load Balancer", desc: "부하 분산 장치." },
-        { term: "Virtual Machine", desc: "가상 머신." },
-        { term: "Compiler", desc: "컴파일러." },
-        { term: "Debugger", desc: "디버깅 도구." },
-        { term: "Frontend", desc: "사용자 인터페이스 쪽 개발." },
-        { term: "Backend", desc: "서버 및 데이터베이스 쪽 개발." },
-        { term: "API Gateway", desc: "API 중개 서버." },
-        { term: "REST API", desc: "REST 아키텍처 기반 API." },
-        { term: "GraphQL", desc: "데이터 질의 언어." },
-        { term: "WebSocket", desc: "양방향 통신 프로토콜." },
-        { term: "OAuth", desc: "권한 위임 프로토콜." },
-        { term: "JWT", desc: "JSON 웹 토큰." },
-        { term: "CI/CD", desc: "지속적 통합/배포." },
-        { term: "Agile", desc: "민첩한 소프트웨어 개발 방법론." },
-        { term: "Scrum", desc: "애자일 개발 프레임워크." },
-        { term: "Kanban", desc: "작업 흐름 관리 방법." },
-        { term: "Microservices", desc: "작은 서비스들의 조합 아키텍처." },
-        { term: "DevOps", desc: "개발과 운영의 통합." },
-        { term: "Latency", desc: "지연 시간." },
-        { term: "Throughput", desc: "처리량." },
-        { term: "Scalability", desc: "확장성." },
+        { term: "button", desc: "클릭 가능한 버튼을 생성하는 HTML 요소." },
+        { term: "table", desc: "표(table)를 만드는 HTML 태그." },
+        {
+          term: "document.getElementById",
+          desc: "JavaScript로 특정 ID를 가진 요소를 선택하는 메서드.",
+        },
+        {
+          term: "addEventListener",
+          desc: "JavaScript에서 이벤트를 등록하는 함수.",
+        },
+        {
+          term: "setTimeout",
+          desc: "일정 시간 후에 함수를 실행하는 JavaScript 함수.",
+        },
+        {
+          term: "setInterval",
+          desc: "일정 시간마다 함수를 반복 실행하는 JavaScript 함수.",
+        },
+        {
+          term: "querySelector",
+          desc: "CSS 선택자 방식으로 요소를 선택하는 JavaScript 메서드.",
+        },
+        {
+          term: "console.log",
+          desc: "콘솔에 메시지를 출력하는 JavaScript 명령어.",
+        },
+        {
+          term: "$",
+          desc: "jQuery의 기본 함수로 DOM 요소를 선택하거나 조작할 때 사용.",
+        },
+        { term: "$.ajax", desc: "jQuery에서 비동기 HTTP 요청을 보내는 함수." },
+        { term: "$.each", desc: "jQuery에서 반복문을 실행하는 함수." },
+        { term: "$.hide", desc: "jQuery로 요소를 숨김." },
+        { term: "$.show", desc: "jQuery로 요소를 표시함." },
+        { term: "$.fadeIn", desc: "jQuery에서 요소를 서서히 나타나게 함." },
+        { term: "$.fadeOut", desc: "jQuery에서 요소를 서서히 사라지게 함." },
+        {
+          term: "localStorage",
+          desc: "브라우저에 데이터 저장할 수 있는 JavaScript 객체.",
+        },
+        {
+          term: "JSON.parse",
+          desc: "JSON 문자열을 JavaScript 객체로 변환하는 함수.",
+        },
+        {
+          term: "JSON.stringify",
+          desc: "JavaScript 객체를 JSON 문자열로 변환하는 함수.",
+        },
+        {
+          term: "forEach",
+          desc: "배열의 각 요소에 대해 함수를 실행하는 JavaScript 메서드.",
+        },
+        {
+          term: "map",
+          desc: "배열을 변환해 새로운 배열을 반환하는 JavaScript 메서드.",
+        },
+        {
+          term: "filter",
+          desc: "조건에 맞는 배열 요소만 추출하는 JavaScript 메서드.",
+        },
+        {
+          term: "reduce",
+          desc: "배열을 하나의 값으로 줄이는 JavaScript 함수.",
+        },
+        {
+          term: "async/await",
+          desc: "비동기 코드를 동기식처럼 작성하게 해주는 JavaScript 키워드.",
+        },
+        { term: "fetch", desc: "JavaScript에서 HTTP 요청을 보내는 함수." },
+        { term: "try...catch", desc: "오류 처리를 위한 JavaScript 문법." },
+        { term: "typeof", desc: "값의 자료형을 확인하는 JavaScript 연산자." },
+        {
+          term: "Math.random",
+          desc: "0과 1 사이의 난수를 생성하는 JavaScript 함수.",
+        },
+        {
+          term: "innerHTML",
+          desc: "HTML 요소의 내부 콘텐츠를 읽거나 변경하는 속성.",
+        },
+        {
+          term: "classList.add",
+          desc: "요소에 클래스를 추가하는 JavaScript 메서드.",
+        },
+        {
+          term: "classList.remove",
+          desc: "요소에서 클래스를 제거하는 JavaScript 메서드.",
+        },
+        {
+          term: "preventDefault",
+          desc: "기본 이벤트 동작을 막는 JavaScript 이벤트 메서드.",
+        },
+        {
+          term: "stopPropagation",
+          desc: "이벤트 버블링을 막는 JavaScript 메서드.",
+        },
+        { term: "keydown", desc: "키보드를 눌렀을 때 발생하는 이벤트." },
+        { term: "keyup", desc: "키보드를 뗐을 때 발생하는 이벤트." },
+        { term: "onload", desc: "페이지 로드 완료 시 실행되는 이벤트." },
+        {
+          term: "DOMContentLoaded",
+          desc: "HTML 문서의 초기 로딩이 끝났을 때 발생하는 이벤트.",
+        },
       ];
 
       // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
@@ -118,12 +180,12 @@
         }
       }
 
-      // 퀴즈 생성: terms중 랜덤 10문제를 뽑아 보기 4개씩 섞어서 만듦
+      // 퀴즈 생성: terms중 랜덤 5문제를 뽑아 보기 4개씩 섞어서 만듦
       function generateQuizData() {
         quizData = [];
         const shuffledTerms = [...terms];
         shuffleArray(shuffledTerms);
-        const pickCount = Math.min(10, shuffledTerms.length);
+        const pickCount = Math.min(5, shuffledTerms.length);
         for (let i = 0; i < pickCount; i++) {
           const question = shuffledTerms[i].term;
           const answer = shuffledTerms[i].desc;
