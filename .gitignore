@@ -1,0 +1,16 @@
+# VSCode 개인 설정
+.vscode/
+
+# macOS 파일
+.DS_Store
+
+# 로그 파일
+*.log
+
+# 환경 변수 파일
+.env
+.env.*
+
+# 파비콘 캐시나 브라우저 관련 임시 파일
+*.local
+*.cache
