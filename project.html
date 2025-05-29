@@ -1,217 +1,276 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IT 용어 사전</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      line-height: 1.6;
-      background-color: #f4f6f8;
-      color: #333;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    header {
-      background-color: #1e88e5;
-      color: white;
-      padding: 30px 0;
-      text-align: center;
-    }
-
-    nav {
-      margin: 10px 0;
-    }
-
-    nav a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    header input[type="text"] {
-      margin-top: 15px;
-      padding: 10px;
-      width: 80%;
-      max-width: 400px;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-
-    .term-card {
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease;
-    }
-
-    .term-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .term-card h2 {
-      color: #1e88e5;
-      margin-bottom: 10px;
-    }
-
-    #quiz {
-      margin-top: 40px;
-      background-color: #fff;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    }
-
-    .quiz-box {
-      margin-top: 20px;
-    }
-
-    #options button {
-      display: block;
-      margin: 10px 0;
-      padding: 10px;
-      width: 100%;
-      max-width: 400px;
-      font-size: 1rem;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-    }
-
-    #options button:hover {
-      background-color: #e3f2fd;
-    }
-
-    #result {
-      margin-top: 15px;
-      font-weight: bold;
-    }
-
-    footer {
-      background-color: #eee;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="container">
-      <h1>IT 용어 사전</h1>
-      <nav>
-        <a href="#terms">용어 목록</a>
-        <a href="#quiz">일일 퀴즈 풀기</a>
-      </nav>
-      <input type="text" placeholder="용어를 검색하세요..." id="searchBox" />
-    </div>
-  </header>
-
-  <main class="container">
-    <section id="terms">
-      <h2>📚 용어 목록</h2>
-      <div class="term-card">
-        <h2>API</h2>
-        <p>Application Programming Interface의 약자로, 소프트웨어 간의 상호작용을 위한 인터페이스입니다.</p>
-      </div>
-      <div class="term-card">
-        <h2>클라우드 컴퓨팅</h2>
-        <p>인터넷을 통해 서버, 저장소, 데이터베이스, 네트워킹 등을 제공하는 기술입니다.</p>
-      </div>
-      <!-- 더 많은 용어를 여기에 추가 가능 -->
-    </section>
-
-    <section id="quiz">
-      <h2>📘 일일 퀴즈 풀기</h2>
-      <div class="quiz-box">
-        <p id="question">퀴즈를 불러오는 중...</p>
-        <div id="options"></div>
-        <p id="result"></p>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 나의 IT 용어 사전</p>
-  </footer>
-
-  <script>
-    const quizData = [
-      {
-        question: "API란 무엇을 의미할까요?",
-        options: [
-          "웹사이트 디자인 도구",
-          "프로그램 간 상호작용 인터페이스",
-          "데이터 저장 장치",
-          "보안 인증 방식"
-        ],
-        answer: "프로그램 간 상호작용 인터페이스"
-      },
-      {
-        question: "HTML의 역할은 무엇인가요?",
-        options: [
-          "웹페이지의 구조를 정의",
-          "데이터베이스 관리",
-          "서버 성능 측정",
-          "네트워크 연결 관리"
-        ],
-        answer: "웹페이지의 구조를 정의"
-      },
-      {
-        question: "CSS는 어떤 역할을 하나요?",
-        options: [
-          "웹 서버를 설정한다",
-          "웹페이지의 스타일을 지정한다",
-          "코드를 컴파일한다",
-          "데이터를 암호화한다"
-        ],
-        answer: "웹페이지의 스타일을 지정한다"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IT 용어 사전</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* --- 다크모드 스타일 --- */
+      body.dark-mode {
+        background-color: #121212;
+        color: #eee;
       }
-    ];
 
-    function loadQuiz() {
-      const quiz = quizData[Math.floor(Math.random() * quizData.length)];
-      document.getElementById("question").textContent = quiz.question;
+      body.dark-mode header {
+        background-color: #333;
+      }
 
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
+      body.dark-mode nav a {
+        color: #fff;
+      }
 
-      quiz.options.forEach(option => {
-        const btn = document.createElement("button");
-        btn.textContent = option;
-        btn.onclick = () => {
-          document.getElementById("result").textContent =
-            option === quiz.answer ? "✅ 정답입니다!" : "❌ 오답입니다. 다시 도전해보세요!";
-        };
-        optionsDiv.appendChild(btn);
+      body.dark-mode .term-card,
+      body.dark-mode #quiz {
+        background-color: #1e1e1e;
+        color: #eee;
+        box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
+      }
+
+      body.dark-mode #options button {
+        background-color: #222;
+        color: #eee;
+        border: 1px solid #444;
+      }
+
+      .toggle-dark {
+        background-color: #fff;
+        color: #333;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        margin-top: 10px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      body.dark-mode .toggle-dark {
+        background-color: #444;
+        color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>IT 용어 사전</h1>
+        <nav>
+          <a href="#terms">용어 목록</a>
+          <a href="#quiz">일일 퀴즈 풀기</a>
+        </nav>
+        <form id="searchForm" onsubmit="return openTermPage(event)">
+          <input
+            type="text"
+            placeholder="용어를 검색하세요..."
+            id="searchBox"
+          />
+        </form>
+
+        <br />
+        <button class="toggle-dark" onclick="toggleDarkMode()">
+          🌙 다크 모드
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- ✅ 용어 목록 -->
+      <section id="terms">
+        <h2>📚 용어 목록</h2>
+        <div id="termList">
+          <!-- 용어 카드 예시 -->
+          <div class="term-card">
+            <h2>API</h2>
+            <p>
+              Application Programming Interface. 소프트웨어 간 상호작용
+              인터페이스입니다.
+            </p>
+          </div>
+          <div class="term-card">
+            <h2>HTML</h2>
+            <p>웹 페이지의 구조를 정의하는 마크업 언어입니다.</p>
+          </div>
+          <div class="term-card">
+            <h2>CSS</h2>
+            <p>웹 페이지의 스타일을 지정하는 언어입니다.</p>
+          </div>
+          <div class="term-card">
+            <h2>JavaScript</h2>
+            <p>웹에 동적인 기능을 추가하는 언어입니다.</p>
+          </div>
+          <div class="term-card">
+            <h2>Git</h2>
+            <p>버전 관리를 위한 분산 시스템입니다.</p>
+          </div>
+          <div class="term-card">
+            <h2>HTTP</h2>
+            <p>웹 통신을 위한 프로토콜입니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ✅ 연속 퀴즈 -->
+      <section id="quiz">
+        <h2>📘 일일 퀴즈 풀기</h2>
+        <div class="quiz-box">
+          <p id="question">퀴즈를 불러오는 중...</p>
+          <div id="options"></div>
+          <p id="result"></p>
+          <button id="nextBtn" style="display: none" onclick="loadNextQuiz()">
+            다음 문제 ▶
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 나의 IT 용어 사전</p>
+    </footer>
+
+    <!-- ✅ JS 스크립트 -->
+    <script>
+      function openTermPage(event) {
+        event.preventDefault(); // 기본 submit 방지
+        const query = document
+          .getElementById("searchBox")
+          .value.trim()
+          .toLowerCase();
+
+        if (!query) return false;
+
+        // 현재 있는 카드들 중에서 해당 용어를 찾아서 내용 복사
+        const cards = document.querySelectorAll(".term-card");
+        let found = null;
+
+        cards.forEach((card) => {
+          const title = card.querySelector("h2").textContent.toLowerCase();
+          if (title === query) {
+            found = card.innerHTML;
+          }
+        });
+
+        const win = window.open("", "_blank", "width=600,height=400");
+        if (found) {
+          win.document.write(`
+      <!DOCTYPE html>
+      <html lang="ko">
+      <head>
+        <meta charset="UTF-8" />
+        <title>용어: ${query}</title>
+        <style>
+          body { font-family: 'Segoe UI', sans-serif; padding: 30px; background: #f9f9f9; }
+          .term-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+          }
+          h2 { color: #1e88e5; }
+        </style>
+      </head>
+      <body>
+        <div class="term-card">
+          ${found}
+        </div>
+      </body>
+      </html>
+    `);
+        } else {
+          win.document.write(`
+      <p style="padding:30px; font-family:sans-serif">"${query}" 용어를 찾을 수 없습니다.</p>
+    `);
+        }
+
+        return false;
+      }
+
+      const quizData = [
+        {
+          question: "API는 무엇을 뜻하나요?",
+          options: [
+            "웹 디자인",
+            "상호작용 인터페이스",
+            "하드웨어",
+            "보안 모듈",
+          ],
+          answer: "상호작용 인터페이스",
+        },
+        {
+          question: "HTML은 무엇을 위한 언어인가요?",
+          options: ["디자인", "구조 정의", "암호화", "데이터 저장"],
+          answer: "구조 정의",
+        },
+        {
+          question: "CSS의 주요 기능은?",
+          options: [
+            "웹 스타일 지정",
+            "서버 보안",
+            "데이터베이스 연결",
+            "하드웨어 제어",
+          ],
+          answer: "웹 스타일 지정",
+        },
+        {
+          question: "JavaScript는 어떤 역할을 하나요?",
+          options: [
+            "정적 페이지 표시",
+            "동적 기능 추가",
+            "서버 구축",
+            "문서 인쇄",
+          ],
+          answer: "동적 기능 추가",
+        },
+        {
+          question: "Git은 무엇을 위한 도구인가요?",
+          options: ["웹 호스팅", "버전 관리", "파일 압축", "보안 테스트"],
+          answer: "버전 관리",
+        },
+      ];
+
+      let currentQuizIndex = 0;
+
+      function loadNextQuiz() {
+        const quiz = quizData[currentQuizIndex];
+        document.getElementById("question").textContent = quiz.question;
+        const optionsDiv = document.getElementById("options");
+        const result = document.getElementById("result");
+        const nextBtn = document.getElementById("nextBtn");
+
+        optionsDiv.innerHTML = "";
+        result.textContent = "";
+        nextBtn.style.display = "none";
+
+        quiz.options.forEach((option) => {
+          const btn = document.createElement("button");
+          btn.textContent = option;
+          btn.onclick = () => {
+            if (option === quiz.answer) {
+              result.textContent = "✅ 정답입니다!";
+              nextBtn.style.display = "inline-block";
+              currentQuizIndex = (currentQuizIndex + 1) % quizData.length;
+            } else {
+              result.textContent = "❌ 오답입니다. 다시 시도하세요.";
+            }
+          };
+          optionsDiv.appendChild(btn);
+        });
+      }
+
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+      }
+
+      // 검색 기능
+      document.getElementById("searchBox").addEventListener("input", () => {
+        const query = document.getElementById("searchBox").value.toLowerCase();
+        const cards = document.querySelectorAll(".term-card");
+        cards.forEach((card) => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(query) ? "block" : "none";
+        });
       });
 
-      document.getElementById("result").textContent = "";
-    }
-
-    window.onload = loadQuiz;
-  </script>
-</body>
+      window.onload = loadNextQuiz;
+    </script>
+  </body>
 </html>
