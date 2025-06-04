@@ -10,7 +10,7 @@
 * {
   box-sizing: border-box;
 }
-#val{
+#val {
   text-align: left;
 }
 body {
@@ -27,14 +27,25 @@ body {
   align-items: center;
 }
 
-#fo1{
-  background-color: #cfcfe8;
+#fo1 {
+  background-color: #eeeef6;
+  color: black;
+  padding: 1.5rem;
+  border: 2px solid #d5d2d2;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100px; /* 필요하면 조절 */
+}
+#fo2 {
+  background-color: #eeeef4;
+  color: black;
   padding: 1.5rem;
   border: 2px solid #ccc;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  min-height: 200px; /* 필요하면 조절 */
+  min-height: 100px; /* 필요하면 조절 */
 }
 .term-detail {
   padding: 1.5rem;
@@ -259,6 +270,7 @@ body.dark-mode button:hover {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  overflow: hidden;
   user-select: none;
   outline-offset: 3px;
 }
