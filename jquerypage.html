@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HTML 용어 사전 & 퀴즈</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <button
+      id="menuBtn"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="menuBox"
+      title="메뉴 열기/닫기"
+    >
+      ☰ 메뉴
+    </button>
+    <nav id="menuBox" role="menu" aria-hidden="true" tabindex="-1">
+      <button id="showTermsBtn" role="menuitem">용어 사전 보기</button>
+      <button id="showQuizBtn" role="menuitem">퀴즈 풀기</button>
+      <button id="toggleDarkBtn" role="menuitem" aria-pressed="false">
+        다크모드 토글
+      </button>
+    </nav>
+
+    <form
+      id="searchForm"
+      autocomplete="off"
+      role="search"
+      aria-label="용어 검색"
+    >
+      <div id="searchContainer">
+        <input
+          type="text"
+          id="searchBox"
+          aria-autocomplete="list"
+          aria-controls="autocompleteList"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          placeholder="검색어 입력 (예: span,form,table)"
+        />
+        <button id="searchBtn" aria-label="검색">🔍</button>
+        <ul id="autocompleteList" role="listbox" hidden></ul>
+      </div>
+    </form>
+
+    <main id="contentArea" tabindex="0" aria-live="polite">
+      <!-- 용어 카드 또는 퀴즈 내용 출력 영역 -->
+    </main>
+
+    <script>
+      // 용어 데이터추가 + 용어에 ex추가 예시는 ex에다가 넣으세요
+      const terms = [
+        {
+          term: "span",
+          desc: "인라인 요소로, 텍스트 일부를 감싸 스타일링할 때 사용.",
+          ex: "<span style='color:red;'>빨간 텍스트</span>",
+          ex2: "사용법: &lt;span style=&#x27;color:red;&#x27;&gt;빨간 텍스트&lt;/span&gt;",
+        },
+        {
+          term: "a",
+          desc: "HTML에서 하이퍼링크를 정의하는 태그.",
+          ex: "<a href='https://naver.com'>예시 링크</a>",
+          ex2: "사용법: &lt;a href=&#x27;https://naver.com&#x27;&gt;예시 링크&lt;/a&gt;",
+        },
+        {
+          term: "img",
+          desc: "이미지를 삽입하는 HTML 태그.",
+          ex: "<img src='image.jpg' alt='예시 이미지'>",
+          ex2: "사용법: &lt;img src=&#x27;image.jpg&#x27; alt=&#x27;예시 이미지&#x27;&gt;",
+        },
+        {
+          term: "ul",
+          desc: "순서 없는 리스트를 만드는 HTML 태그.",
+          ex: "<ul><li>항목 1</li><li>항목 2</li></ul>",
+          ex2: "사용법: &lt;ul&gt;&lt;li&gt;항목 1&lt;/li&gt;&lt;li&gt;항목 2&lt;/li&gt;&lt;/ul&gt;",
+        },
+        {
+          term: "ol",
+          desc: "순서 있는 리스트를 만드는 HTML 태그.",
+          ex: "<ol><li>첫 번째</li><li>두 번째</li></ol>",
+          ex2: "사용법: &lt;ol&gt;&lt;li&gt;첫 번째&lt;/li&gt;&lt;li&gt;두 번째&lt;/li&gt;&lt;/ol&gt;",
+        },
+        {
+          term: "form",
+          desc: "사용자 입력을 받는 HTML 폼 요소.",
+          ex: "<form><input type='text'></form>",
+          ex2: "사용법: &lt;form&gt;&lt;input type=&#x27;text&#x27;&gt;&lt;/form&gt;",
+        },
+        {
+          term: "input",
+          desc: "텍스트 필드, 체크박스 등의 사용자 입력 필드를 생성하는 HTML 태그.",
+          ex: "<input type='checkbox'>",
+          ex2: "사용법: &lt;input type=&#x27;checkbox&#x27;&gt;",
+        },
+        {
+          term: "button",
+          desc: "클릭 가능한 버튼을 생성하는 HTML 요소.",
+          ex: "<button>클릭</button>",
+          ex2: "사용법: &lt;button&gt;클릭&lt;/button&gt;",
+        },
+        {
+          term: "table",
+          desc: "표(table)를 만드는 HTML 태그.",
+          ex: "<table><tr><td>데이터</td></tr></table>",
+          ex2: "사용법: &lt;table&gt;&lt;tr&gt;&lt;td&gt;데이터&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;",
+        },
+        {
+          term: "document.getElementById",
+          desc: "JavaScript로 특정 ID를 가진 요소를 선택하는 메서드.",
+          ex: "document.getElementById('myId')",
+          ex2: "사용법: document.getElementById(&#x27;myId&#x27;)",
+        },
+        {
+          term: "addEventListener",
+          desc: "JavaScript에서 이벤트를 등록하는 함수.",
+          ex: "element.addEventListener('click', callback)",
+          ex2: "사용법: element.addEventListener(&#x27;click&#x27;, callback)",
+        },
+        {
+          term: "setTimeout",
+          desc: "일정 시간 후에 함수를 실행하는 JavaScript 함수.",
+          ex: "setTimeout(() => { alert('Hi') }, 1000)",
+          ex2: "사용법: setTimeout(() =&gt; { alert(&#x27;Hi&#x27;) }, 1000)",
+        },
+        {
+          term: "setInterval",
+          desc: "일정 시간마다 함수를 반복 실행하는 JavaScript 함수.",
+          ex: "setInterval(() => { console.log('반복') }, 1000)",
+          ex2: "사용법: setInterval(() =&gt; { console.log(&#x27;반복&#x27;) }, 1000)",
+        },
+        {
+          term: "querySelector",
+          desc: "CSS 선택자 방식으로 요소를 선택하는 JavaScript 메서드.",
+          ex: "document.querySelector('.className')",
+          ex2: "사용법: document.querySelector(&#x27;.className&#x27;)",
+        },
+        {
+          term: "console.log",
+          desc: "콘솔에 메시지를 출력하는 JavaScript 명령어.",
+          ex: "console.log('Hello, World!')",
+          ex2: "사용법: console.log(&#x27;Hello, World!&#x27;)",
+        },
+        {
+          term: "filter",
+          desc: "조건에 맞는 배열 요소만 추출하는 JavaScript 메서드.",
+          ex: "[1,2,3,4].filter(x => x > 2)",
+          ex2: "사용법: [1,2,3,4].filter(요소 => 조건)",
+        },
+        {
+          term: "reduce",
+          desc: "배열을 하나의 값으로 줄이는 JavaScript 함수.",
+          ex: "[1,2,3,4].reduce((acc, cur) => acc + cur, 0)",
+          ex2: "사용법: 배열.reduce((누적값, 현재값) => 처리, 초기값)",
+        },
+        {
+          term: "async/await",
+          desc: "비동기 코드를 동기식처럼 작성하게 해주는 JavaScript 키워드.",
+          ex: "async function fetchData() { await fetch(url) }",
+          ex2: "사용법: async function 함수() { await 비동기작업 }",
+        },
+        {
+          term: "fetch",
+          desc: "JavaScript에서 HTTP 요청을 보내는 함수.",
+          ex: "fetch('/api').then(res => res.json())",
+          ex2: "사용법: fetch(url).then(response => 처리)",
+        },
+        {
+          term: "try...catch",
+          desc: "오류 처리를 위한 JavaScript 문법.",
+          ex: "try { JSON.parse('wrong') } catch (e) { console.error(e) }",
+          ex2: "사용법: try { 실행문 } catch (오류) { 처리문 }",
+        },
+        {
+          term: "typeof",
+          desc: "값의 자료형을 확인하는 JavaScript 연산자.",
+          ex: "typeof 'hello'",
+          ex2: "사용법: typeof 값",
+        },
+        {
+          term: "Math.random",
+          desc: "0과 1 사이의 난수를 생성하는 JavaScript 함수.",
+          ex: "Math.random()",
+          ex2: "사용법: Math.random()",
+        },
+        {
+          term: "innerHTML",
+          desc: "HTML 요소의 내부 콘텐츠를 읽거나 변경하는 속성.",
+          ex: "document.getElementById('app').innerHTML = '<p>Hello</p>'",
+          ex2: "사용법: 요소.innerHTML = '변경할 내용'",
+        },
+        {
+          term: "classList.add",
+          desc: "요소에 클래스를 추가하는 JavaScript 메서드.",
+          ex: "element.classList.add('active')",
+          ex2: "사용법: 요소.classList.add('클래스명')",
+        },
+        {
+          term: "classList.remove",
+          desc: "요소에서 클래스를 제거하는 JavaScript 메서드.",
+          ex: "element.classList.remove('hidden')",
+          ex2: "사용법: 요소.classList.remove('클래스명')",
+        },
+        {
+          term: ".next()",
+          desc: "선택된 요소 바로 다음 형제 요소 반환",
+          ex: '$(".item").next()',
+          ex2: "사용법: $(선택자).next()",
+        },
+        {
+          term: ".prev()",
+          desc: "선택된 요소 바로 앞 형제 요소 반환",
+          ex: '$(".item").prev()',
+          ex2: "사용법: $(선택자).prev()",
+        },
+        {
+          term: ".eq()",
+          desc: "선택된 요소 중 지정된 인덱스의 요소 반환",
+          ex: '$("li").eq(2)',
+          ex2: "사용법: $(선택자).eq(인덱스)",
+        },
+        {
+          term: ".first()",
+          desc: "선택된 요소 중 첫 번째 요소 반환",
+          ex: '$("div").first()',
+          ex2: "사용법: $(선택자).first()",
+        },
+        {
+          term: ".last()",
+          desc: "선택된 요소 중 마지막 요소 반환",
+          ex: '$("div").last()',
+          ex2: "사용법: $(선택자).last()",
+        },
+        {
+          term: ".filter()",
+          desc: "선택된 요소 중 조건을 만족하는 요소만 반환",
+          ex: '$("li").filter(".active")',
+          ex2: "사용법: $(선택자).filter(조건)",
+        },
+        {
+          term: ".not()",
+          desc: "선택된 요소 중 조건에 맞지 않는 요소만 반환",
+          ex: '$("li").not(".active")',
+          ex2: "사용법: $(선택자).not(조건)",
+        },
+        {
+          term: ".has()",
+          desc: "특정 자식 요소를 포함하는 요소만 선택",
+          ex: '$("div").has("p")',
+          ex2: "사용법: $(선택자).has(자식선택자)",
+        },
+        {
+          term: ".is()",
+          desc: "선택된 요소가 조건을 만족하는지 여부 반환",
+          ex: '$("input").is(":checked")',
+          ex2: "사용법: $(선택자).is(조건)",
+        },
+        {
+          term: ".add()",
+          desc: "현재 선택된 요소 집합에 다른 요소를 추가",
+          ex: '$("p").add(".highlight")',
+          ex2: "사용법: $(선택자).add(추가할 요소)",
+        },
+        {
+          term: ".end()",
+          desc: "체이닝 중 축소된 집합에서 이전 jQuery 객체로 복귀",
+          ex: '$("div").find("p").end()',
+          ex2: "사용법: 체이닝된 jQuery 객체에서 .end() 호출",
+        },
+      ];
+      // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
+      // 각 문제는 정답인 인덱스를 맞게 섞어서 설정
+      let quizData = [];
+
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      }
+
+      // 퀴즈 생성: terms중 랜덤 5문제를 뽑아 보기 4개씩 섞어서 만듦
+      function generateQuizData() {
+        quizData = [];
+        const shuffledTerms = [...terms];
+        shuffleArray(shuffledTerms);
+        const pickCount = Math.min(5, shuffledTerms.length);
+        for (let i = 0; i < pickCount; i++) {
+          const question = shuffledTerms[i].term;
+          const answer = shuffledTerms[i].desc;
+
+          // 보기 3개 랜덤으로 추출 (정답 제외)
+          let options = [answer];
+          const others = terms.filter((t) => t.term !== question);
+          shuffleArray(others);
+          for (let j = 0; j < 3; j++) {
+            options.push(others[j].desc);
+          }
+          shuffleArray(options);
+
+          const answerIndex = options.indexOf(answer);
+
+          quizData.push({
+            question,
+            options,
+            answer: answerIndex,
+          });
+        }
+      }
+
+      // UI 요소 참조
+      const menuBtn = document.getElementById("menuBtn");
+      const menuBox = document.getElementById("menuBox");
+      const showTermsBtn = document.getElementById("showTermsBtn");
+      const showQuizBtn = document.getElementById("showQuizBtn");
+      const toggleDarkBtn = document.getElementById("toggleDarkBtn");
+      const contentArea = document.getElementById("contentArea");
+      const searchBox = document.getElementById("searchBox");
+      const searchBtn = document.getElementById("searchBtn");
+      const autocompleteList = document.getElementById("autocompleteList");
+      const searchForm = document.getElementById("searchForm");
+
+      // 메뉴 열기/닫기
+      function toggleMenu() {
+        const isOpen = menuBox.classList.toggle("open");
+        menuBtn.setAttribute("aria-expanded", isOpen);
+        menuBox.setAttribute("aria-hidden", !isOpen);
+        if (isOpen) {
+          menuBox.focus();
+        }
+      }
+      menuBtn.addEventListener("click", toggleMenu);
+
+      // 메뉴 항목 클릭 시 메뉴 닫기
+      function closeMenu() {
+        menuBox.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", false);
+        menuBox.setAttribute("aria-hidden", true);
+        menuBtn.focus();
+      }
+
+      // // 용어 카드 새 창 열기 <코드삭제예정> 현재페이지에서 실행되도록 변경할것 주석처리함!
+      // function openTermInNewWindow(term) {
+      //   const url = `term.html?term=${encodeURIComponent(term)}`;
+      //   window.open(
+      //     url,
+      //     "_blank",
+      //     "width=480,height=400,scrollbars=yes,resizable=yes"
+      //   );
+      // }
+
+      function showTermDetail(term, pushState = true) {
+        const found = terms.find((t) => t.term === term);
+        if (!found) {
+          contentArea.innerHTML = `<p>용어 정보를 찾을 수 없습니다.</p>`;
+          return;
+        }
+
+        if (pushState) {
+          history.pushState(
+            { view: "detail", term },
+            "",
+            `#term=${encodeURIComponent(term)}`
+          );
+        }
+        //카드 눌렀을때 상세보기섹션 주석
+        contentArea.innerHTML = `
+        <section class="term-detail fade-in" tabindex="0">
+          <h2>${found.term}</h2>
+          <p>${found.desc}</p>
+          <form id="fo1">
+            <p>${found.ex}</p>
+            </form><br>
+          <form id="fo2">
+            <p>${found.ex2}</p>
+            </form>
+          <button id="backToListBtn">목록으로</button>
+        </section>
+      `;
+
+        const backBtn = document.getElementById("backToListBtn");
+        backBtn.addEventListener("click", () => {
+          history.pushState({ view: "list" }, "", "#list");
+          showTerms();
+        });
+
+        contentArea.querySelector(".term-detail").focus();
+      }
+
+      // 용어 카드 보여주기 (필터링 가능)
+      function showTerms(filter = "") {
+        contentArea.innerHTML = "";
+        let filteredTerms = terms;
+        if (filter.trim() !== "") {
+          const lowerFilter = filter.trim().toLowerCase();
+          filteredTerms = terms.filter(
+            (t) =>
+              t.term.toLowerCase().includes(lowerFilter) ||
+              t.desc.toLowerCase().includes(lowerFilter)
+          );
+        }
+        if (filteredTerms.length === 0) {
+          contentArea.innerHTML = `<p>검색 결과가 없습니다.</p>`;
+          return;
+        }
+        filteredTerms.forEach(({ term, desc }) => {
+          const card = document.createElement("article");
+          card.className = "term-card";
+          card.tabIndex = 0;
+          card.setAttribute("role", "button");
+          card.setAttribute("aria-label", `${term} 용어 설명 보기`);
+          card.innerHTML = `<h3>${term}</h3><p>${
+            desc.length > 100 ? desc.slice(0, 100) + "..." : desc // 카드내용상세 <<검색용키워드 주석지우지말기
+          }</p>`;
+          // card.addEventListener("click", () => openTermInNewWindow(term));
+          // card.addEventListener("keydown", (e) => {
+          //   if (e.key === "Enter" || e.key === " ") {
+          //     e.preventDefault();
+          //     openTermInNewWindow(term);
+          //   }
+
+          card.addEventListener("click", () => showTermDetail(term));
+          card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              showTermDetail(term);
+            }
+          });
+          contentArea.appendChild(card);
+        });
+      }
+
+      // 자동완성 리스트 보여주기
+      function updateAutocomplete() {
+        const val = searchBox.value.trim().toLowerCase();
+        if (val.length === 0) {
+          autocompleteList.innerHTML = "";
+          autocompleteList.hidden = true;
+          searchBox.setAttribute("aria-expanded", "false");
+          return;
+        }
+        const matched = terms
+          .filter(
+            (t) =>
+              t.term.toLowerCase().includes(val) ||
+              t.desc.toLowerCase().includes(val)
+          )
+          .slice(0, 10);
+
+        if (matched.length === 0) {
+          autocompleteList.innerHTML = "";
+          autocompleteList.hidden = true;
+          searchBox.setAttribute("aria-expanded", "false");
+          return;
+        }
+        autocompleteList.innerHTML = matched
+          .map(
+            (t) =>
+              `<li role="option" tabindex="0" data-term="${t.term}">${t.term}</li>`
+          )
+          .join("");
+        autocompleteList.hidden = false;
+        searchBox.setAttribute("aria-expanded", "true");
+      }
+
+      // 자동완성 항목 클릭 시 검색 실행
+      autocompleteList.addEventListener("click", (e) => {
+        if (e.target.tagName === "LI") {
+          const term = e.target.dataset.term;
+          searchBox.value = term;
+          autocompleteList.innerHTML = "";
+          autocompleteList.hidden = true;
+          searchBox.setAttribute("aria-expanded", "false");
+          searchTerm(term);
+        }
+      });
+
+      // 자동완성 항목 키보드 내비게이션 & 선택
+      autocompleteList.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          const items = [...autocompleteList.querySelectorAll("li")];
+          if (items.length === 0) return;
+          let idx = items.findIndex((item) =>
+            item.classList.contains("active")
+          );
+          if (idx === -1) idx = 0;
+          else items[idx].classList.remove("active");
+          if (e.key === "ArrowDown") {
+            idx = (idx + 1) % items.length;
+          } else {
+            idx = (idx - 1 + items.length) % items.length;
+          }
+          items.forEach((item) => item.classList.remove("active"));
+          items[idx].classList.add("active");
+          items[idx].focus();
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          const active = autocompleteList.querySelector("li.active");
+          if (active) {
+            const term = active.dataset.term;
+            searchBox.value = term;
+            autocompleteList.innerHTML = "";
+            autocompleteList.hidden = true;
+            searchBox.setAttribute("aria-expanded", "false");
+            searchTerm(term);
+          }
+        }
+      });
+
+      // 검색 실행 함수
+      function searchTerm(term) {
+        // 메뉴 닫기
+        closeMenu();
+
+        // 필터링된 용어 보여주기
+        showTerms(term);
+      }
+
+      // 검색창 입력 이벤트
+      searchBox.addEventListener("input", updateAutocomplete);
+
+      // 폼 제출 (검색) 처리
+      searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const val = searchBox.value.trim();
+        if (val !== "") {
+          autocompleteList.innerHTML = "";
+          autocompleteList.hidden = true;
+          searchBox.setAttribute("aria-expanded", "false");
+          searchTerm(val);
+        }
+      });
+
+      // 메뉴 버튼들 클릭 이벤트
+      showTermsBtn.addEventListener("click", () => {
+        closeMenu();
+        searchBox.value = "";
+        autocompleteList.innerHTML = "";
+        autocompleteList.hidden = true;
+        searchBox.setAttribute("aria-expanded", "false");
+        showTerms();
+      });
+
+      showQuizBtn.addEventListener("click", () => {
+        closeMenu();
+        generateQuizData();
+        showQuiz();
+      });
+
+      toggleDarkBtn.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark-mode");
+        toggleDarkBtn.setAttribute("aria-pressed", isDark);
+      });
+
+      // 퀴즈 관련 코드
+      let currentQuizIndex = 0;
+      let score = 0;
+
+      function showQuiz() {
+        if (quizData.length === 0) {
+          contentArea.innerHTML = "<p>퀴즈 데이터가 없습니다.</p>";
+          return;
+        }
+        score = 0;
+        currentQuizIndex = 0;
+        renderQuizQuestion();
+      }
+
+      function renderQuizQuestion() {
+        contentArea.innerHTML = "";
+        const quizBox = document.createElement("section");
+        quizBox.id = "quizBox";
+        quizBox.setAttribute("aria-live", "polite");
+        const current = quizData[currentQuizIndex];
+
+        // 문제 표시
+        const questionP = document.createElement("p");
+        questionP.id = "question";
+        questionP.textContent = `${currentQuizIndex + 1}. 다음 중 "${
+          current.question
+        }"의 설명으로 가장 적절한 것은?`;
+        quizBox.appendChild(questionP);
+
+        // 선택지 버튼들
+        const optionsDiv = document.createElement("div");
+        optionsDiv.id = "options";
+        current.options.forEach((optionText, idx) => {
+          const btn = document.createElement("button");
+          btn.textContent = optionText;
+          btn.type = "button";
+          btn.setAttribute("data-index", idx);
+          btn.addEventListener("click", () => {
+            handleAnswer(idx);
+          });
+          optionsDiv.appendChild(btn);
+        });
+        quizBox.appendChild(optionsDiv);
+
+        // 결과 표시
+        const resultDiv = document.createElement("div");
+        resultDiv.id = "result";
+        quizBox.appendChild(resultDiv);
+
+        // 다음 버튼
+        const nextBtn = document.createElement("button");
+        nextBtn.id = "nextBtn";
+        nextBtn.textContent = "다음 문제";
+        nextBtn.disabled = true;
+        nextBtn.addEventListener("click", () => {
+          currentQuizIndex++;
+          if (currentQuizIndex < quizData.length) {
+            renderQuizQuestion();
+          } else {
+            showQuizResult();
+          }
+        });
+        quizBox.appendChild(nextBtn);
+
+        contentArea.appendChild(quizBox);
+      }
+
+      function handleAnswer(selectedIndex) {
+        const quizBox = document.getElementById("quizBox");
+        const resultDiv = quizBox.querySelector("#result");
+        const nextBtn = quizBox.querySelector("#nextBtn");
+        const current = quizData[currentQuizIndex];
+
+        // 정답 확인 및 표시
+        if (selectedIndex === current.answer) {
+          resultDiv.textContent = "정답입니다! 🎉";
+          resultDiv.style.color = "green";
+          score++;
+        } else {
+          resultDiv.textContent = `오답입니다. 정답: "${
+            current.options[current.answer]
+          }"`;
+          resultDiv.style.color = "red";
+        }
+
+        // 버튼 비활성화 및 다음 버튼 활성화
+        const optionButtons = quizBox.querySelectorAll("#options button");
+        optionButtons.forEach((btn) => {
+          btn.disabled = true;
+          if (Number(btn.dataset.index) === current.answer) {
+            btn.style.borderColor = "green";
+            btn.style.backgroundColor = "#d4f8d4";
+            btn.style.color = "green";
+          }
+          if (
+            Number(btn.dataset.index) === selectedIndex &&
+            selectedIndex !== current.answer
+          ) {
+            btn.style.borderColor = "red";
+            btn.style.backgroundColor = "#f8d4d4";
+            btn.style.color = "red";
+          }
+        });
+
+        nextBtn.disabled = false;
+      }
+
+      function showQuizResult() {
+        contentArea.innerHTML = "";
+        const resultBox = document.createElement("section");
+        resultBox.id = "quizBox";
+
+        const scoreP = document.createElement("p");
+        scoreP.textContent = `퀴즈 종료! 총 ${quizData.length}문제 중 ${score}문제 맞추셨습니다.`;
+        scoreP.style.fontWeight = "700";
+        scoreP.style.fontSize = "1.3rem";
+        scoreP.style.marginBottom = "20px";
+        resultBox.appendChild(scoreP);
+
+        const retryBtn = document.createElement("button");
+        retryBtn.id = "retryBtn";
+        retryBtn.textContent = "다시 풀기";
+        retryBtn.addEventListener("click", () => {
+          generateQuizData();
+          showQuiz();
+        });
+        resultBox.appendChild(retryBtn);
+
+        contentArea.appendChild(resultBox);
+      }
+
+      // 초기 실행
+      const hash = window.location.hash;
+      if (hash.startsWith("#term=")) {
+        const term = decodeURIComponent(hash.split("=")[1]);
+        showTermDetail(term, false);
+      } else {
+        showTerms();
+      }
+      window.addEventListener("popstate", (e) => {
+        if (e.state && e.state.view === "detail") {
+          showTermDetail(e.state.term, false);
+        } else {
+          showTerms();
+        }
+      });
+    </script>
+  </body>
+</html>
