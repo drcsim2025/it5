@@ -10,6 +10,9 @@
 * {
   box-sizing: border-box;
 }
+#val {
+  text-align: left;
+}
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
@@ -24,6 +27,81 @@ body {
   align-items: center;
 }
 
+#fo1 {
+  background-color: #eeeef6;
+  color: black;
+  padding: 1.5rem;
+  border: 2px solid #d5d2d2;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100px; /* 필요하면 조절 */
+}
+#fo2 {
+  background-color: #eeeef4;
+  color: black;
+  padding: 1.5rem;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100px; /* 필요하면 조절 */
+}
+.term-detail {
+  padding: 1.5rem;
+  border: 2px solid #ccc;
+  background-color: var(--detail-bg, #fff);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-height: 200px; /* 필요하면 조절 */
+}
+body.dark-mode .term-detail {
+  background-color: #222;
+  color: #eee;
+  border-color: #444;
+}
+
+.term-detail h2 {
+  margin-top: 0;
+}
+
+.term-detail p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+#backToListBtn {
+  margin-top: auto;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+}
+body.dark-mode #backToListBtn {
+  background-color: #3399ff;
+  color: #000;
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 /* 다크 모드 */
 body.dark-mode {
   background: #121212;
@@ -192,6 +270,7 @@ body.dark-mode button:hover {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  overflow: hidden;
   user-select: none;
   outline-offset: 3px;
 }
