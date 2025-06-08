@@ -269,6 +269,219 @@
           ex: '$("div").find("p").end()',
           ex2: "사용법: 체이닝된 jQuery 객체에서 .end() 호출",
         },
+        {
+        term: "color",
+        term: "background-color",
+        desc: "요소의 배경 색상을 지정하는 CSS 속성.",
+        ex: "<div style='background-color:yellow;'>노란 배경</div>",
+        ex2: "사용법: &lt;div style=&#x27;background-color:yellow;&#x27;&gt;노란 배경&lt;/div&gt;",
+        },
+        {
+        term: "margin",
+        desc: "요소의 외부 여백을 지정하는 CSS 속성.",
+        ex: `<div style="background: #eee; padding: 10px; border: 2px dashed gray;">
+        <div style="margin: 30px; background: lightblue; padding: 10px; border: 2px solid blue;">마진 30px</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;margin:30px;&#x27;&gt;내용&lt;/div&gt;",
+        },
+        {
+        term: "padding",
+        desc: "요소 내부의 여백을 지정하는 CSS 속성.",
+        ex: `<div style="background: #f0f0f0; padding: 10px;">
+        <div style="padding: 15px; background: #ffcccb; border: 2px solid #d9534f;"> 패딩 15px 적용된 박스</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;padding:15px;&#x27;&gt;패딩 예제&lt;/div&gt;",
+        },
+        {
+        term: "border",
+        desc: "요소의 테두리를 지정하는 CSS 속성.",
+        ex: "<div style='border:1px solid black;'>테두리 예제</div>",
+        ex2: "사용법: &lt;div style=&#x27;border:1px solid black;&#x27;&gt;테두리 예제&lt;/div&gt;",
+        },
+        {
+        term: "font-size",
+        desc: "글자 크기를 지정하는 CSS 속성.",
+        ex: "<p style='font-size:24px;'>큰 글자</p>",
+        ex2: "사용법: &lt;p style=&#x27;font-size:24px;&#x27;&gt;큰 글자&lt;/p&gt;",
+        },
+        {
+        term: "font-weight",
+        desc: "글자 두께를 지정하는 CSS 속성.",
+        ex: "<strong style='font-weight:900;'>두꺼운 글자</strong>",
+        ex2: "사용법: &lt;strong style=&#x27;font-weight:900;&#x27;&gt;두꺼운 글자&lt;/strong&gt;",
+        },
+        {
+        term: "line-height",
+        desc: "글자의 줄 높이를 지정하는 CSS 속성.",
+        ex: `
+        <div style="background: #f9f9f9; padding: 10px; border: 1px dashed #999;">
+        <p style="line-height: 2; background: #d0eaff; padding: 10px; border: 1px solid #3399cc;">
+        줄간격이 넓은 텍스트입니다.<br>줄과 줄 사이가 넓게 표시됩니다.<br>line-height: 5;</p></div>`,
+        ex2: "사용법: &lt;p style=&#x27;line-height:2;&#x27;&gt;줄간격이 넓은 텍스트&lt;/p&gt;",
+        },
+        {
+        term: "display",
+        desc: "요소의 박스 유형(블록, 인라인 등)을 지정하는 CSS 속성.",
+        ex: `<div style="background: #f0f0f0; padding: 10px;">
+        <span style="background: #ffd6d6; padding: 5px;">기본 인라인</span>
+        <span style="display: block; background: #d6f5ff; padding: 5px; margin-top: 10px; border: 1px solid #3399cc;">
+        display: block 적용된 인라인</span></div>`,
+        ex2: "사용법: &lt;span style=&#x27;display:block;&#x27;&gt;블록처럼 보이는 인라인&lt;/span&gt;",
+        },
+        {
+        term: "position",
+        desc: "요소의 위치 지정 방법을 설정하는 CSS 속성.",
+        ex: `<div style="position: relative; background: #f0f0f0; width: 200px; height: 100px; border: 2px dashed #ccc;">
+        <div style="position: relative; top: 20px; left: 30px; background: #a2d5f2; padding: 10px; border: 2px solid #3399cc;">
+        position: relative<br>+ top: 20px, left: 30px</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;position:relative; top:20px; left:30px;&#x27;&gt;이동된 요소&lt;/div&gt;",
+        },
+        {
+        term: "top",
+        desc: "포지션이 설정된 요소의 위쪽 위치를 지정하는 CSS 속성.",
+        ex: `<div style="position: relative; background: #f0f0f0; height: 120px; border: 2px dashed #999; padding: 10px;">
+        <div style="position: relative; top: 10px; background: #a0d8ef; padding: 10px; border: 2px solid #3399cc; width: fit-content;">
+        위에서 10px 이동한 박스</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;position:relative; top:10px;&#x27;&gt;위에서 10px&lt;/div&gt;",
+        },
+        {
+        term: "left",
+        desc: "포지션이 설정된 요소의 왼쪽 위치를 지정하는 CSS 속성.",
+        ex: "<div style='position:absolute; left:20px;'>왼쪽에서 20px</div>",
+        ex2: "사용법: &lt;div style=&#x27;position:absolute; left:20px;&#x27;&gt;왼쪽에서 20px&lt;/div&gt;",
+        },
+        {
+        term: "right",
+        desc: "포지션이 설정된 요소의 오른쪽 위치를 지정하는 CSS 속성.",
+        ex: "<div style='position:fixed; right:30px;'>오른쪽에서 30px</div>",
+        ex2: "사용법: &lt;div style=&#x27;position:fixed; right:30px;&#x27;&gt;오른쪽에서 30px&lt;/div&gt;",
+        },
+        {
+        term: "bottom",
+        desc: "포지션이 설정된 요소의 아래쪽 위치를 지정하는 CSS 속성.",
+        ex: "<div style='position:relative; bottom:15px;'>아래에서 15px</div>",
+        ex2: "사용법: &lt;div style=&#x27;position:relative; bottom:15px;&#x27;&gt;아래에서 15px&lt;/div&gt;",
+        },
+        {
+        term: "z-index",
+        desc: "요소의 쌓임 순서를 지정하는 CSS 속성.",
+        ex: `
+        <div style="position: relative; width: 200px; height: 100px; background: #eee; border: 1px solid #ccc;">
+        <div style="position: absolute; top: 20px; left: 20px; width: 100px; height: 60px; background: rgba(255,0,0,0.7); z-index: 1; color: white; padding: 10px;">
+        z-index: 1 (뒤)</div><div style="position: absolute; top: 40px; left: 40px; width: 100px; height: 60px; background: rgba(0,0,255,0.7); z-index: 10; color: white; padding: 10px;">
+        z-index: 10 (위)</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;position:absolute; z-index:10;&#x27;&gt;위에 있는 요소&lt;/div&gt;",
+        },
+        {
+        term: "flex",
+        desc: "플렉스 박스 내에서 요소의 크기와 성장/축소 비율을 지정하는 속성.",
+        ex: `<div style="display: flex; width: 300px; border: 1px solid #ccc;">
+        <div style="flex: 1; background: #ffcccb; padding: 10px; text-align: center;">flex: 1 (작은 영역)</div>
+        <div style="flex: 2; background: #add8e6; padding: 10px; text-align: center;">flex: 2 (큰 영역)</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;display:flex;&#x27;&gt;&lt;div style=&#x27;flex:1;&#x27;&gt;왼쪽&lt;/div&gt;&lt;div style=&#x27;flex:2;&#x27;&gt;오른쪽&lt;/div&gt;&lt;/div&gt;",
+        },
+       {
+        term: "flex-direction",
+        desc: "플렉스 컨테이너 내 아이템의 주 축 방향을 지정하는 속성.",
+        ex: `<div style="display:flex; flex-direction: column; border: 1px solid #ccc; width: 150px; padding: 10px;">
+        <div style="background:#ffcccc; padding: 8px; margin-bottom: 6px;">첫 번째</div>
+        <div style="background:#ccccff; padding: 8px;">두 번째</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;display:flex; flex-direction:column;&#x27;&gt;&lt;div&gt;첫 번째&lt;/div&gt;&lt;div&gt;두 번째&lt;/div&gt;&lt;/div&gt;"
+        },
+        {
+        term: "justify-content",
+        desc: "플렉스 컨테이너 내 아이템들의 주 축 정렬 방법을 지정하는 속성.",
+        ex: `<div style="display:flex; justify-content:center; border:1px solid #ccc; width: 250px; padding: 10px;">
+        <div style="background:#ffd966; padding: 10px;">가운데 정렬</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;display:flex; justify-content:center;&#x27;&gt;&lt;div&gt;가운데 정렬&lt;/div&gt;&lt;/div&gt;"
+        },
+        {
+        term: "align-items",
+        desc: "플렉스 컨테이너 내 아이템들의 교차 축 정렬 방법을 지정하는 속성.",
+        ex: `<div style="display:flex; align-items:center; height:100px; border:1px solid #ccc; padding: 10px;">
+        <div style="background:#a0d8ef; padding: 10px;">세로 가운데</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;display:flex; align-items:center; height:100px;&#x27;&gt;&lt;div&gt;세로 가운데&lt;/div&gt;&lt;/div&gt;"
+        },
+        {
+        term: "grid-template-columns",
+        desc: "그리드 컨테이너의 열 구조를 정의하는 속성.",
+        ex: `<div style="display:grid; grid-template-columns: 1fr 2fr; border:1px solid #ccc; width: 300px;">
+        <div style="background:#d6f5d6; padding: 10px;">1열 (1fr)</div>
+        <div style="background:#a2d5f2; padding: 10px;">2열 (2fr)</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;display:grid; grid-template-columns:1fr 2fr;&#x27;&gt;&lt;div&gt;1열&lt;/div&gt;&lt;div&gt;2열&lt;/div&gt;&lt;/div&gt;"
+        },
+        {
+        term: "grid-template-rows",
+        desc: "그리드 컨테이너의 행 구조를 정의하는 속성.",
+        ex: `<div style="display:grid; grid-template-rows: 50px 100px; border:1px solid #ccc; width: 150px;">
+        <div style="background:#f9d6d5; padding: 10px;">1행 (50px)</div>
+        <div style="background:#f5f7d6; padding: 10px;">2행 (100px)</div></div>`,
+        ex2: "사용법: &lt;div style=&#x27;display:grid; grid-template-rows:50px 100px;&#x27;&gt;&lt;div&gt;1행&lt;/div&gt;&lt;div&gt;2행&lt;/div&gt;&lt;/div&gt;"
+        },
+        {
+        term: "overflow",
+        desc: "요소 내용이 영역을 넘칠 때 처리 방법을 지정하는 속성.",
+        ex: `<div style="width: 150px; height: 50px; border:1px solid #ccc; overflow: auto; padding: 5px;">
+        너무 많은 텍스트가 들어가면 스크롤이 생깁니다. 너무 많은 텍스트가 들어가면 스크롤이 생깁니다.</div>`,
+        ex2: "사용법: &lt;div style=&#x27;width:100px; height:50px; overflow:auto;&#x27;&gt;너무 많은 텍스트가...&lt;/div&gt;"
+        },
+        {
+        term: "visibility",
+        desc: "요소의 가시성을 제어하는 CSS 속성.",
+        ex: `<div style="visibility:hidden; border:1px solid #ccc; padding: 10px;">
+        이 텍스트는 보이지 않습니다</div>`,
+        ex2: "사용법: &lt;div style=&#x27;visibility:hidden;&#x27;&gt;이 텍스트는 보이지 않습니다&lt;/div&gt;"
+        },
+        {
+        term: "opacity",
+        desc: "요소의 투명도를 지정하는 CSS 속성.",
+        ex: `<div style="opacity:0.5; border:1px solid #ccc; padding: 10px;">
+        반투명 텍스트</div>`,
+        ex2: "사용법: &lt;div style=&#x27;opacity:0.5;&#x27;&gt;반투명 텍스트&lt;/div&gt;"
+        },
+        {
+        term: "box-shadow",
+        desc: "요소에 그림자 효과를 지정하는 CSS 속성.",
+        ex: `<div style="box-shadow: 2px 2px 5px gray; padding: 10px; width: 150px;">
+        그림자 효과
+        </div>`,
+        ex2: "사용법: &lt;div style=&#x27;box-shadow:2px 2px 5px gray;&#x27;&gt;그림자 효과&lt;/div&gt;"
+        },
+        {
+        term: "text-align",
+        desc: "텍스트의 수평 정렬을 지정하는 CSS 속성.",
+        ex: `<p style="text-align:center; border:1px solid #ccc; padding: 10px; width: 250px;">
+        가운데 정렬된 텍스트</p>`,
+        ex2: "사용법: &lt;p style=&#x27;text-align:center;&#x27;&gt;가운데 정렬된 텍스트&lt;/p&gt;"
+        },
+        {
+        term: "cursor",
+        desc: "마우스 커서 모양을 지정하는 CSS 속성.",
+        ex: `<button style="cursor:pointer; padding: 10px 20px;">
+        포인터 커서</button>`,
+        ex2: "사용법: &lt;button style=&#x27;cursor:pointer;&#x27;&gt;포인터 커서&lt;/button&gt;"
+        },
+        {
+        term: "white-space",
+        desc: "공백 처리 방식을 지정하는 CSS 속성.",
+        ex: `<p style="white-space:pre; border:1px solid #ccc; padding: 10px; width: 300px;">
+        공백     유지</p>`,
+        ex2: "사용법: &lt;p style=&#x27;white-space:pre;&#x27;&gt;공백     유지&lt;/p&gt;"
+        },
+        {
+        term: "transition",
+        desc: "속성 변화에 애니메이션 효과를 주는 CSS 속성.",
+        ex: `<div style="width:100px; height:40px; background:#8ac6d1; transition: all 0.5s; text-align:center; line-height:40px; cursor:pointer;"
+        onmouseover="this.style.width='150px'; this.style.background='#bbdefb';"
+        onmouseout="this.style.width='100px'; this.style.background='#8ac6d1';">
+        호버 시 애니메이션</div>`,
+        ex2: "사용법: &lt;div style=&#x27;transition:all 0.5s;&#x27;&gt;호버 시 애니메이션&lt;/div&gt;"
+        },
+        {
+        term: "transform",
+        desc: "요소의 크기, 위치, 회전 등을 변형하는 CSS 속성.",
+        ex: `<div style="transform: rotate(10deg); border:1px solid #ccc; padding: 10px; width: 150px; text-align:center;">
+        회전된 요소</div>`,
+        ex2: "사용법: &lt;div style=&#x27;transform:rotate(10deg);&#x27;&gt;회전된 요소&lt;/div&gt;"
+        }
       ];
       // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
       // 각 문제는 정답인 인덱스를 맞게 섞어서 설정
@@ -369,7 +582,7 @@
         contentArea.innerHTML = `
         <section class="term-detail fade-in" tabindex="0">
           <h2>${found.term}</h2>
-          <p>${found.desc}</p>
+          <p id = "term-desc">${found.desc}</p>
           <form id="fo1">
             <p>${found.ex}</p>
             </form><br>
