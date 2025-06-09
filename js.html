@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>자바스크립트</title>
+    <title>자바스크립트1</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -111,6 +111,12 @@
           desc: " 여러 개의 값을 순서대로 저장하는 자료구조이다.배열은 대괄호([])로 생성되며, 각 요소는 콤마(,)로 구분된다.Array 생성자를 사용하여도 배열을 만들 수 있다.",
           ex: "let numbers = [1, 2, 3, 4, 5];<br><br>console.log(numbers[0]);&nbsp;&nbsp;// 출력: 1<br>console.log(numbers.length&nbsp;&nbsp;// 출력: 5<br><br>numbers.push(6);&nbsp;&nbsp;//배열추가 <br>console.log(numbers);&nbsp;&nbsp; // 출력: [1, 2, 3, 4, 5, 6]",
           ex2: "let numbers = new Array(1, 2, 3, 4, 5);",
+        },
+        {
+          term: "map()",
+          desc: '배열의 각 요소에 대해 콜백 함수를 실행하고, 그 결과로 새로운 배열을 반환한다. 원본 배열을 건드리지는 않는다',
+          ex: "const newArray = array.map((현재 처리 중인 요소, 현재 요소의 인덱스, array) => {// return 변환할 값});",
+          ex2: 'const fruits = ["사과", "바나나", "포도"];<br>const labeledFruits = fruits.map((fruit, index) => `${index + 1}번: ${fruit}`);<br>console.log(labeledFruits);<br>출력 :&nbsp; ["1번: 사과", "2번: 바나나", "3번: 포도"]',
         },
         {
           term: "산술 연산자(Arithmetic Operators)",
