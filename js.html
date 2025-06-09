@@ -20,8 +20,8 @@
       <button id="showTermsBtn" role="menuitem">용어 사전 보기</button>
       <button id="showQuizBtn" role="menuitem">퀴즈 풀기</button>
       <button id="toggleDarkBtn" role="menuitem" aria-pressed="false">
-        다크모드 토글
-      </button>
+        다크모드 토글 </button>
+      <button id="homeBtn" role="menuitem">홈으로 이동</button>
     </nav>
 
     <form
@@ -548,6 +548,11 @@
         autocompleteList.hidden = true;
         searchBox.setAttribute("aria-expanded", "false");
         showTerms();
+      });
+
+      homeBtn.addEventListener("click", () => {
+        closeMenu();
+        window.location.href = "home.html";
       });
 
       showQuizBtn.addEventListener("click", () => {
