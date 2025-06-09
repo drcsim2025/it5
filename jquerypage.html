@@ -164,7 +164,7 @@
           term: ".html()",
           desc: "HTML 콘텐츠 가져오기 또는 설정",
           ex: "선택된 요소의 HTML 콘텐츠를 반환하거나 새로운 HTML로 설정한다.",
-          ex2: `$("#content").html() // 현재 HTML 반환\n$("#content").html("<p>새 내용</p>") // 새 HTML 설정`
+          ex2: `$("#content").html() // 현재 HTML 반환\n$("#content").html("&lt;p&gt;새 내용&lt;p&gt;") // 새 HTML 설정`
         },
         {
           term: ".text()",
@@ -415,8 +415,32 @@
         {
           "term": ".ajax()",
           "desc": "비동기 HTTP 요청 메서드",
-          "ex": "데이터를 서버에 HTTP POST, GET 방식으로 전송할 수 있으며, HTML, XML, JSON, 텍스트 유형에 데이터를 요청할 수 있는 통합적인 메서드.",
+          "ex": ".get(), .post()보다 더 유연하게 HTTP 요청을 설정할 수 있으며, 요청 방식(method), 데이터 타입(dataType), 요청 데이터(data) 등을 세부적으로 지정할 수 있음.",
           "ex2": "$.ajax({ url: 'data.json', method: 'GET', success: function(data) { console.log(data); } });"
+        },
+        {
+          "term": ".post()",
+          "desc": "POST 방식으로 데이터 전송",
+          "ex": "데이터를 서버에 HTTP POST 방식으로 전송한 후 서버의 응답을 받을 때 사용. HTTP 본문(body)에 데이터를 담아 전송되어어 노출되지 않음. 로그인, 회원가입, 글쓰기 등 보안이 중요한 상황에 사용",
+          "ex2": "$.post('submit.php', { name: 'Alice' }, function(response) { console.log(response); });"
+        },
+        {
+          "term": ".get()",
+          "desc": "GET 방식으로 데이터 요청",
+          "ex": "데이터를 서버에 HTTP GET 방식으로 전송한 후 서버의 응답을 받을 때 사용. URL에 데이터를 붙여 전송되어 노출됨. 즐겨찾기/링크 공유 가능, 검색, 필터 등에 사용, 보안에 민감하지 않은 데이터에 적합",
+          "ex2": "$.get('data.php', { id: 1 }, function(data) { console.log(data); });"
+        },
+        {
+          "term": ".getJSON()",
+          "desc": "JSON 형식 데이터 요청",
+          "ex": "데이터를 서버에 HTTP GET 방식으로 전송한 후 서버의 응답을 JSON 형식으로 받을 때 사용.",
+          "ex2": "$.getJSON('data.json', function(json) { console.log(json); });"
+        },
+        {
+          "term": ".param()",
+          "desc": "비동기 HTTP 요청 메서드",
+          "ex": "{name1 : value1, name2 : value2}와 같이 작성된 객체를 가공해 'name1 = value1 & name2 = value2, ...'와 같은 쿼리 스트링 형식의 데이터로 변환해 반환.",
+          "ex2": "$.param(Object);"
         }
       ];
       // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
