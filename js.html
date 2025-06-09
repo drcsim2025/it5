@@ -113,6 +113,12 @@
           ex2: "let numbers = new Array(1, 2, 3, 4, 5);",
         },
         {
+          term: "map()",
+          desc: '배열의 각 요소에 대해 콜백 함수를 실행하고, 그 결과로 새로운 배열을 반환한다. 원본 배열을 건드리지는 않는다',
+          ex: "const newArray = array.map((현재 처리 중인 요소, 현재 요소의 인덱스, array) => {// return 변환할 값});",
+          ex2: 'const fruits = ["사과", "바나나", "포도"];<br>const labeledFruits = fruits.map((fruit, index) => `${index + 1}번: ${fruit}`);<br>console.log(labeledFruits);<br>출력 :&nbsp; ["1번: 사과", "2번: 바나나", "3번: 포도"]',
+        },
+        {
           term: "산술 연산자(Arithmetic Operators)",
           desc: "덧셈,뺼셈,곱셈, 나눗셈, 나머지",
           ex: "let x = 10;<br>let y = 3;<br><br>let sum = x + y; <br>let difference = x - y; <br>let product = x * y;<br>let quotient = x / y;  <br>let remainder = x % y;",
