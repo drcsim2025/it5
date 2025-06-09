@@ -56,7 +56,7 @@
           term: "$() ",
           desc: "선택자 또는 HTML 문자열로 jQuery 객체 생성",
           ex: " jQuery의 핵심 함수로, DOM 요소를 선택하거나 동적으로 HTML 요소를 생성할 수 있다. 또한 문서가 준비된 후 실행할 콜백 함수도 받을 수 있다.",
-          ex2: "예: <code>&#36;(&quot;#myDiv&quot;)</code> // ID가 myDiv인 요소 선택<br><code>&#36;(&quot;&lt;p&gt;안녕&lt;/p&gt;&quot;)</code> // 새로운 &lt;p&gt; 요소 생성"
+          ex2: "<code>&#36;(&quot;#myDiv&quot;)</code> // ID가 myDiv인 요소 선택<br><code>&#36;(&quot;&lt;p&gt;안녕&lt;/p&gt;&quot;)</code> // 새로운 &lt;p&gt; 요소 생성"
         },
         {
           term: ".find()",
@@ -405,6 +405,18 @@
           "desc": "진행 중인 애니메이션 중단",
           "ex": "animate(), fadeIn() 등과 함께 사용하여 중첩된 애니메이션 중단.",
           "ex2": "$('#box').stop();"
+        },
+        {
+          "term": "load()",
+          "desc": "외부 콘텐츠를 불러오는 메서드",
+          "ex": "데이터를 전송하고 외부 콘텐츠를 요청하여 가져올때 사용합니다.",
+          "ex2": "$('#content').load('data.html');"
+        },
+        {
+          "term": ".ajax()",
+          "desc": "비동기 HTTP 요청 메서드",
+          "ex": "데이터를 서버에 HTTP POST, GET 방식으로 전송할 수 있으며, HTML, XML, JSON, 텍스트 유형에 데이터를 요청할 수 있는 통합적인 메서드.",
+          "ex2": "$.ajax({ url: 'data.json', method: 'GET', success: function(data) { console.log(data); } });"
         }
       ];
       // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
