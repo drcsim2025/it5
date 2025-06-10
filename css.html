@@ -129,16 +129,23 @@
           ex2: "사용법: &lt;div style=&#x27;position:relative; top:10px;&#x27;&gt;위에서 10px&lt;/div&gt;",
         },
         {
-          term: "left",
-          desc: "포지션이 설정된 요소의 왼쪽 위치를 지정하는 CSS 속성.",
-          ex: "<div style='position:absolute; left:20px;'>왼쪽에서 20px</div>",
-          ex2: "사용법: &lt;div style=&#x27;position:absolute; left:20px;&#x27;&gt;왼쪽에서 20px&lt;/div&gt;",
+        term: "left",
+        desc: "포지션이 설정된 요소의 왼쪽 위치를 지정하는 CSS 속성.",
+        ex: `
+        <div style="position: relative; width: 250px; height: 60px; border: 1px solid #333; overflow: hidden;">
+        <div style="position: absolute; left: 20px; top: 15px; max-width: 210px; background: #def; white-space: nowrap;">
+        왼쪽에서 20px 위치한 텍스트</div></div>`,
+        ex2: `사용법: &lt;div style='position: relative; width: 250px; height: 60px; overflow: hidden;'&gt;
+        &lt;div style='position: absolute; left: 20px;'&gt;텍스트&lt;/div&gt;&lt;/div&gt;`,
         },
         {
-          term: "right",
-          desc: "포지션이 설정된 요소의 오른쪽 위치를 지정하는 CSS 속성.",
-          ex: "<div style='position:fixed; right:30px;'>오른쪽에서 30px</div>",
-          ex2: "사용법: &lt;div style=&#x27;position:fixed; right:30px;&#x27;&gt;오른쪽에서 30px&lt;/div&gt;",
+        term: "right",
+        desc: "포지션이 설정된 요소의 오른쪽 위치를 지정하는 CSS 속성.",
+        ex: `<div style="position: relative; width: 250px; height: 60px; border: 1px solid #333; overflow: hidden; margin-top: 10px;">
+        <div style="position: absolute; right: 20px; top: 15px; max-width: 210px; background: #fed; white-space: nowrap; text-align: right;">
+        오른쪽에서 20px 위치한 텍스트</div></div>`,
+        ex2: `사용법: &lt;div style='position: relative; width: 250px; height: 60px; overflow: hidden;'&gt;
+        &lt;div style='position: absolute; right: 20px; text-align: right;'&gt;텍스트&lt;/div&gt;&lt;/div&gt;`,
         },
         {
           term: "bottom",
