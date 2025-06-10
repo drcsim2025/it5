@@ -1,384 +1,368 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>자바스크립트1</title>
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <button
-      id="menuBtn"
-      aria-haspopup="true"
-      aria-expanded="false"
-      aria-controls="menuBox"
-      title="메뉴 열기/닫기"
-    >
-      ☰ 메뉴
-    </button>
-    <nav id="menuBox" role="menu" aria-hidden="true" tabindex="-1">
-      <button id="showTermsBtn" role="menuitem">용어 사전 보기</button>
-      <button id="showQuizBtn" role="menuitem">퀴즈 풀기</button>
-      <button id="toggleDarkBtn" role="menuitem" aria-pressed="false">
-        다크모드 토글 </button>
-      <button id="homeBtn" role="menuitem">홈으로 이동</button>
-    </nav>
 
-    <form
-      id="searchForm"
-      autocomplete="off"
-      role="search"
-      aria-label="용어 검색"
-    >
-      <div id="searchContainer">
-        <input
-          type="text"
-          id="searchBox"
-          aria-autocomplete="list"
-          aria-controls="autocompleteList"
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          placeholder="검색어 입력 (예: span,form,table)"
-        />
-        <button id="searchBtn" aria-label="검색">🔍</button>
-        <ul id="autocompleteList" role="listbox" hidden></ul>
-      </div>
-    </form>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>자바스크립트1</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
 
-    <main id="contentArea" tabindex="0" aria-live="polite">
-      <!-- 용어 카드 또는 퀴즈 내용 출력 영역 -->
-    </main>
+<body>
+  <button id="menuBtn" aria-haspopup="true" aria-expanded="false" aria-controls="menuBox" title="메뉴 열기/닫기">
+    ☰ 메뉴
+  </button>
+  <nav id="menuBox" role="menu" aria-hidden="true" tabindex="-1">
+    <button id="showTermsBtn" role="menuitem">용어 사전 보기</button>
+    <button id="showQuizBtn" role="menuitem">퀴즈 풀기</button>
+    <button id="toggleDarkBtn" role="menuitem" aria-pressed="false">
+      다크모드 토글 </button>
+    <button id="homeBtn" role="menuitem">홈으로 이동</button>
+  </nav>
 
-    <script>
-      // 용어 데이터추가 + 용어에 ex추가 예시는 ex에다가 넣으세요
-      const terms = [
-        {
-          term: "자바스크립트 자료형(문자형/String)",
-          desc: "텍스트 데이터를 나타낼때 사용한다. 문자열은 작은따옴표(' ')나 큰 따옴표(\" \")로 감싸져 있다.",
-          ex: "let str1 = '안녕하세요';",
-          ex2: "안녕하세요",
-        },
-        {
-          term: "자바스크립트 자료형(숫자형/Number)",
-          desc: "숫자를 나타낼때 사용한다. 정수나 실수를 포함한다.",
-          ex: "let age = 25;",
-          ex2: "25",
-        },
-        {
-          term: " 자바스크립트 자료형(논리형/Boolean)",
-          desc: "참(True) 또는 거짓(False)을 나타내는 데 사용된다. 주로 조건문과 논리 연산에 활용된다.",
-          ex: "let isStudent = true;<br> let isAdult = false;",
-          ex2: "true <br> false",
-        },
-        {
-          term: "undefined",
-          desc: '값이 없음을 나타낸다. 변수가 선언 되었지만 값이 할당되지 않은 상태이다.typeof 연산자로 확인했을 때  "undefined"를 반환한다',
-          ex: "예시:<br>let a;<br>console.log(a);<br>console.log(typeof a);",
-          ex2: 'undefined<br>"undefined"',
-        },
-         {
-          term: "null",
-          desc: '명시적으로 값이 없음을 나타낸다.typeof 연산자로 확인했을 때 null은 "object"를 반환한다.',
-          ex: "let b = null;<br>console.log(b);<br>console.log(typeof b);",
-          ex2: 'null<br>"null"',
-        },
-        {
-          term: "변수 let",
-          desc: "중복 불가능하고 블록(Block) 범위이며 초기화 안해도 된다.값이 바뀌는 경우에 사용한다.",
-          ex: "let x;&nbsp;&nbsp;// 선언만 가능<br>x = 10;&nbsp;&nbsp;// 값 할당 <br> x = 20;&nbsp;&nbsp;// 값 변경 가능 <br> console.log(x);",
-          ex2: "20",
-        },
-        {
-          term: "변수 const",
-          desc: "한번 선언하면 재할당 불가능하며 블록(Block) 범위이며 선언 시 반드시 값 지정해야 한다.",
-          ex: "let x;&nbsp;&nbsp//선언만 가능<br>x = 10;&nbsp;&nbsp// 값 할당<br> x = 20;&nbsp;&nbsp// 값 변경 가능<br>console.log(x);",
-          ex2: "20",
-        },
-        {
-          term: "변수 var",
-          desc: "중복이 가능하며 함수(Function) 범위이고 초기화 안해도된다.예전 방식으로 이제는 거의 사용하지 않는다.",
-          ex: "var z = 1;<br>var z = 2; &nbsp;&nbsp; // 중복 선언 가능<br>console.log(z); <br><br>if (true) {var a = 10;}<br>console.log(a); &nbsp;&nbsp; // 블록 밖에서도 접근 가능",
-          ex2: "2<br>10",
-        },
-        {
-          term: "객체 자료형(함수/Function)",
-          desc: "작업을 수행하는 코드 블록이다.함수는 독립된 객체이기 때문에 변수에 저장하거나, 다른 함수에 전달하거나, 객체 안에 넣을 수 있다.",
-          ex: 'function sayHello() {console.log("Hello!");}<br><br>sayHello();',
-          ex2: "Hello!",
-        },
-        {
-          term: "객체 자료형(배열/Array)",
-          desc: " 여러 개의 값을 순서대로 저장하는 자료구조이다.배열은 대괄호([])로 생성되며, 각 요소는 콤마(,)로 구분된다.Array 생성자를 사용하여도 배열을 만들 수 있다.",
-          ex: "let numbers = [1, 2, 3, 4, 5];<br><br>console.log(numbers[0]);&nbsp;&nbsp;// 출력: 1<br>console.log(numbers.length&nbsp;&nbsp;// 출력: 5<br><br>numbers.push(6);&nbsp;&nbsp;//배열추가 <br>console.log(numbers);&nbsp;&nbsp; // 출력: [1, 2, 3, 4, 5, 6]",
-          ex2: "let numbers = new Array(1, 2, 3, 4, 5);",
-        },
-        {
-          term: "map()",
-          desc: '배열의 각 요소에 대해 콜백 함수를 실행하고, 그 결과로 새로운 배열을 반환한다. 원본 배열을 건드리지는 않는다',
-          ex: "const newArray = array.map((현재 처리 중인 요소, 현재 요소의 인덱스, array) => {// return 변환할 값});",
-          ex2: 'const fruits = ["사과", "바나나", "포도"];<br>const labeledFruits = fruits.map((fruit, index) => `${index + 1}번: ${fruit}`);<br>console.log(labeledFruits);<br>출력 :&nbsp; ["1번: 사과", "2번: 바나나", "3번: 포도"]',
-        },
-        {
-          term: "산술 연산자(Arithmetic Operators)",
-          desc: "덧셈,뺼셈,곱셈, 나눗셈, 나머지",
-          ex: "let x = 10;<br>let y = 3;<br><br>let sum = x + y; <br>let difference = x - y; <br>let product = x * y;<br>let quotient = x / y;  <br>let remainder = x % y;",
-          ex2: "sum에는 10+3은 13임으로 13이 할당됨<br> difference에는 10-3은 7임으로 7이 할당됨<br> product에는 10*3은 30임으로 30이 할당됨<br>quotient에는 10/3은 3.333..임으로 3.3333...이 할당됨<br> remainder에는 10/3의 나머지는 1임으로 1이 할당됨",
-        },
-        {
-          term: " 단항 산술 연산자(Unary Arithmetic Operators)",
-          desc: "증가(++x 또는 x++): 변수의 값을 1 증가시킨다.감소(--x 또는 x--): 변수의 값을 1 감소시킨다.",
-          ex: "let x = 5;<br>console.log(++x); <br>console.log(x);<br><br>x = 5;<br>console.log(x++); <br>console.log(x);",
-          ex2: "6&nbsp;&nbsp;//먼저 증가하고 출력<br>6<br><br>5&nbsp;&nbsp;//출력 후 증가<br>6",
-        },
-        {
-          term: "복합대입 연산자(Compound Assignment Operators)",
-          desc: "변수에 연산 결과를 간결하게 대입할 수 있도록 도와준다",
-          ex: "let x = 5;<br>x += 3; &nbsp;&nbsp;// x = x + 3와 동일<br>console.log(x);<br><br>let y = 10;<br>y -= 5;&nbsp;&nbsp; // y = y - 5와 동일<br>console.log(y);<br><br>let z = 2;<br>z *= 4; &nbsp;&nbsp;// z = z * 4와 동일<br>console.log(z);<br><br>let a = 20;<br>a /= 5; &nbsp;&nbsp; // a = a / 5와 동일<br>console.log(a);<br><br>let b = 11;<br>b %= 3;&nbsp;&nbsp; // b = b % 3와 동일<br>console.log(b); ",
-          ex2: "8<br>5<br>8<br>4<br>2",
-        },
-        {
-          term: "논리연산자",
-          desc: "조건식의 참(true)/거짓(false)을 판단하거나 여러 조건을 결합할 때 사용한다.",
-          ex: "논리 AND (&&): 모든 피연산자가 참일 때에만 true를 반환한다.<br>논리 OR (||): 피연산자 중 하나라도 참이면 true를 반환한다.<br>논리 NOT (!): 피연산자의 반대 값을 반환한다.",
-          ex2: "아래 값은 전부 거짓으로 간주한다<br><br>let variable1; &nbsp;&nbsp;// 값이 할당되지 않은 변수<br>let variable2 = 0; &nbsp;&nbsp;// 값이 0인 변수<bt>let variable3 = null; &nbsp;&nbsp;// 값이 null인 변수<br>let variable4 = '';&nbsp;&nbsp; // 값이 빈 문자열인 변수",
-        },
-        {
-          term: "출력",
-          desc: "프로그램의 실행 결과를 사용자에게 보여주는 방식이다.",
-          ex: "alert(): 브라우저에서 경고 창을 표시하는 역할한다.<br>document.write():  현재 문서에 텍스트 또는 HTML을 출력하는 데 사용된다<br>console.log(): 브라우저의 개발자 도구 콘솔에 메시지를 출력한다.",
-          ex2: 'alert("안녕하세요!");<br>document.write("<h1>Hello</h1>");<br>console.log("값:", 10);',
-        },
-        {
-          term: "스코프(Scope)",
-          desc: "스코프는 변수와 함수의 유효 범위를 나타낸다.",
-          ex: "전역 스코프(Global Scope): 전역 스코프는 코드 어디에서나 접근 가능한 스코프이다.<br>지역 스코프(Local Scope): 지역 스코프는 특정한 블록(함수) 내에서 선언된 변수와 함수가 해당 블록 내부에서만 접근 가능한 스코프이다.",
-          ex2: 'let globalVar = "전역변수";<br>function sayHello() {console.log(globalVar);} &nbsp;&nbsp;// 전역 변수 접근 가능<br>sayHello();&nbsp;&nbsp; //출력:전역변수<br>console.log(globalVar);&nbsp;&nbsp;//출력:전역변수<br><br>function sayHi() { let localVar = "지역변수";<br>console.log(localVar); }&nbsp;&nbsp;// 지역 변수 접근 가능<br>sayHi();}&nbsp;&nbsp; // 출력: 지역변수<br>console.log(localVar);nbsp;&nbsp;//오류 접근 불가',
-        },
-        {
-          term: " 제어문(if…else)",
-          desc: "참인지 거짓인지에 따라 실행할 코드를 선택한다.",
-          ex:'"let score = 85;<br>if (score >= 90) { console.log("A학점");}<br>else {console.log("A학점이 아님");}',
-          ex2: " A학점이 아님",
-        },
-        {
-          term: "제어문(switch)",
-          desc: "배열을 하나의 값으로 줄이는 JavaScript 함수.",
-          ex: 'let day = 3;<br><br>switch (day) {<br>  case 1:<br>    console.log("월요일");<br>    break;<br>  case 2:<br>    console.log("화요일");<br>    break;<br>  case 3:<br>    console.log("수요일");<br>    break;<br>  default:<br>console.log("주중이 아님");<br>}',
-          ex2: "수요일",
-        },
-        {
-          term: "반복문(for)",
-          desc: "정해진 횟수만큼 코드를 반복해서 실행할 때 사용된다.",
-          ex: "for (let i = 0; i < 5; i++) { console.log(i);}",
-          ex2: "0 1 2 3 4",
-        },
-        {
-          term: "반복문(while)",
-          desc: "조건이 참(true)인 동안 코드 블록을 반복 실행하는 반복문이다.",
-          ex: "let i = 0;<br><br>while (i < 5) {<br>  console.log(i);<br>  i++;<br>}",
-          ex2: "0 1 2 3 4",
-        },
-        {
-          term: "반복문(do…while)",
-          desc: "코드를 최소 한 번 실행한 후, 조건이 참이면 반복을 계속한다.",
-          ex: "let i = 0;<br><br>do {<br>  console.log(i);<br>  i++;<br>} while (i < 5);",
-          ex2: "0 1 2 3 4",
-        },
-        {
-          term: "break, continue",
-          desc: "break: 반복문을 즉시 종료한다.continue: 현재 반복을 건너뛰고 다음 반복으로 넘어간다.",
-          ex: "for (let i = 0; i < 10; i++) {<br>  if (i === 3) {<br>    break;<br>  }<br> console.log(i);<br>}<br>출력: 0 1 2",
-          ex2: "for (let i = 0; i < 5; i++) {<br>  if (i === 3) {<br>    continue;<br>  }<br>  console.log(i);<br>}<br>출력: 0 1 2 4",
-        },
-        {
-          term: "타입 변환",
-          desc: "값의 타입을 개발자가 의도적으로 변환 할 수 있다.",
-          ex: "var x = 10;<br>var str = x.toString(); &nbsp;&nbsp;// 숫자를 문자열로 타입 캐스팅한다.<br>console.log(typeof str);",
-          ex2: "string",
-        },
-        {
-          term: "암묵적 타입 변환(Implicit coercion) 또는 타입 강제 변환(Type coercion)",
-          desc: "개발자의 의도와 상관없이 자바스크립트 엔진에 의해 자동 변환되기도 한다.",
-          ex: "var x = 10;<br>var str = x + '';<br>console.log(typeof str, str); <br>​console.log(x); &nbsp;&nbsp;// 10, 변수 x의 값이 변경된 것은 아님",
-          ex2: "string 10 10",
-        },
-        {
-          term: "Number 생성자",
-          desc: "숫자형(Number) 값을 만들거나 변환할 때 사용된다.",
-          ex: 'let num1 = Number("123");&nbsp;&nbsp;// 문자열을 숫자로 변환<br>let num2 = Number(true);&nbsp;&nbsp;// true → 1<br>let num3 = Number(false);&nbsp;&nbsp;// false → 0<br>let num4 = Number("abc"); &nbsp;&nbsp;// 숫자로 변환 불가 → NaN',
-          ex2: "let num5 = new Number(123);&nbsp;&nbsp; // 숫자 객체 생성(객체생성임으로 주의))",
-        },
-        {
-          term: "Math.abs(x: number)",
-          desc: "인수의 절댓값 반환한다. 절댓값은 반드시 0또는 양수일것.",
-          ex: "Math.abs(-1);&nbsp;&nbsp;// 1<br>Math.abs('-1');&nbsp;&nbsp;// <br>Math.abs('');&nbsp;&nbsp;// 0<br>Math.abs([]);&nbsp;&nbsp; // 0<br>Math.abs(null);&nbsp;&nbsp;// 0<br>Math.abs(undefined);&nbsp;&nbsp;// NaN<br>Math.abs({}); &nbsp;&nbsp;// NaN",
-          ex2: "Math.abs('string'); &nbsp;&nbsp;// NaN<<br>Math.abs(); &nbsp;&nbsp;// NaN",
-        },
-        {
-          term: "Math.round(x: number)",
-          desc: "소수점 이하를 반올림한 정수로 반환한다.",
-          ex: 'Math.round(1.4); &nbsp;&nbsp;// 1<br>Math.round(1.6);  &nbsp;&nbsp;// 2<br>Math.round(-1.4);&nbsp;&nbsp; // -1',
-          ex2: "Math.round(-1.6);&nbsp;&nbsp; // -2<br>Math.round(1); &nbsp;&nbsp;   // 1<br>Math.round(); &nbsp;&nbsp;    // NaN",
-        },
-        {
-          term: "Math.max(…values: number[])",
-          desc: "가장 큰 수를 반환한다.",
-          ex: 'Math.max(1, 2, 3);',
-          ex2: "3",
-        },
-        {
-          term: "Math.min(…values: number[])",
-          desc: "가장 작은수를 반환한다.",
-          ex: 'Math.min(1, 2, 3);',
-          ex2: "1",
-        },
-        {
-          term: "Math.random()",
-          desc: "임의의 부동 소수점을 반환한다. 반환된 부동 소수점은 0부터 1 미만이다.<br> 즉, 0은 포함되지만 1은 포함되지 않는다.",
-          ex: 'let r = Math.random();<br>console.log(r);',
-          ex2: "0.348572943//랜덤으로 숫자 나옴",
-        },
-        {
-          term: "new Date()",
-          desc: "현재 날짜와 시간을 가지는 인스턴스를 반환한다.",
-          ex: 'const date = new Date();<br>console.log(date);',
-          ex2: "Thu May 16 2019 17:16:13 GMT+0900",
-        },
-        {
-          term: "Date.now()",
-          desc: "현재 시간을 1970년 1월 1일 00:00:00 UTC부터 경과한 밀리초(ms) 단위로 반환한다.",
-          ex: 'let timestamp = Date.now();<br>console.log(timestamp);',
-          ex2: "1717650483651",
-        },
-        {
-          term: "Date.prototype.getFullYear()",
-          desc: "월을 나타내는 0 ~ 11의 정수를 반환한다.월은 0, 12월은 11이다.",
-          ex: 'let today = new Date();<br>let year = today.getFullYear();<br>console.log(year);',
-          ex2: "2025",
-        },
-        {
-          term: "Date.prototype.getMonth()",
-          desc: "특정 자식 요소를 포함하는 요소만 선택",
-          ex: 'let today = new Date();<br>let month = today.getMonth();<br>console.log(month);',
-          ex2: "5",
-        },
-        {
-          term: "Date.prototype.getDate()",
-          desc: "날짜(1 ~ 31)를 나타내는 정수를 반환한다.",
-          ex: 'let today = new Date();<br>let day = today.getDate();<br>console.log(day);',
-          ex2: "7",
-        },
-        {
-          term: "이벤트 핸들링",
-          desc: "웹 요소(예: 버튼, 입력창 등)에서 일어난 일을 감지하고, 그에 반응하는 코드를 작성하는 것이다.HTML 태그에 직접 쓰거나 (onclick), 자바 스크립트에서 addEventListener 쓰거나, 자바스크립트에서 요소 속성으로 직접 연결 (element.onclick)하는 방법이 있다.",
-          ex: 'click       : 클릭했을 때<br>mouseover   : 마우스를 올렸을 때<br>mouseout    : 마우스를 뗐을 때<br>keydown     : 키를 눌렀을 때',
-          ex2: "submit      : 폼이 전송될 때<br>change      : 입력값이 바뀔 때<br>input       : 입력 중일 때 (즉시 감지)",
-        },
-        {
-          term: "setTimeout(function, delay),setInterval(function, delay)",
-          desc: "일정 시간 뒤 실행, 일정 간격마다 실행",
-          ex: 'setTimeout(function () {<br>  console.log("3초 후에 실행됨!");<br>}, 3000);',
-          ex2: 'setInterval(function () {<br>  console.log("1초마다 실행 중...");<br>}, 1000);',
-        },
-      ];
-      // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
-      // 각 문제는 정답인 인덱스를 맞게 섞어서 설정
-      let quizData = [];
+  <form id="searchForm" autocomplete="off" role="search" aria-label="용어 검색">
+    <div id="searchContainer">
+      <input type="text" id="searchBox" aria-autocomplete="list" aria-controls="autocompleteList" aria-expanded="false"
+        aria-haspopup="listbox" placeholder="검색어 입력 (예: span,form,table)" />
+      <button id="searchBtn" aria-label="검색">🔍</button>
+      <ul id="autocompleteList" role="listbox" hidden></ul>
+    </div>
+  </form>
 
-      function shuffleArray(arr) {
-        for (let i = arr.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [arr[i], arr[j]] = [arr[j], arr[i]];
+  <main id="contentArea" tabindex="0" aria-live="polite">
+    <!-- 용어 카드 또는 퀴즈 내용 출력 영역 -->
+  </main>
+
+  <script>
+    // 용어 데이터추가 + 용어에 ex추가 예시는 ex에다가 넣으세요
+    const terms = [
+      {
+        term: "자바스크립트 자료형(문자형/String)",
+        desc: "텍스트 데이터를 나타낼때 사용한다. 문자열은 작은따옴표(' ')나 큰 따옴표(\" \")로 감싸져 있다.",
+        ex: "let str1 = '안녕하세요';",
+        ex2: "안녕하세요",
+      },
+      {
+        term: "자바스크립트 자료형(숫자형/Number)",
+        desc: "숫자를 나타낼때 사용한다. 정수나 실수를 포함한다.",
+        ex: "let age = 25;",
+        ex2: "25",
+      },
+      {
+        term: " 자바스크립트 자료형(논리형/Boolean)",
+        desc: "참(True) 또는 거짓(False)을 나타내는 데 사용된다. 주로 조건문과 논리 연산에 활용된다.",
+        ex: "let isStudent = true;<br> let isAdult = false;",
+        ex2: "true <br> false",
+      },
+      {
+        term: "undefined",
+        desc: '값이 없음을 나타낸다. 변수가 선언 되었지만 값이 할당되지 않은 상태이다.typeof 연산자로 확인했을 때  "undefined"를 반환한다',
+        ex: "예시:<br>let a;<br>console.log(a);<br>console.log(typeof a);",
+        ex2: 'undefined<br>"undefined"',
+      },
+      {
+        term: "null",
+        desc: '명시적으로 값이 없음을 나타낸다.typeof 연산자로 확인했을 때 null은 "object"를 반환한다.',
+        ex: "let b = null;<br>console.log(b);<br>console.log(typeof b);",
+        ex2: 'null<br>"null"',
+      },
+      {
+        term: "변수 let",
+        desc: "중복 불가능하고 블록(Block) 범위이며 초기화 안해도 된다.값이 바뀌는 경우에 사용한다.",
+        ex: "let x;&nbsp;&nbsp;// 선언만 가능<br>x = 10;&nbsp;&nbsp;// 값 할당 <br> x = 20;&nbsp;&nbsp;// 값 변경 가능 <br> console.log(x);",
+        ex2: "20",
+      },
+      {
+        term: "변수 const",
+        desc: "한번 선언하면 재할당 불가능하며 블록(Block) 범위이며 선언 시 반드시 값 지정해야 한다.",
+        ex: "let x;&nbsp;&nbsp//선언만 가능<br>x = 10;&nbsp;&nbsp// 값 할당<br> x = 20;&nbsp;&nbsp// 값 변경 가능<br>console.log(x);",
+        ex2: "20",
+      },
+      {
+        term: "변수 var",
+        desc: "중복이 가능하며 함수(Function) 범위이고 초기화 안해도된다.예전 방식으로 이제는 거의 사용하지 않는다.",
+        ex: "var z = 1;<br>var z = 2; &nbsp;&nbsp; // 중복 선언 가능<br>console.log(z); <br><br>if (true) {var a = 10;}<br>console.log(a); &nbsp;&nbsp; // 블록 밖에서도 접근 가능",
+        ex2: "2<br>10",
+      },
+      {
+        term: "객체 자료형(함수/Function)",
+        desc: "작업을 수행하는 코드 블록이다.함수는 독립된 객체이기 때문에 변수에 저장하거나, 다른 함수에 전달하거나, 객체 안에 넣을 수 있다.",
+        ex: 'function sayHello() {console.log("Hello!");}<br><br>sayHello();',
+        ex2: "Hello!",
+      },
+      {
+        term: "객체 자료형(배열/Array)",
+        desc: " 여러 개의 값을 순서대로 저장하는 자료구조이다.배열은 대괄호([])로 생성되며, 각 요소는 콤마(,)로 구분된다.Array 생성자를 사용하여도 배열을 만들 수 있다.",
+        ex: "let numbers = [1, 2, 3, 4, 5];<br><br>console.log(numbers[0]);&nbsp;&nbsp;// 출력: 1<br>console.log(numbers.length&nbsp;&nbsp;// 출력: 5<br><br>numbers.push(6);&nbsp;&nbsp;//배열추가 <br>console.log(numbers);&nbsp;&nbsp; // 출력: [1, 2, 3, 4, 5, 6]",
+        ex2: "let numbers = new Array(1, 2, 3, 4, 5);",
+      },
+      {
+        term: "map()",
+        desc: '배열의 각 요소에 대해 콜백 함수를 실행하고, 그 결과로 새로운 배열을 반환한다. 원본 배열을 건드리지는 않는다',
+        ex: "const newArray = array.map((현재 처리 중인 요소, 현재 요소의 인덱스, array) => {// return 변환할 값});",
+        ex2: 'const fruits = ["사과", "바나나", "포도"];<br>const labeledFruits = fruits.map((fruit, index) => `${index + 1}번: ${fruit}`);<br>console.log(labeledFruits);<br>출력 :&nbsp; ["1번: 사과", "2번: 바나나", "3번: 포도"]',
+      },
+      {
+        term: "산술 연산자(Arithmetic Operators)",
+        desc: "덧셈,뺼셈,곱셈, 나눗셈, 나머지",
+        ex: "let x = 10;<br>let y = 3;<br><br>let sum = x + y; <br>let difference = x - y; <br>let product = x * y;<br>let quotient = x / y;  <br>let remainder = x % y;",
+        ex2: "sum에는 10+3은 13임으로 13이 할당됨<br> difference에는 10-3은 7임으로 7이 할당됨<br> product에는 10*3은 30임으로 30이 할당됨<br>quotient에는 10/3은 3.333..임으로 3.3333...이 할당됨<br> remainder에는 10/3의 나머지는 1임으로 1이 할당됨",
+      },
+      {
+        term: " 단항 산술 연산자(Unary Arithmetic Operators)",
+        desc: "증가(++x 또는 x++): 변수의 값을 1 증가시킨다.감소(--x 또는 x--): 변수의 값을 1 감소시킨다.",
+        ex: "let x = 5;<br>console.log(++x); <br>console.log(x);<br><br>x = 5;<br>console.log(x++); <br>console.log(x);",
+        ex2: "6&nbsp;&nbsp;//먼저 증가하고 출력<br>6<br><br>5&nbsp;&nbsp;//출력 후 증가<br>6",
+      },
+      {
+        term: "복합대입 연산자(Compound Assignment Operators)",
+        desc: "변수에 연산 결과를 간결하게 대입할 수 있도록 도와준다",
+        ex: "let x = 5;<br>x += 3; &nbsp;&nbsp;// x = x + 3와 동일<br>console.log(x);<br><br>let y = 10;<br>y -= 5;&nbsp;&nbsp; // y = y - 5와 동일<br>console.log(y);<br><br>let z = 2;<br>z *= 4; &nbsp;&nbsp;// z = z * 4와 동일<br>console.log(z);<br><br>let a = 20;<br>a /= 5; &nbsp;&nbsp; // a = a / 5와 동일<br>console.log(a);<br><br>let b = 11;<br>b %= 3;&nbsp;&nbsp; // b = b % 3와 동일<br>console.log(b); ",
+        ex2: "8<br>5<br>8<br>4<br>2",
+      },
+      {
+        term: "논리연산자",
+        desc: "조건식의 참(true)/거짓(false)을 판단하거나 여러 조건을 결합할 때 사용한다.",
+        ex: "논리 AND (&&): 모든 피연산자가 참일 때에만 true를 반환한다.<br>논리 OR (||): 피연산자 중 하나라도 참이면 true를 반환한다.<br>논리 NOT (!): 피연산자의 반대 값을 반환한다.",
+        ex2: "아래 값은 전부 거짓으로 간주한다<br><br>let variable1; &nbsp;&nbsp;// 값이 할당되지 않은 변수<br>let variable2 = 0; &nbsp;&nbsp;// 값이 0인 변수<bt>let variable3 = null; &nbsp;&nbsp;// 값이 null인 변수<br>let variable4 = '';&nbsp;&nbsp; // 값이 빈 문자열인 변수",
+      },
+      {
+        term: "출력",
+        desc: "프로그램의 실행 결과를 사용자에게 보여주는 방식이다.",
+        ex: "alert(): 브라우저에서 경고 창을 표시하는 역할한다.<br>document.write():  현재 문서에 텍스트 또는 HTML을 출력하는 데 사용된다<br>console.log(): 브라우저의 개발자 도구 콘솔에 메시지를 출력한다.",
+        ex2: 'alert("안녕하세요!");<br>document.write("<h1>Hello</h1>");<br>console.log("값:", 10);',
+      },
+      {
+        term: "스코프(Scope)",
+        desc: "스코프는 변수와 함수의 유효 범위를 나타낸다.",
+        ex: "전역 스코프(Global Scope): 전역 스코프는 코드 어디에서나 접근 가능한 스코프이다.<br>지역 스코프(Local Scope): 지역 스코프는 특정한 블록(함수) 내에서 선언된 변수와 함수가 해당 블록 내부에서만 접근 가능한 스코프이다.",
+        ex2: 'let globalVar = "전역변수";<br>function sayHello() {console.log(globalVar);} &nbsp;&nbsp;// 전역 변수 접근 가능<br>sayHello();&nbsp;&nbsp; //출력:전역변수<br>console.log(globalVar);&nbsp;&nbsp;//출력:전역변수<br><br>function sayHi() { let localVar = "지역변수";<br>console.log(localVar); }&nbsp;&nbsp;// 지역 변수 접근 가능<br>sayHi();}&nbsp;&nbsp; // 출력: 지역변수<br>console.log(localVar);nbsp;&nbsp;//오류 접근 불가',
+      },
+      {
+        term: " 제어문(if…else)",
+        desc: "참인지 거짓인지에 따라 실행할 코드를 선택한다.",
+        ex: '"let score = 85;<br>if (score >= 90) { console.log("A학점");}<br>else {console.log("A학점이 아님");}',
+        ex2: " A학점이 아님",
+      },
+      {
+        term: "제어문(switch)",
+        desc: "배열을 하나의 값으로 줄이는 JavaScript 함수.",
+        ex: 'let day = 3;<br><br>switch (day) {<br>  case 1:<br>    console.log("월요일");<br>    break;<br>  case 2:<br>    console.log("화요일");<br>    break;<br>  case 3:<br>    console.log("수요일");<br>    break;<br>  default:<br>console.log("주중이 아님");<br>}',
+        ex2: "수요일",
+      },
+      {
+        term: "반복문(for)",
+        desc: "정해진 횟수만큼 코드를 반복해서 실행할 때 사용된다.",
+        ex: "for (let i = 0; i < 5; i++) { console.log(i);}",
+        ex2: "0 1 2 3 4",
+      },
+      {
+        term: "반복문(while)",
+        desc: "조건이 참(true)인 동안 코드 블록을 반복 실행하는 반복문이다.",
+        ex: "let i = 0;<br><br>while (i < 5) {<br>  console.log(i);<br>  i++;<br>}",
+        ex2: "0 1 2 3 4",
+      },
+      {
+        term: "반복문(do…while)",
+        desc: "코드를 최소 한 번 실행한 후, 조건이 참이면 반복을 계속한다.",
+        ex: "let i = 0;<br><br>do {<br>  console.log(i);<br>  i++;<br>} while (i < 5);",
+        ex2: "0 1 2 3 4",
+      },
+      {
+        term: "break, continue",
+        desc: "break: 반복문을 즉시 종료한다.continue: 현재 반복을 건너뛰고 다음 반복으로 넘어간다.",
+        ex: "for (let i = 0; i < 10; i++) {<br>  if (i === 3) {<br>    break;<br>  }<br> console.log(i);<br>}<br>출력: 0 1 2",
+        ex2: "for (let i = 0; i < 5; i++) {<br>  if (i === 3) {<br>    continue;<br>  }<br>  console.log(i);<br>}<br>출력: 0 1 2 4",
+      },
+      {
+        term: "타입 변환",
+        desc: "값의 타입을 개발자가 의도적으로 변환 할 수 있다.",
+        ex: "var x = 10;<br>var str = x.toString(); &nbsp;&nbsp;// 숫자를 문자열로 타입 캐스팅한다.<br>console.log(typeof str);",
+        ex2: "string",
+      },
+      {
+        term: "암묵적 타입 변환(Implicit coercion) 또는 타입 강제 변환(Type coercion)",
+        desc: "개발자의 의도와 상관없이 자바스크립트 엔진에 의해 자동 변환되기도 한다.",
+        ex: "var x = 10;<br>var str = x + '';<br>console.log(typeof str, str); <br>​console.log(x); &nbsp;&nbsp;// 10, 변수 x의 값이 변경된 것은 아님",
+        ex2: "string 10 10",
+      },
+      {
+        term: "Number 생성자",
+        desc: "숫자형(Number) 값을 만들거나 변환할 때 사용된다.",
+        ex: 'let num1 = Number("123");&nbsp;&nbsp;// 문자열을 숫자로 변환<br>let num2 = Number(true);&nbsp;&nbsp;// true → 1<br>let num3 = Number(false);&nbsp;&nbsp;// false → 0<br>let num4 = Number("abc"); &nbsp;&nbsp;// 숫자로 변환 불가 → NaN',
+        ex2: "let num5 = new Number(123);&nbsp;&nbsp; // 숫자 객체 생성(객체생성임으로 주의))",
+      },
+      {
+        term: "Math.abs(x: number)",
+        desc: "인수의 절댓값 반환한다. 절댓값은 반드시 0또는 양수일것.",
+        ex: "Math.abs(-1);&nbsp;&nbsp;// 1<br>Math.abs('-1');&nbsp;&nbsp;// <br>Math.abs('');&nbsp;&nbsp;// 0<br>Math.abs([]);&nbsp;&nbsp; // 0<br>Math.abs(null);&nbsp;&nbsp;// 0<br>Math.abs(undefined);&nbsp;&nbsp;// NaN<br>Math.abs({}); &nbsp;&nbsp;// NaN",
+        ex2: "Math.abs('string'); &nbsp;&nbsp;// NaN<<br>Math.abs(); &nbsp;&nbsp;// NaN",
+      },
+      {
+        term: "Math.round(x: number)",
+        desc: "소수점 이하를 반올림한 정수로 반환한다.",
+        ex: 'Math.round(1.4); &nbsp;&nbsp;// 1<br>Math.round(1.6);  &nbsp;&nbsp;// 2<br>Math.round(-1.4);&nbsp;&nbsp; // -1',
+        ex2: "Math.round(-1.6);&nbsp;&nbsp; // -2<br>Math.round(1); &nbsp;&nbsp;   // 1<br>Math.round(); &nbsp;&nbsp;    // NaN",
+      },
+      {
+        term: "Math.max(…values: number[])",
+        desc: "가장 큰 수를 반환한다.",
+        ex: 'Math.max(1, 2, 3);',
+        ex2: "3",
+      },
+      {
+        term: "Math.min(…values: number[])",
+        desc: "가장 작은수를 반환한다.",
+        ex: 'Math.min(1, 2, 3);',
+        ex2: "1",
+      },
+      {
+        term: "Math.random()",
+        desc: "임의의 부동 소수점을 반환한다. 반환된 부동 소수점은 0부터 1 미만이다.<br> 즉, 0은 포함되지만 1은 포함되지 않는다.",
+        ex: 'let r = Math.random();<br>console.log(r);',
+        ex2: "0.348572943//랜덤으로 숫자 나옴",
+      },
+      {
+        term: "new Date()",
+        desc: "현재 날짜와 시간을 가지는 인스턴스를 반환한다.",
+        ex: 'const date = new Date();<br>console.log(date);',
+        ex2: "Thu May 16 2019 17:16:13 GMT+0900",
+      },
+      {
+        term: "Date.now()",
+        desc: "현재 시간을 1970년 1월 1일 00:00:00 UTC부터 경과한 밀리초(ms) 단위로 반환한다.",
+        ex: 'let timestamp = Date.now();<br>console.log(timestamp);',
+        ex2: "1717650483651",
+      },
+      {
+        term: "Date.prototype.getFullYear()",
+        desc: "월을 나타내는 0 ~ 11의 정수를 반환한다.월은 0, 12월은 11이다.",
+        ex: 'let today = new Date();<br>let year = today.getFullYear();<br>console.log(year);',
+        ex2: "2025",
+      },
+      {
+        term: "Date.prototype.getMonth()",
+        desc: "특정 자식 요소를 포함하는 요소만 선택",
+        ex: 'let today = new Date();<br>let month = today.getMonth();<br>console.log(month);',
+        ex2: "5",
+      },
+      {
+        term: "Date.prototype.getDate()",
+        desc: "날짜(1 ~ 31)를 나타내는 정수를 반환한다.",
+        ex: 'let today = new Date();<br>let day = today.getDate();<br>console.log(day);',
+        ex2: "7",
+      },
+      {
+        term: "이벤트 핸들링",
+        desc: "웹 요소(예: 버튼, 입력창 등)에서 일어난 일을 감지하고, 그에 반응하는 코드를 작성하는 것이다.HTML 태그에 직접 쓰거나 (onclick), 자바 스크립트에서 addEventListener 쓰거나, 자바스크립트에서 요소 속성으로 직접 연결 (element.onclick)하는 방법이 있다.",
+        ex: 'click       : 클릭했을 때<br>mouseover   : 마우스를 올렸을 때<br>mouseout    : 마우스를 뗐을 때<br>keydown     : 키를 눌렀을 때',
+        ex2: "submit      : 폼이 전송될 때<br>change      : 입력값이 바뀔 때<br>input       : 입력 중일 때 (즉시 감지)",
+      },
+      {
+        term: "setTimeout(function, delay),setInterval(function, delay)",
+        desc: "일정 시간 뒤 실행, 일정 간격마다 실행",
+        ex: 'setTimeout(function () {<br>  console.log("3초 후에 실행됨!");<br>}, 3000);',
+        ex2: 'setInterval(function () {<br>  console.log("1초마다 실행 중...");<br>}, 1000);',
+      },
+    ];
+    // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
+    // 각 문제는 정답인 인덱스를 맞게 섞어서 설정
+    let quizData = [];
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    // 퀴즈 생성: terms중 랜덤 5문제를 뽑아 보기 4개씩 섞어서 만듦
+    function generateQuizData() {
+      quizData = [];
+      const shuffledTerms = [...terms];
+      shuffleArray(shuffledTerms);
+      const pickCount = Math.min(5, shuffledTerms.length);
+      for (let i = 0; i < pickCount; i++) {
+        const question = shuffledTerms[i].term;
+        const answer = shuffledTerms[i].desc;
+
+        // 보기 3개 랜덤으로 추출 (정답 제외)
+        let options = [answer];
+        const others = terms.filter((t) => t.term !== question);
+        shuffleArray(others);
+        for (let j = 0; j < 3; j++) {
+          options.push(others[j].desc);
         }
+        shuffleArray(options);
+
+        const answerIndex = options.indexOf(answer);
+
+        quizData.push({
+          question,
+          options,
+          answer: answerIndex,
+        });
+      }
+    }
+
+    // UI 요소 참조
+    const menuBtn = document.getElementById("menuBtn");
+    const menuBox = document.getElementById("menuBox");
+    const showTermsBtn = document.getElementById("showTermsBtn");
+    const showQuizBtn = document.getElementById("showQuizBtn");
+    const toggleDarkBtn = document.getElementById("toggleDarkBtn");
+    const contentArea = document.getElementById("contentArea");
+    const searchBox = document.getElementById("searchBox");
+    const searchBtn = document.getElementById("searchBtn");
+    const autocompleteList = document.getElementById("autocompleteList");
+    const searchForm = document.getElementById("searchForm");
+
+    // 메뉴 열기/닫기
+    function toggleMenu() {
+      const isOpen = menuBox.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", isOpen);
+      menuBox.setAttribute("aria-hidden", !isOpen);
+      if (isOpen) {
+        menuBox.focus();
+      }
+    }
+    menuBtn.addEventListener("click", toggleMenu);
+
+    // 메뉴 항목 클릭 시 메뉴 닫기
+    function closeMenu() {
+      menuBox.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", false);
+      menuBox.setAttribute("aria-hidden", true);
+      menuBtn.focus();
+    }
+
+    // // 용어 카드 새 창 열기 <코드삭제예정> 현재페이지에서 실행되도록 변경할것 주석처리함!
+    // function openTermInNewWindow(term) {
+    //   const url = `term.html?term=${encodeURIComponent(term)}`;
+    //   window.open(
+    //     url,
+    //     "_blank",
+    //     "width=480,height=400,scrollbars=yes,resizable=yes"
+    //   );
+    // }
+
+    function showTermDetail(term, pushState = true) {
+      const found = terms.find((t) => t.term === term);
+      if (!found) {
+        contentArea.innerHTML = `<p>용어 정보를 찾을 수 없습니다.</p>`;
+        return;
       }
 
-      // 퀴즈 생성: terms중 랜덤 5문제를 뽑아 보기 4개씩 섞어서 만듦
-      function generateQuizData() {
-        quizData = [];
-        const shuffledTerms = [...terms];
-        shuffleArray(shuffledTerms);
-        const pickCount = Math.min(5, shuffledTerms.length);
-        for (let i = 0; i < pickCount; i++) {
-          const question = shuffledTerms[i].term;
-          const answer = shuffledTerms[i].desc;
-
-          // 보기 3개 랜덤으로 추출 (정답 제외)
-          let options = [answer];
-          const others = terms.filter((t) => t.term !== question);
-          shuffleArray(others);
-          for (let j = 0; j < 3; j++) {
-            options.push(others[j].desc);
-          }
-          shuffleArray(options);
-
-          const answerIndex = options.indexOf(answer);
-
-          quizData.push({
-            question,
-            options,
-            answer: answerIndex,
-          });
-        }
+      if (pushState) {
+        history.pushState(
+          { view: "detail", term },
+          "",
+          `#term=${encodeURIComponent(term)}`
+        );
       }
+      //카드 눌렀을때 상세보기섹션 주석
 
-      // UI 요소 참조
-      const menuBtn = document.getElementById("menuBtn");
-      const menuBox = document.getElementById("menuBox");
-      const showTermsBtn = document.getElementById("showTermsBtn");
-      const showQuizBtn = document.getElementById("showQuizBtn");
-      const toggleDarkBtn = document.getElementById("toggleDarkBtn");
-      const contentArea = document.getElementById("contentArea");
-      const searchBox = document.getElementById("searchBox");
-      const searchBtn = document.getElementById("searchBtn");
-      const autocompleteList = document.getElementById("autocompleteList");
-      const searchForm = document.getElementById("searchForm");
-
-      // 메뉴 열기/닫기
-      function toggleMenu() {
-        const isOpen = menuBox.classList.toggle("open");
-        menuBtn.setAttribute("aria-expanded", isOpen);
-        menuBox.setAttribute("aria-hidden", !isOpen);
-        if (isOpen) {
-          menuBox.focus();
-        }
-      }
-      menuBtn.addEventListener("click", toggleMenu);
-
-      // 메뉴 항목 클릭 시 메뉴 닫기
-      function closeMenu() {
-        menuBox.classList.remove("open");
-        menuBtn.setAttribute("aria-expanded", false);
-        menuBox.setAttribute("aria-hidden", true);
-        menuBtn.focus();
-      }
-
-      // // 용어 카드 새 창 열기 <코드삭제예정> 현재페이지에서 실행되도록 변경할것 주석처리함!
-      // function openTermInNewWindow(term) {
-      //   const url = `term.html?term=${encodeURIComponent(term)}`;
-      //   window.open(
-      //     url,
-      //     "_blank",
-      //     "width=480,height=400,scrollbars=yes,resizable=yes"
-      //   );
-      // }
-
-      function showTermDetail(term, pushState = true) {
-        const found = terms.find((t) => t.term === term);
-        if (!found) {
-          contentArea.innerHTML = `<p>용어 정보를 찾을 수 없습니다.</p>`;
-          return;
-        }
-
-        if (pushState) {
-          history.pushState(
-            { view: "detail", term },
-            "",
-            `#term=${encodeURIComponent(term)}`
-          );
-        }
-        //카드 눌렀을때 상세보기섹션 주석
-        
-        contentArea.innerHTML = `
+      contentArea.innerHTML = `
         <section class="term-detail fade-in" tabindex="0">
           <h2>${found.term}</h2>
           <p id = "term-desc">${found.desc}</p>
@@ -392,332 +376,367 @@
         </section>
       `;
 
-        const backBtn = document.getElementById("backToListBtn");
-        backBtn.addEventListener("click", () => {
-          history.pushState({ view: "list" }, "", "#list");
-          showTerms();
-        });
+      const backBtn = document.getElementById("backToListBtn");
+      backBtn.addEventListener("click", () => {
+        history.pushState({ view: "list" }, "", "#list");
+        showTerms();
+      });
 
-        contentArea.querySelector(".term-detail").focus();
+      contentArea.querySelector(".term-detail").focus();
+    }
+
+    // 용어 카드 보여주기 (필터링 가능)
+    function showTerms(filter = "") {
+      contentArea.innerHTML = "";
+      let filteredTerms = terms;
+      if (filter.trim() !== "") {
+        const lowerFilter = filter.trim().toLowerCase();
+        filteredTerms = terms.filter(
+          (t) =>
+            t.term.toLowerCase().includes(lowerFilter) ||
+            t.desc.toLowerCase().includes(lowerFilter)
+        );
       }
-
-      // 용어 카드 보여주기 (필터링 가능)
-      function showTerms(filter = "") {
-        contentArea.innerHTML = "";
-        let filteredTerms = terms;
-        if (filter.trim() !== "") {
-          const lowerFilter = filter.trim().toLowerCase();
-          filteredTerms = terms.filter(
-            (t) =>
-              t.term.toLowerCase().includes(lowerFilter) ||
-              t.desc.toLowerCase().includes(lowerFilter)
-          );
-        }
-        if (filteredTerms.length === 0) {
-          contentArea.innerHTML = `<p>검색 결과가 없습니다.</p>`;
-          return;
-        }
-        filteredTerms.forEach(({ term, desc }) => {
-          const card = document.createElement("article");
-          card.className = "term-card";
-          card.tabIndex = 0;
-          card.setAttribute("role", "button");
-          card.setAttribute("aria-label", `${term} 용어 설명 보기`);
-          card.innerHTML = `<h3>${term}</h3><p>${
-            desc.length > 100 ? desc.slice(0, 100) + "..." : desc // 카드내용상세 <<검색용키워드 주석지우지말기
+      if (filteredTerms.length === 0) {
+        contentArea.innerHTML = `<p>검색 결과가 없습니다.</p>`;
+        return;
+      }
+      filteredTerms.forEach(({ term, desc }) => {
+        const card = document.createElement("article");
+        card.className = "term-card";
+        card.tabIndex = 0;
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", `${term} 용어 설명 보기`);
+        card.innerHTML = `<h3>${term}</h3><p>${desc.length > 100 ? desc.slice(0, 100) + "..." : desc // 카드내용상세 <<검색용키워드 주석지우지말기
           }</p>`;
-          // card.addEventListener("click", () => openTermInNewWindow(term));
-          // card.addEventListener("keydown", (e) => {
-          //   if (e.key === "Enter" || e.key === " ") {
-          //     e.preventDefault();
-          //     openTermInNewWindow(term);
-          //   }
+        // card.addEventListener("click", () => openTermInNewWindow(term));
+        // card.addEventListener("keydown", (e) => {
+        //   if (e.key === "Enter" || e.key === " ") {
+        //     e.preventDefault();
+        //     openTermInNewWindow(term);
+        //   }
 
-          card.addEventListener("click", () => showTermDetail(term));
-          card.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              showTermDetail(term);
-            }
-          });
-          contentArea.appendChild(card);
+        card.addEventListener("click", () => showTermDetail(term));
+        card.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            showTermDetail(term);
+          }
         });
+        contentArea.appendChild(card);
+      });
+    }
+
+    // 자동완성 리스트 보여주기
+    function updateAutocomplete() {
+      const val = searchBox.value.trim().toLowerCase();
+      if (val.length === 0) {
+        autocompleteList.innerHTML = "";
+        autocompleteList.hidden = true;
+        searchBox.setAttribute("aria-expanded", "false");
+        return;
       }
+      const matched = terms
+        .filter(
+          (t) =>
+            t.term.toLowerCase().includes(val) ||
+            t.desc.toLowerCase().includes(val)
+        )
+        .slice(0, 10);
 
-      // 자동완성 리스트 보여주기
-      function updateAutocomplete() {
-        const val = searchBox.value.trim().toLowerCase();
-        if (val.length === 0) {
-          autocompleteList.innerHTML = "";
-          autocompleteList.hidden = true;
-          searchBox.setAttribute("aria-expanded", "false");
-          return;
-        }
-        const matched = terms
-          .filter(
-            (t) =>
-              t.term.toLowerCase().includes(val) ||
-              t.desc.toLowerCase().includes(val)
-          )
-          .slice(0, 10);
-
-        if (matched.length === 0) {
-          autocompleteList.innerHTML = "";
-          autocompleteList.hidden = true;
-          searchBox.setAttribute("aria-expanded", "false");
-          return;
-        }
-        autocompleteList.innerHTML = matched
-          .map(
-            (t) =>
-              `<li role="option" tabindex="0" data-term="${t.term}">${t.term}</li>`
-          )
-          .join("");
-        autocompleteList.hidden = false;
-        searchBox.setAttribute("aria-expanded", "true");
+      if (matched.length === 0) {
+        autocompleteList.innerHTML = "";
+        autocompleteList.hidden = true;
+        searchBox.setAttribute("aria-expanded", "false");
+        return;
       }
+      autocompleteList.innerHTML = matched
+        .map(
+          (t) =>
+            `<li role="option" tabindex="0" data-term="${t.term}">${t.term}</li>`
+        )
+        .join("");
+      autocompleteList.hidden = false;
+      searchBox.setAttribute("aria-expanded", "true");
+    }
 
-      // 자동완성 항목 클릭 시 검색 실행
-      autocompleteList.addEventListener("click", (e) => {
-        if (e.target.tagName === "LI") {
-          const term = e.target.dataset.term;
+    // 자동완성 항목 클릭 시 검색 실행
+    autocompleteList.addEventListener("click", (e) => {
+      if (e.target.tagName === "LI") {
+        const term = e.target.dataset.term;
+        searchBox.value = term;
+        autocompleteList.innerHTML = "";
+        autocompleteList.hidden = true;
+        searchBox.setAttribute("aria-expanded", "false");
+        searchTerm(term);
+      }
+    });
+
+    // 자동완성 항목 키보드 내비게이션 & 선택
+    autocompleteList.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const items = [...autocompleteList.querySelectorAll("li")];
+        if (items.length === 0) return;
+        let idx = items.findIndex((item) =>
+          item.classList.contains("active")
+        );
+        if (idx === -1) idx = 0;
+        else items[idx].classList.remove("active");
+        if (e.key === "ArrowDown") {
+          idx = (idx + 1) % items.length;
+        } else {
+          idx = (idx - 1 + items.length) % items.length;
+        }
+        items.forEach((item) => item.classList.remove("active"));
+        items[idx].classList.add("active");
+        items[idx].focus();
+      } else if (e.key === "Enter") {
+        e.preventDefault();
+        const active = autocompleteList.querySelector("li.active");
+        if (active) {
+          const term = active.dataset.term;
           searchBox.value = term;
           autocompleteList.innerHTML = "";
           autocompleteList.hidden = true;
           searchBox.setAttribute("aria-expanded", "false");
           searchTerm(term);
         }
-      });
-
-      // 자동완성 항목 키보드 내비게이션 & 선택
-      autocompleteList.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-          e.preventDefault();
-          const items = [...autocompleteList.querySelectorAll("li")];
-          if (items.length === 0) return;
-          let idx = items.findIndex((item) =>
-            item.classList.contains("active")
-          );
-          if (idx === -1) idx = 0;
-          else items[idx].classList.remove("active");
-          if (e.key === "ArrowDown") {
-            idx = (idx + 1) % items.length;
-          } else {
-            idx = (idx - 1 + items.length) % items.length;
-          }
-          items.forEach((item) => item.classList.remove("active"));
-          items[idx].classList.add("active");
-          items[idx].focus();
-        } else if (e.key === "Enter") {
-          e.preventDefault();
-          const active = autocompleteList.querySelector("li.active");
-          if (active) {
-            const term = active.dataset.term;
-            searchBox.value = term;
-            autocompleteList.innerHTML = "";
-            autocompleteList.hidden = true;
-            searchBox.setAttribute("aria-expanded", "false");
-            searchTerm(term);
-          }
-        }
-      });
-
-      // 검색 실행 함수
-      function searchTerm(term) {
-        // 메뉴 닫기
-        closeMenu();
-
-        // 필터링된 용어 보여주기
-        showTerms(term);
       }
+    });
 
-      // 검색창 입력 이벤트
-      searchBox.addEventListener("input", updateAutocomplete);
+    // 검색 실행 함수
+    function searchTerm(term) {
+      // 메뉴 닫기
+      closeMenu();
 
-      // 폼 제출 (검색) 처리
-      searchForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const val = searchBox.value.trim();
-        if (val !== "") {
-          autocompleteList.innerHTML = "";
-          autocompleteList.hidden = true;
-          searchBox.setAttribute("aria-expanded", "false");
-          searchTerm(val);
-        }
-      });
+      // 필터링된 용어 보여주기
+      showTerms(term);
+    }
 
-      // 메뉴 버튼들 클릭 이벤트
-      showTermsBtn.addEventListener("click", () => {
-        closeMenu();
-        searchBox.value = "";
+    // 검색창 입력 이벤트
+    searchBox.addEventListener("input", updateAutocomplete);
+
+    // 폼 제출 (검색) 처리
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const val = searchBox.value.trim();
+      if (val !== "") {
         autocompleteList.innerHTML = "";
         autocompleteList.hidden = true;
         searchBox.setAttribute("aria-expanded", "false");
-        showTerms();
+        searchTerm(val);
+      }
+    });
+
+    // 메뉴 버튼들 클릭 이벤트
+    showTermsBtn.addEventListener("click", () => {
+      closeMenu();
+      searchBox.value = "";
+      autocompleteList.innerHTML = "";
+      autocompleteList.hidden = true;
+      searchBox.setAttribute("aria-expanded", "false");
+      showTerms();
+    });
+
+    homeBtn.addEventListener("click", () => {
+      closeMenu();
+      window.location.href = "home.html";
+    });
+
+    showQuizBtn.addEventListener("click", () => {
+      closeMenu();
+      generateQuizData();
+      showStartButton();
+    });
+
+    toggleDarkBtn.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark-mode");
+      toggleDarkBtn.setAttribute("aria-pressed", isDark);
+    });
+
+    // 퀴즈 관련 코드
+    let currentQuizIndex = 0;
+    let score = 0;
+
+    function showStartButton() { // 퀴즈시작 버튼
+      contentArea.innerHTML = "";
+
+
+      const startSection = document.createElement("section");
+      startSection.id = "quizBox";
+
+      startSection.style.display = "flex";
+      startSection.style.flexDirection = "column";
+      startSection.style.alignItems = "center";
+      startSection.style.justifyContent = "center";
+      startSection.style.height = "300px"; // 원하는 높이로 조절
+      startSection.style.marginTop = "50px"; // 상단 여백
+      const startQuizBtn = document.createElement("button");
+      startQuizBtn.textContent = "퀴즈 시작";
+
+      // ▶ 버튼 자체 스타일
+      startQuizBtn.style.fontSize = "1.2rem";
+      startQuizBtn.style.padding = "12px 24px";
+      startQuizBtn.style.borderRadius = "8px";
+      startQuizBtn.style.border = "none";
+      startQuizBtn.style.backgroundColor = "#e8becc";
+      startQuizBtn.style.color = "white";
+      startQuizBtn.style.cursor = "pointer";
+      startQuizBtn.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+      startQuizBtn.style.transition = "0.3s";
+
+      startQuizBtn.addEventListener("click", () => {
+        showQuiz();
+        renderQuizQuestion();
       });
 
-      homeBtn.addEventListener("click", () => {
-        closeMenu();
-        window.location.href = "home.html";
+      startSection.appendChild(startQuizBtn);
+      contentArea.appendChild(startSection);
+    }
+
+    function showQuiz() {
+      if (quizData.length === 0) {
+        contentArea.innerHTML = "<p>퀴즈 데이터가 없습니다.</p>";
+        return;
+      }
+      score = 0;
+      currentQuizIndex = 0;
+      renderQuizQuestion();
+    }
+
+
+    function renderQuizQuestion() {
+      contentArea.innerHTML = "";
+      const quizBox = document.createElement("section");
+      quizBox.id = "quizBox";
+      quizBox.setAttribute("aria-live", "polite");
+      const current = quizData[currentQuizIndex];
+
+      // 문제 표시
+      const questionP = document.createElement("p");
+      questionP.id = "question";
+      questionP.textContent = `${currentQuizIndex + 1}. 다음 중 "${current.question
+        }"의 설명으로 가장 적절한 것은?`;
+      quizBox.appendChild(questionP);
+
+      // 선택지 버튼들
+      const optionsDiv = document.createElement("div");
+      optionsDiv.id = "options";
+      current.options.forEach((optionText, idx) => {
+        const btn = document.createElement("button");
+        btn.textContent = optionText;
+        btn.type = "button";
+        btn.setAttribute("data-index", idx);
+        btn.addEventListener("click", () => {
+          handleAnswer(idx);
+        });
+        optionsDiv.appendChild(btn);
+      });
+      quizBox.appendChild(optionsDiv);
+
+      // 결과 표시
+      const resultDiv = document.createElement("div");
+      resultDiv.id = "result";
+      quizBox.appendChild(resultDiv);
+
+      // 다음 버튼
+      const nextBtn = document.createElement("button");
+      nextBtn.id = "nextBtn";
+      nextBtn.textContent = "다음 문제";
+      nextBtn.disabled = true;
+      nextBtn.addEventListener("click", () => {
+        currentQuizIndex++;
+        if (currentQuizIndex < quizData.length) {
+          renderQuizQuestion();
+        } else {
+          showQuizResult();
+        }
+      });
+      quizBox.appendChild(nextBtn);
+
+      contentArea.appendChild(quizBox);
+    }
+
+    function handleAnswer(selectedIndex) {
+      const quizBox = document.getElementById("quizBox");
+      const resultDiv = quizBox.querySelector("#result");
+      const nextBtn = quizBox.querySelector("#nextBtn");
+      const current = quizData[currentQuizIndex];
+
+      // 정답 확인 및 표시
+      if (selectedIndex === current.answer) {
+        resultDiv.textContent = "정답입니다! 🎉";
+        resultDiv.style.color = "green";
+        score++;
+      } else {
+        resultDiv.textContent = `오답입니다. 정답: "${current.options[current.answer]
+          }"`;
+        resultDiv.style.color = "red";
+      }
+
+      // 버튼 비활성화 및 다음 버튼 활성화
+      const optionButtons = quizBox.querySelectorAll("#options button");
+      optionButtons.forEach((btn) => {
+        btn.disabled = true;
+        if (Number(btn.dataset.index) === current.answer) {
+          btn.style.borderColor = "green";
+          btn.style.backgroundColor = "#d4f8d4";
+          btn.style.color = "green";
+        }
+        if (
+          Number(btn.dataset.index) === selectedIndex &&
+          selectedIndex !== current.answer
+        ) {
+          btn.style.borderColor = "red";
+          btn.style.backgroundColor = "#f8d4d4";
+          btn.style.color = "red";
+        }
       });
 
-      showQuizBtn.addEventListener("click", () => {
-        closeMenu();
+      nextBtn.disabled = false;
+    }
+
+    function showQuizResult() {
+      contentArea.innerHTML = "";
+      const resultBox = document.createElement("section");
+      resultBox.id = "quizBox";
+
+      const scoreP = document.createElement("p");
+      scoreP.textContent = `퀴즈 종료! 총 ${quizData.length}문제 중 ${score}문제 맞추셨습니다.`;
+      scoreP.style.fontWeight = "700";
+      scoreP.style.fontSize = "1.3rem";
+      scoreP.style.marginBottom = "20px";
+      resultBox.appendChild(scoreP);
+
+      const retryBtn = document.createElement("button");
+      retryBtn.id = "retryBtn";
+      retryBtn.textContent = "다시 풀기";
+      retryBtn.addEventListener("click", () => {
         generateQuizData();
         showQuiz();
       });
+      resultBox.appendChild(retryBtn);
 
-      toggleDarkBtn.addEventListener("click", () => {
-        const isDark = document.body.classList.toggle("dark-mode");
-        toggleDarkBtn.setAttribute("aria-pressed", isDark);
-      });
+      contentArea.appendChild(resultBox);
+    }
 
-      // 퀴즈 관련 코드
-      let currentQuizIndex = 0;
-      let score = 0;
-
-      function showQuiz() {
-        if (quizData.length === 0) {
-          contentArea.innerHTML = "<p>퀴즈 데이터가 없습니다.</p>";
-          return;
-        }
-        score = 0;
-        currentQuizIndex = 0;
-        renderQuizQuestion();
-      }
-
-      function renderQuizQuestion() {
-        contentArea.innerHTML = "";
-        const quizBox = document.createElement("section");
-        quizBox.id = "quizBox";
-        quizBox.setAttribute("aria-live", "polite");
-        const current = quizData[currentQuizIndex];
-
-        // 문제 표시
-        const questionP = document.createElement("p");
-        questionP.id = "question";
-        questionP.textContent = `${currentQuizIndex + 1}. 다음 중 "${
-          current.question
-        }"의 설명으로 가장 적절한 것은?`;
-        quizBox.appendChild(questionP);
-
-        // 선택지 버튼들
-        const optionsDiv = document.createElement("div");
-        optionsDiv.id = "options";
-        current.options.forEach((optionText, idx) => {
-          const btn = document.createElement("button");
-          btn.textContent = optionText;
-          btn.type = "button";
-          btn.setAttribute("data-index", idx);
-          btn.addEventListener("click", () => {
-            handleAnswer(idx);
-          });
-          optionsDiv.appendChild(btn);
-        });
-        quizBox.appendChild(optionsDiv);
-
-        // 결과 표시
-        const resultDiv = document.createElement("div");
-        resultDiv.id = "result";
-        quizBox.appendChild(resultDiv);
-
-        // 다음 버튼
-        const nextBtn = document.createElement("button");
-        nextBtn.id = "nextBtn";
-        nextBtn.textContent = "다음 문제";
-        nextBtn.disabled = true;
-        nextBtn.addEventListener("click", () => {
-          currentQuizIndex++;
-          if (currentQuizIndex < quizData.length) {
-            renderQuizQuestion();
-          } else {
-            showQuizResult();
-          }
-        });
-        quizBox.appendChild(nextBtn);
-
-        contentArea.appendChild(quizBox);
-      }
-
-      function handleAnswer(selectedIndex) {
-        const quizBox = document.getElementById("quizBox");
-        const resultDiv = quizBox.querySelector("#result");
-        const nextBtn = quizBox.querySelector("#nextBtn");
-        const current = quizData[currentQuizIndex];
-
-        // 정답 확인 및 표시
-        if (selectedIndex === current.answer) {
-          resultDiv.textContent = "정답입니다! 🎉";
-          resultDiv.style.color = "green";
-          score++;
-        } else {
-          resultDiv.textContent = `오답입니다. 정답: "${
-            current.options[current.answer]
-          }"`;
-          resultDiv.style.color = "red";
-        }
-
-        // 버튼 비활성화 및 다음 버튼 활성화
-        const optionButtons = quizBox.querySelectorAll("#options button");
-        optionButtons.forEach((btn) => {
-          btn.disabled = true;
-          if (Number(btn.dataset.index) === current.answer) {
-            btn.style.borderColor = "green";
-            btn.style.backgroundColor = "#d4f8d4";
-            btn.style.color = "green";
-          }
-          if (
-            Number(btn.dataset.index) === selectedIndex &&
-            selectedIndex !== current.answer
-          ) {
-            btn.style.borderColor = "red";
-            btn.style.backgroundColor = "#f8d4d4";
-            btn.style.color = "red";
-          }
-        });
-
-        nextBtn.disabled = false;
-      }
-
-      function showQuizResult() {
-        contentArea.innerHTML = "";
-        const resultBox = document.createElement("section");
-        resultBox.id = "quizBox";
-
-        const scoreP = document.createElement("p");
-        scoreP.textContent = `퀴즈 종료! 총 ${quizData.length}문제 중 ${score}문제 맞추셨습니다.`;
-        scoreP.style.fontWeight = "700";
-        scoreP.style.fontSize = "1.3rem";
-        scoreP.style.marginBottom = "20px";
-        resultBox.appendChild(scoreP);
-
-        const retryBtn = document.createElement("button");
-        retryBtn.id = "retryBtn";
-        retryBtn.textContent = "다시 풀기";
-        retryBtn.addEventListener("click", () => {
-          generateQuizData();
-          showQuiz();
-        });
-        resultBox.appendChild(retryBtn);
-
-        contentArea.appendChild(resultBox);
-      }
-
-      // 초기 실행
-      const hash = window.location.hash;
-      if (hash.startsWith("#term=")) {
-        const term = decodeURIComponent(hash.split("=")[1]);
-        showTermDetail(term, false);
+    // 초기 실행
+    const hash = window.location.hash;
+    if (hash.startsWith("#term=")) {
+      const term = decodeURIComponent(hash.split("=")[1]);
+      showTermDetail(term, false);
+    } else {
+      showTerms();
+    }
+    window.addEventListener("popstate", (e) => {
+      if (e.state && e.state.view === "detail") {
+        showTermDetail(e.state.term, false);
       } else {
         showTerms();
       }
-      window.addEventListener("popstate", (e) => {
-        if (e.state && e.state.view === "detail") {
-          showTermDetail(e.state.term, false);
-        } else {
-          showTerms();
-        }
-      });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>
