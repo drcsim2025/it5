@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HTML 용어 사전 & 퀴즈</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <button
+      id="menuBtn"
+      aria-haspopup="true"
+      aria-expanded="false"
+      aria-controls="menuBox"
+      title="메뉴 열기/닫기"
+    >
+      ☰ 메뉴
+    </button>
+    <nav id="menuBox" role="menu" aria-hidden="true" tabindex="-1">
+      <button id="showTermsBtn" role="menuitem">용어 사전 보기</button>
+      <button id="showQuizBtn" role="menuitem">퀴즈 풀기</button>
+      <button id="toggleDarkBtn" role="menuitem" aria-pressed="false">다크모드 토글</button>
+      <button id="homeBtn" role="menuitem">홈으로 이동</button>
+    </nav>
+    <div id="main">
+        <form
+          id="searchForm"
+          autocomplete="off"
+          role="search"
+          aria-label="용어 검색"
+        >
+          <div id="searchContainer">
+            <img src="./images/jquerylogo.png" alt="로고" class="logo light" />
+        <img src="./images/jquerylogo_white.png" alt="로고" class="logo dark" />
+            <input
+              type="text"
+              id="searchBox"
+              aria-autocomplete="list"
+              aria-controls="autocompleteList"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              placeholder="검색어 입력 (예: span,form,table)"
+            />
+            <button id="searchBtn" aria-label="검색">🔍</button>
+            <ul id="autocompleteList" role="listbox" hidden></ul>
+          </div>
+        </div>
+    </form>
+
+    <main id="contentArea" tabindex="0" aria-live="polite">
+      <!-- 용어 카드 또는 퀴즈 내용 출력 영역 -->
+    </main>
+
+    <script>
+      // 용어 데이터추가 + 용어에 ex추가 예시는 ex에다가 넣으세요
+      const terms = [
+        {
+          term: "$() ",
+          desc: "선택자 또는 HTML 문자열로 jQuery 객체 생성",
+          ex: " jQuery의 핵심 함수로, DOM 요소를 선택하거나 동적으로 HTML 요소를 생성할 수 있다. 또한 문서가 준비된 후 실행할 콜백 함수도 받을 수 있다.",
+          ex2: "<code>&#36;(&quot;#myDiv&quot;)</code> // ID가 myDiv인 요소 선택<br><code>&#36;(&quot;&lt;p&gt;안녕&lt;/p&gt;&quot;)</code> // 새로운 &lt;p&gt; 요소 생성"
+        },
+        {
+          term: ".find()",
+          desc: "하위 요소 중 선택자에 해당하는 요소 찾기",
+          ex: "현재 선택된 요소의 하위 요소 중 특정 선택자에 해당하는 요소들을 모두 찾는다.",
+          ex2: `$("#menu").find("li") // #menu 안의 모든 li 요소 찾기`
+        },
+        {
+          term: ".children()",
+          desc: "직계 자식 요소 선택",
+          ex: "선택된 요소의 바로 아래 자식 요소만 선택. 모든 하위 요소가 아니라 직계 자식만 반환.",
+          ex2: `$("#list").children("li") // #list의 직계 li 자식들`
+        },
+        {
+          term: ".parent()",
+          desc: "직계 부모 요소 선택",
+          ex: "선택된 요소 각각의 부모 요소를 반환 (바로 위 한 단계).",
+          ex2: `$(".item").parent() // 각 .item의 부모 요소 반환`
+        },
+        {
+          term: ".parents()",
+          desc: "모든 상위 요소 선택",
+          ex: "선택된 요소의 조상 요소들을 모두 선택한다. 선택자를 사용할 경우 해당 조상 요소 중 필터링 가능.",
+          ex2: `$(".item").parents(".container") // .container 클래스를 가진 조상 요소 반환`
+        },
+        {
+          term: ".closest()",
+          desc: "가장 가까운 상위 요소 중 선택자에 해당하는 요소 선택",
+          ex: "자신을 포함해 가장 가까운 조상 중 특정 선택자에 맞는 첫 번째 요소를 반환.",
+          ex2: `$(".item").closest(".box") // 자신 또는 조상 중 .box인 요소`
+        },
+        {
+          term: ".siblings()",
+          desc: "형제 요소 선택",
+          ex: "선택된 요소를 제외한 같은 부모를 가진 형제 요소를 모두 반환한다.",
+          ex2: `$(".item").siblings() // .item을 제외한 형제 요소들`
+        },
+        {
+          term: ".next()",
+          desc: "다음 형제 요소 선택",
+          ex: "선택된 요소 바로 다음에 위치한 형제 요소 하나를 반환.",
+          ex2: `$(".item").next() // .item 다음 형제 요소`
+        },
+        {
+          term: ".prev()",
+          desc: "이전 형제 요소 선택",
+          ex: "선택된 요소 바로 앞에 위치한 형제 요소 하나를 반환.",
+          ex2: `$(".item").prev() // .item 이전 형제 요소`
+        },
+        {
+          term: ".eq()",
+          desc: "특정 인덱스의 요소 선택",
+          ex: "선택된 요소들 중에서 인덱스에 해당하는 요소만 선택.",
+          ex2: `$("li").eq(2) // 세 번째 li 요소 선택 (0부터 시작)`
+        },
+        {
+          term: ".first()",
+          desc: "첫 번째 요소 선택",
+          ex: "선택된 요소들 중 첫 번째 요소만 반환.",
+          ex2: `$("div").first() // div 중 첫 번째 요소`
+        },
+        {
+          term: ".last()",
+          desc: "마지막 요소 선택",
+          ex: "선택된 요소들 중 마지막 요소를 반환.",
+          ex2: `$("div").last() // div 중 마지막 요소`
+        },
+        {
+          term: ".filter()",
+          desc: "조건에 맞는 요소 필터링",
+          ex: "현재 선택된 요소들 중에서 조건(선택자 또는 함수)에 맞는 요소들만 반환.",
+          ex2: `$("li").filter(".active") // active 클래스를 가진 li만 반환`
+        },
+        {
+          term: ".not()",
+          desc: "조건에 맞지 않는 요소만 선택",
+          ex: "조건에 맞는 요소를 제외한 나머지를 반환한다.",
+          ex2: `$("li").not(".active") // active 클래스가 아닌 li만 선택`
+        },
+        {
+          term: ".has()",
+          desc: "특정 자식 요소를 포함하는 요소 선택",
+          ex: "지정한 선택자를 자식으로 가진 요소만 반환한다.",
+          ex2: `$("div").has("p") // p 요소를 포함하는 div만 반환`
+        },
+        {
+          term: ".is()",
+          desc: "조건을 만족하는지 여부 반환",
+          ex: "선택된 요소 중 하나라도 조건(선택자 또는 함수)을 만족하면 true 반환.",
+          ex2: `$("input").is(":checked") // 체크된 input 요소 여부 확인`
+        },
+        {
+          term: ".add()",
+          desc: "선택된 요소 집합에 요소 추가",
+          ex: "현재 선택된 요소 집합에 다른 요소를 추가하여 새 jQuery 객체로 반환.",
+          ex2: `$("p").add(".highlight") // p 요소 + .highlight 요소 선택`
+        },
+        {
+          term: ".end()",
+          desc: "이전 jQuery 객체로 돌아가기",
+          ex: "체이닝 중 .find()나 .filter() 등을 통해 축소된 집합에서 다시 원래의 jQuery 객체로 되돌아감.",
+          ex2: `$("div").find("p").end() // find 하기 전의 div 객체로 복귀`
+        },
+              {
+          term: ".html()",
+          desc: "HTML 콘텐츠 가져오기 또는 설정",
+          ex: "선택된 요소의 HTML 콘텐츠를 반환하거나 새로운 HTML로 설정한다.",
+          ex2: `$("#content").html() // 현재 HTML 반환\n$("#content").html("&lt;p&gt;새 내용&lt;p&gt;") // 새 HTML 설정`
+        },
+        {
+          term: ".text()",
+          desc: "텍스트 콘텐츠 가져오기 또는 설정",
+          ex: "선택된 요소의 텍스트 콘텐츠를 가져오거나 설정한다. HTML 태그는 무시됨.",
+          ex2: `$("#title").text() // 텍스트 반환\n$("#title").text("새 제목") // 텍스트 변경`
+        },
+        {
+          term: ".val()",
+          desc: "폼 요소의 값 가져오기 또는 설정",
+          ex: "input, select 등의 폼 요소의 값을 가져오거나 설정한다.",
+          ex2: `$("#input1").val() // 값 가져오기\n$("#input1").val("Hello") // 값 설정`
+        },
+        {
+          term: ".attr()",
+          desc: "속성 값 가져오기 또는 설정",
+          ex: "선택된 요소의 속성을 가져오거나 새로운 값으로 설정한다.",
+          ex2: `$("img").attr("src") // src 속성 가져오기\n$("img").attr("alt", "설명") // alt 속성 설정`
+        },
+        {
+          term: ".prop()",
+          desc: "속성(property) 값 가져오기 또는 설정",
+          ex: "DOM 속성(property)을 가져오거나 설정한다. 예: checked, disabled 등.",
+          ex2: `$("#check").prop("checked") // 체크 여부 반환\n$("#check").prop("checked", true) // 체크 상태 설정`
+        },
+        {
+          term: ".css()",
+          desc: "CSS 스타일 가져오기 또는 설정",
+          ex: "요소의 인라인 스타일을 가져오거나 설정한다.",
+          ex2: `$("div").css("color") // 색상 가져오기\n$("div").css("color", "red") // 색상 설정`
+        },
+        {
+          term: ".addClass()",
+          desc: "클래스 추가",
+          ex: "선택된 요소에 클래스를 추가한다.",
+          ex2: `$("p").addClass("highlight")`
+        },
+        {
+          term: ".removeClass()",
+          desc: "클래스 제거",
+          ex: "선택된 요소에서 특정 클래스를 제거한다.",
+          ex2: `$("p").removeClass("highlight")`
+        },
+        {
+          term: ".toggleClass()",
+          desc: "클래스 토글",
+          ex: "클래스가 있으면 제거하고, 없으면 추가한다.",
+          ex2: `$("p").toggleClass("highlight")`
+        },
+        {
+          term: ".append()",
+          desc: "자식 요소의 마지막에 콘텐츠 추가",
+          ex: "선택된 요소의 마지막 자식으로 콘텐츠를 추가한다.",
+          ex2: `$("#list").append("&lt;li&gt;"새 항목&lt;/li&gt;")`
+        },
+        {
+          term: ".prepend()",
+          desc: "자식 요소의 처음에 콘텐츠 추가",
+          ex: "선택된 요소의 첫 번째 자식으로 콘텐츠를 추가한다.",
+          ex2: `$("#list").prepend("&lt;li&gt;첫 항목&lt;/li&gt;")`
+        },
+        {
+          term: ".after()",
+          desc: "선택한 요소 다음에 콘텐츠 추가",
+          ex: "선택된 요소 바로 다음에 콘텐츠를 삽입한다.",
+          ex2: `$("#target").after("&lt;div&gt;추가됨&lt;/div&gt;")`
+        },
+        {
+          term: ".before()",
+          desc: "선택한 요소 이전에 콘텐츠 추가",
+          ex: "선택된 요소 바로 앞에 콘텐츠를 삽입한다.",
+          ex2: `$("#target").before("&lt;div&gt;앞에 추가됨&lt;/div&gt;")`
+        },
+        {
+          term: ".remove()",
+          desc: "요소 제거",
+          ex: "선택된 요소를 DOM에서 제거한다.",
+          ex2: `$(".item").remove()`
+        },
+        {
+          term: ".empty()",
+          desc: "자식 요소 모두 제거",
+          ex: "선택된 요소의 자식 노드를 모두 제거한다.",
+          ex2: `$("#container").empty()`
+        },
+        {
+          term: ".clone()",
+          desc: "요소 복제",
+          ex: "선택된 요소를 복제하여 반환한다. 이벤트 핸들러까지 복사하려면 인자를 true로 지정.",
+          ex2: `var 복제 = $("#target").clone(true)`
+        },
+        {
+          term: ".replaceWith()",
+          desc: "요소 교체",
+          ex: "선택된 요소를 다른 콘텐츠로 교체한다.",
+          ex2: `$("#old").replaceWith("&lt;div&gt;새 요소&lt;/div&gt;")`
+        },
+        {
+          "term": ".on()",
+          "desc": "이벤트 핸들러 등록",
+          "ex": "하나 이상의 이벤트에 핸들러 함수를 연결한다.",
+          "ex2": "$('#btn').on('click', function() { alert('클릭됨'); });\n$('#list').on('click', 'li', function() { $(this).toggleClass('selected'); });\n$('#btn').on('mouseenter mouseleave', function() { $(this).toggleClass('hover'); });"
+        },
+        {
+          "term": ".off()",
+          "desc": "이벤트 핸들러 제거",
+          "ex": "등록된 이벤트 핸들러를 제거한다.",
+          "ex2": "$('button').off('click')"
+        },
+        {
+          "term": ".ready()",
+          "desc": "DOM 준비 시 실행",
+          "ex": "DOM 트리가 준비된 후 지정된 함수를 실행한다.",
+          "ex2": "$(document).ready(function() { console.log('DOM 준비 완료'); })"
+        },
+        {
+          "term": ".trigger()",
+          "desc": "이벤트 강제 발생",
+          "ex": "선택된 요소에서 특정 이벤트를 강제로 발생시킨다.",
+          "ex2": "$('button').trigger('click')"
+        },
+        {
+          "term": ".hover()",
+          "desc": "마우스 오버/아웃 이벤트 처리",
+          "ex": "마우스를 올렸을 때와 뗐을 때의 함수를 각각 설정한다.",
+          "ex2": "$('div').hover(function() { $(this).addClass('hovered') }, function() { $(this).removeClass('hovered') })"
+        },
+        {
+          "term": ".one()",
+          "desc": "한 번만 실행되는 이벤트 핸들러 등록",
+          "ex": "이벤트가 단 한 번만 발생하도록 핸들러를 등록. 이후 자동 해제됨.",
+          "ex2": "$('#btn').one('click', function() { alert('이건 한 번만 실행돼요!'); });"
+        },
+        {
+          "term": ".focus()",
+          "desc": "입력 요소에 포커스 이벤트",
+          "ex": "포커스를 얻을 때 발생. 인자로 함수를 주면 이벤트 등록, 인자 없이 호출하면 해당 요소에 포커스를 강제 설정.",
+          "ex2": "$('#input').focus(function() { $(this).css('background', '#f0f0f0'); });"
+        },
+        {
+          "term": ".blur()",
+          "desc": "입력 요소에 포커스 아웃 이벤트",
+          "ex": "포커스를 잃을 때 발생. 인자로 함수를 주면 이벤트 등록, 인자 없이 호출하면 해당 요소에 포커스 강제 제거.",
+          "ex2": "$('#input').blur(function() { $(this).css('background', 'white'); });"
+        },
+        {
+          "term": ".change()",
+          "desc": "입력값 변경 이벤트",
+          "ex": "&lt;input&gt;, &lt;select&gt;, &lt;textarea&gt; 값이 변경되었을 때 발생.",
+          "ex2": "$('#select').change(function() { alert('선택값이 바뀌었어요: ' + $(this).val()); });"
+        },
+        {
+          "term": ".keyup() / .keydown() / .keypress()",
+          "desc": "키보드 입력 감지",
+          "ex": "keyup은 키를 뗐을 때, keydown은 눌렀을 때, keypress는 입력 가능한 키만 감지 (현재는 비추천됨).",
+          "ex2": "$('#input').keyup(function(e) { console.log('입력 중 키 코드:', e.keyCode); });"
+        },
+        {
+          "term": ".resize()",
+          "desc": "창 크기 변경 감지",
+          "ex": "윈도우 리사이즈 감지 (모바일 반응형 대응 시 유용).",
+          "ex2": "$(window).resize(function() { console.log('창 크기 변경됨'); });"
+        },
+        {
+          "term": ".scroll()",
+          "desc": "스크롤 이벤트 감지",
+          "ex": "요소나 창에서 스크롤될 때 발생. 무한 스크롤, 고정 메뉴 등에 사용.",
+          "ex2": "$(window).scroll(function() { if ($(window).scrollTop() > 100) { $('#topBtn').fadeIn(); } });"
+        },
+        {
+          "term": ".triggerHandler()",
+          "desc": "이벤트 실행 (기본 동작/버블링 없음)",
+          "ex": ".trigger()와 유사하지만 브라우저의 기본 동작이나 이벤트 버블링을 발생시키지 않음.",
+          "ex2": "$('#input').on('focus', function() { console.log('포커스됨'); });\n$('#input').triggerHandler('focus');"
+        },
+        {
+          "term": ".hide()",
+          "desc": "요소 숨기기",
+          "ex": "선택된 요소를 숨긴다. (display: none 설정)",
+          "ex2": "$('p').hide()"
+        },
+        {
+          "term": ".show()",
+          "desc": "요소 보이기",
+          "ex": "숨겨진 요소를 다시 표시한다.",
+          "ex2": "$('p').show()"
+        },
+        {
+          "term": ".toggle()",
+          "desc": "표시 상태 전환",
+          "ex": "요소가 보이면 숨기고, 숨겨져 있으면 보이게 전환한다.",
+          "ex2": "$('p').toggle()"
+        },
+        {
+          "term": ".fadeIn()",
+          "desc": "페이드 인 효과",
+          "ex": "요소를 점점 불투명하게 하여 보이게 한다.",
+          "ex2": "$('div').fadeIn()"
+        },
+        {
+          "term": ".fadeOut()",
+          "desc": "페이드 아웃 효과",
+          "ex": "요소를 점점 투명하게 하여 숨긴다.",
+          "ex2": "$('div').fadeOut()"
+        },
+        {
+          "term": ".slideDown()",
+          "desc": "슬라이드 다운 효과",
+          "ex": "요소를 아래로 펼치듯이 보이게 한다.",
+          "ex2": "$('#panel').slideDown()"
+        },
+        {
+          "term": ".fadeToggle()",
+          "desc": "보이기/숨기기 페이드 전환",
+          "ex": "fadeIn()과 fadeOut()을 자동 전환.",
+          "ex2": "$('div').fadeToggle()"
+        },
+        {
+          "term": ".slideUp()",
+          "desc": "슬라이드 업 (접기)",
+          "ex": "요소를 위로 접듯이 숨김.",
+          "ex2": "$('#panel').slideUp()"
+        },
+        {
+          "term": ".slideToggle()",
+          "desc": "슬라이드 업/다운 전환",
+          "ex": "slideDown()과 slideUp()을 상태에 따라 전환.",
+          "ex2": "$('#panel').slideToggle()"
+        },
+        {
+          "term": ".animate()",
+          "desc": "사용자 정의 애니메이션 실행",
+          "ex": "CSS 속성을 직접 조작하는 커스텀 애니메이션. left, opacity, height, width 등 사용 가능.",
+          "ex2": "$('#box').animate({ left: '250px', opacity: 0.5 }, 1000);"
+        },
+        {
+          "term": ".stop()",
+          "desc": "진행 중인 애니메이션 중단",
+          "ex": "animate(), fadeIn() 등과 함께 사용하여 중첩된 애니메이션 중단.",
+          "ex2": "$('#box').stop();"
+        },
+        {
+          "term": "load()",
+          "desc": "외부 콘텐츠를 불러오는 메서드",
+          "ex": "데이터를 전송하고 외부 콘텐츠를 요청하여 가져올때 사용합니다.",
+          "ex2": "$('#content').load('data.html');"
+        },
+        {
+          "term": ".ajax()",
+          "desc": "비동기 HTTP 요청 메서드",
+          "ex": ".get(), .post()보다 더 유연하게 HTTP 요청을 설정할 수 있으며, 요청 방식(method), 데이터 타입(dataType), 요청 데이터(data) 등을 세부적으로 지정할 수 있음.",
+          "ex2": "$.ajax({ url: 'data.json', method: 'GET', success: function(data) { console.log(data); } });"
+        },
+        {
+          "term": ".post()",
+          "desc": "POST 방식으로 데이터 전송",
+          "ex": "데이터를 서버에 HTTP POST 방식으로 전송한 후 서버의 응답을 받을 때 사용. HTTP 본문(body)에 데이터를 담아 전송되어어 노출되지 않음. 로그인, 회원가입, 글쓰기 등 보안이 중요한 상황에 사용",
+          "ex2": "$.post('submit.php', { name: 'Alice' }, function(response) { console.log(response); });"
+        },
+        {
+          "term": ".get()",
+          "desc": "GET 방식으로 데이터 요청",
+          "ex": "데이터를 서버에 HTTP GET 방식으로 전송한 후 서버의 응답을 받을 때 사용. URL에 데이터를 붙여 전송되어 노출됨. 즐겨찾기/링크 공유 가능, 검색, 필터 등에 사용, 보안에 민감하지 않은 데이터에 적합",
+          "ex2": "$.get('data.php', { id: 1 }, function(data) { console.log(data); });"
+        },
+        {
+          "term": ".getJSON()",
+          "desc": "JSON 형식 데이터 요청",
+          "ex": "데이터를 서버에 HTTP GET 방식으로 전송한 후 서버의 응답을 JSON 형식으로 받을 때 사용.",
+          "ex2": "$.getJSON('data.json', function(json) { console.log(json); });"
+        },
+        {
+          "term": ".param()",
+          "desc": "객체를 쿼리 문자열로 변환",
+          "ex": "{name1 : value1, name2 : value2}와 같이 작성된 객체를 가공해 'name1 = value1 & name2 = value2, ...'와 같은 쿼리 스트링 형식의 데이터로 변환해 반환.",
+          "ex2": "$.param(Object);"
+        }
+      ];
+      // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
+      // 각 문제는 정답인 인덱스를 맞게 섞어서 설정
+      let quizData = [];
+
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      }
+
+      // 퀴즈 생성: terms중 랜덤 5문제를 뽑아 보기 4개씩 섞어서 만듦
+      function generateQuizData() {
+        quizData = [];
+        const shuffledTerms = [...terms];
+        shuffleArray(shuffledTerms);
+        const pickCount = Math.min(5, shuffledTerms.length);
+        for (let i = 0; i < pickCount; i++) {
+          const question = shuffledTerms[i].term;
+          const answer = shuffledTerms[i].desc;
+
+          // 보기 3개 랜덤으로 추출 (정답 제외)
+          let options = [answer];
+          const others = terms.filter((t) => t.term !== question);
+          shuffleArray(others);
+          for (let j = 0; j < 3; j++) {
+            options.push(others[j].desc);
+          }
+          shuffleArray(options);
+
+          const answerIndex = options.indexOf(answer);
+
+          quizData.push({
+            question,
+            options,
+            answer: answerIndex,
+          });
+        }
+      }
+
+      // UI 요소 참조
+      const menuBtn = document.getElementById("menuBtn");
+      const menuBox = document.getElementById("menuBox");
+      const showTermsBtn = document.getElementById("showTermsBtn");
+      const showQuizBtn = document.getElementById("showQuizBtn");
+      const toggleDarkBtn = document.getElementById("toggleDarkBtn");
+      const contentArea = document.getElementById("contentArea");
+      const searchBox = document.getElementById("searchBox");
+      const searchBtn = document.getElementById("searchBtn");
+      const autocompleteList = document.getElementById("autocompleteList");
+      const searchForm = document.getElementById("searchForm");
+
+      // 메뉴 열기/닫기
+      function toggleMenu() {
+        const isOpen = menuBox.classList.toggle("open");
+        menuBtn.setAttribute("aria-expanded", isOpen);
+        menuBox.setAttribute("aria-hidden", !isOpen);
+        if (isOpen) {
+          menuBox.focus();
+        }
+      }
+      menuBtn.addEventListener("click", toggleMenu);
+
+      // 메뉴 항목 클릭 시 메뉴 닫기
+      function closeMenu() {
+        menuBox.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", false);
+        menuBox.setAttribute("aria-hidden", true);
+        menuBtn.focus();
+      }
+
+      // // 용어 카드 새 창 열기 <코드삭제예정> 현재페이지에서 실행되도록 변경할것 주석처리함!
+      // function openTermInNewWindow(term) {
+      //   const url = `term.html?term=${encodeURIComponent(term)}`;
+      //   window.open(
+      //     url,
+      //     "_blank",
+      //     "width=480,height=400,scrollbars=yes,resizable=yes"
+      //   );
+      // }
+
+      function showTermDetail(term, pushState = true) {
+        const found = terms.find((t) => t.term === term);
+        if (!found) {
+          contentArea.innerHTML = `<p>용어 정보를 찾을 수 없습니다.</p>`;
+          return;
+        }
+
+        if (pushState) {
+          history.pushState(
+            { view: "detail", term },
+            "",
+            `#term=${encodeURIComponent(term)}`
+          );
+        }
+        //카드 눌렀을때 상세보기섹션 주석
+        contentArea.innerHTML = `
+        <section class="term-detail fade-in" tabindex="0">
+          <h2>${found.term}</h2>
+          <p id = "term-desc">${found.desc}</p>
+          <form id="fo1">
+            <p>${found.ex}</p>
+            </form><br>
+          <form id="fo2">
+            <p>${found.ex2}</p>
+            </form>
+          <button id="backToListBtn">목록으로</button>
+        </section>
+      `;
+
+        const backBtn = document.getElementById("backToListBtn");
+        backBtn.addEventListener("click", () => {
+          history.pushState({ view: "list" }, "", "#list");
+          showTerms();
+        });
+
+        contentArea.querySelector(".term-detail").focus();
+      }
+
+      // 용어 카드 보여주기 (필터링 가능)
+      function showTerms(filter = "") {
+        contentArea.innerHTML = "";
+        let filteredTerms = terms;
+        if (filter.trim() !== "") {
+          const lowerFilter = filter.trim().toLowerCase();
+          filteredTerms = terms.filter(
+            (t) =>
+              t.term.toLowerCase().includes(lowerFilter) ||
+              t.desc.toLowerCase().includes(lowerFilter)
+          );
+        }
+        if (filteredTerms.length === 0) {
+          contentArea.innerHTML = `<p>검색 결과가 없습니다.</p>`;
+          return;
+        }
+        filteredTerms.forEach(({ term, desc }) => {
+          const card = document.createElement("article");
+          card.className = "term-card";
+          card.tabIndex = 0;
+          card.setAttribute("role", "button");
+          card.setAttribute("aria-label", `${term} 용어 설명 보기`);
+          card.innerHTML = `<h3>${term}</h3><p>${
+            desc.length > 100 ? desc.slice(0, 100) + "..." : desc // 카드내용상세 <<검색용키워드 주석지우지말기
+          }</p>`;
+          // card.addEventListener("click", () => openTermInNewWindow(term));
+          // card.addEventListener("keydown", (e) => {
+          //   if (e.key === "Enter" || e.key === " ") {
+          //     e.preventDefault();
+          //     openTermInNewWindow(term);
+          //   }
+
+          card.addEventListener("click", () => showTermDetail(term));
+          card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              showTermDetail(term);
+            }
+          });
+          contentArea.appendChild(card);
+        });
+      }
+
+      // 자동완성 리스트 보여주기
+      function updateAutocomplete() {
+        const val = searchBox.value.trim().toLowerCase();
+        if (val.length === 0) {
+          autocompleteList.innerHTML = "";
+          autocompleteList.hidden = true;
+          searchBox.setAttribute("aria-expanded", "false");
+          return;
+        }
+        const matched = terms
+          .filter(
+            (t) =>
+              t.term.toLowerCase().includes(val) ||
+              t.desc.toLowerCase().includes(val)
+          )
+          .slice(0, 10);
+
+        if (matched.length === 0) {
+          autocompleteList.innerHTML = "";
+          autocompleteList.hidden = true;
+          searchBox.setAttribute("aria-expanded", "false");
+          return;
+        }
+        autocompleteList.innerHTML = matched
+          .map(
+            (t) =>
+              `<li role="option" tabindex="0" data-term="${t.term}">${t.term}</li>`
+          )
+          .join("");
+        autocompleteList.hidden = false;
+        searchBox.setAttribute("aria-expanded", "true");
+      }
+
+      // 자동완성 항목 클릭 시 검색 실행
+      autocompleteList.addEventListener("click", (e) => {
+        if (e.target.tagName === "LI") {
+          const term = e.target.dataset.term;
+          searchBox.value = term;
+          autocompleteList.innerHTML = "";
+          autocompleteList.hidden = true;
+          searchBox.setAttribute("aria-expanded", "false");
+          searchTerm(term);
+        }
+      });
+
+      // 자동완성 항목 키보드 내비게이션 & 선택
+      autocompleteList.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+          e.preventDefault();
+          const items = [...autocompleteList.querySelectorAll("li")];
+          if (items.length === 0) return;
+          let idx = items.findIndex((item) =>
+            item.classList.contains("active")
+          );
+          if (idx === -1) idx = 0;
+          else items[idx].classList.remove("active");
+          if (e.key === "ArrowDown") {
+            idx = (idx + 1) % items.length;
+          } else {
+            idx = (idx - 1 + items.length) % items.length;
+          }
+          items.forEach((item) => item.classList.remove("active"));
+          items[idx].classList.add("active");
+          items[idx].focus();
+        } else if (e.key === "Enter") {
+          e.preventDefault();
+          const active = autocompleteList.querySelector("li.active");
+          if (active) {
+            const term = active.dataset.term;
+            searchBox.value = term;
+            autocompleteList.innerHTML = "";
+            autocompleteList.hidden = true;
+            searchBox.setAttribute("aria-expanded", "false");
+            searchTerm(term);
+          }
+        }
+      });
+
+      // 검색 실행 함수
+      function searchTerm(term) {
+        // 메뉴 닫기
+        closeMenu();
+
+        // 필터링된 용어 보여주기
+        showTerms(term);
+      }
+
+      // 검색창 입력 이벤트
+      searchBox.addEventListener("input", updateAutocomplete);
+
+      // 폼 제출 (검색) 처리
+      searchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const val = searchBox.value.trim();
+        if (val !== "") {
+          autocompleteList.innerHTML = "";
+          autocompleteList.hidden = true;
+          searchBox.setAttribute("aria-expanded", "false");
+          searchTerm(val);
+        }
+      });
+
+      // 메뉴 버튼들 클릭 이벤트
+      showTermsBtn.addEventListener("click", () => {
+        closeMenu();
+        searchBox.value = "";
+        autocompleteList.innerHTML = "";
+        autocompleteList.hidden = true;
+        searchBox.setAttribute("aria-expanded", "false");
+        showTerms();
+      });
+
+      homeBtn.addEventListener("click", () => {
+        closeMenu();
+        window.location.href = "home.html";
+      });
+
+      showQuizBtn.addEventListener("click", () => {
+        closeMenu();
+        generateQuizData();
+        showStartButton();
+      });
+
+      toggleDarkBtn.addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark-mode");
+        toggleDarkBtn.setAttribute("aria-pressed", isDark);
+      });
+
+      // 퀴즈 관련 코드
+      let currentQuizIndex = 0;
+      let score = 0;
+      function showStartButton() { // 퀴즈시작 버튼
+      contentArea.innerHTML = "";
+
+
+      const startSection = document.createElement("section");
+      startSection.id = "quizBox";
+
+      startSection.style.display = "flex";
+      startSection.style.flexDirection = "column";
+      startSection.style.alignItems = "center";
+      startSection.style.justifyContent = "center";
+      startSection.style.height = "300px"; // 원하는 높이로 조절
+      startSection.style.marginTop = "50px"; // 상단 여백
+      const startQuizBtn = document.createElement("button");
+      startQuizBtn.textContent = "퀴즈 시작";
+
+      // 버튼 스타일
+      startQuizBtn.style.fontSize = "1.2rem";
+      startQuizBtn.style.padding = "12px 24px";
+      startQuizBtn.style.borderRadius = "8px";
+      startQuizBtn.style.border = "none";
+      startQuizBtn.style.backgroundColor = "#fc96aa";
+      startQuizBtn.style.color = "white";
+      startQuizBtn.style.cursor = "pointer";
+      startQuizBtn.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+      startQuizBtn.style.transition = "0.3s";
+
+      startQuizBtn.addEventListener("click", () => {
+        showQuiz();
+        renderQuizQuestion();
+      });
+
+      startSection.appendChild(startQuizBtn);
+      contentArea.appendChild(startSection);
+    }
+
+      function showQuiz() {
+        if (quizData.length === 0) {
+          contentArea.innerHTML = "<p>퀴즈 데이터가 없습니다.</p>";
+          return;
+        }
+        score = 0;
+        currentQuizIndex = 0;
+        renderQuizQuestion();
+      }
+
+      function renderQuizQuestion() {
+        contentArea.innerHTML = "";
+        const quizBox = document.createElement("section");
+        quizBox.id = "quizBox";
+        quizBox.setAttribute("aria-live", "polite");
+        const current = quizData[currentQuizIndex];
+
+        // 문제 표시
+        const questionP = document.createElement("p");
+        questionP.id = "question";
+        questionP.textContent = `${currentQuizIndex + 1}. 다음 중 "${
+          current.question
+        }"의 설명으로 가장 적절한 것은?`;
+        quizBox.appendChild(questionP);
+
+        // 선택지 버튼들
+        const optionsDiv = document.createElement("div");
+        optionsDiv.id = "options";
+        current.options.forEach((optionText, idx) => {
+          const btn = document.createElement("button");
+          btn.textContent = optionText;
+          btn.type = "button";
+          btn.setAttribute("data-index", idx);
+          btn.addEventListener("click", () => {
+            handleAnswer(idx);
+          });
+          optionsDiv.appendChild(btn);
+        });
+        quizBox.appendChild(optionsDiv);
+
+        // 결과 표시
+        const resultDiv = document.createElement("div");
+        resultDiv.id = "result";
+        quizBox.appendChild(resultDiv);
+
+        // 다음 버튼
+        const nextBtn = document.createElement("button");
+        nextBtn.id = "nextBtn";
+        nextBtn.textContent = "다음 문제";
+        nextBtn.disabled = true;
+        nextBtn.addEventListener("click", () => {
+          currentQuizIndex++;
+          if (currentQuizIndex < quizData.length) {
+            renderQuizQuestion();
+          } else {
+            showQuizResult();
+          }
+        });
+        quizBox.appendChild(nextBtn);
+
+        contentArea.appendChild(quizBox);
+      }
+
+      function handleAnswer(selectedIndex) {
+        const quizBox = document.getElementById("quizBox");
+        const resultDiv = quizBox.querySelector("#result");
+        const nextBtn = quizBox.querySelector("#nextBtn");
+        const current = quizData[currentQuizIndex];
+
+        // 정답 확인 및 표시
+        if (selectedIndex === current.answer) {
+          resultDiv.textContent = "정답입니다! 🎉";
+          resultDiv.style.color = "green";
+          score++;
+        } else {
+          resultDiv.textContent = `오답입니다. 정답: "${
+            current.options[current.answer]
+          }"`;
+          resultDiv.style.color = "red";
+        }
+
+        // 버튼 비활성화 및 다음 버튼 활성화
+        const optionButtons = quizBox.querySelectorAll("#options button");
+        optionButtons.forEach((btn) => {
+          btn.disabled = true;
+          if (Number(btn.dataset.index) === current.answer) {
+            btn.style.borderColor = "green";
+            btn.style.backgroundColor = "#d4f8d4";
+            btn.style.color = "green";
+          }
+          if (
+            Number(btn.dataset.index) === selectedIndex &&
+            selectedIndex !== current.answer
+          ) {
+            btn.style.borderColor = "red";
+            btn.style.backgroundColor = "#f8d4d4";
+            btn.style.color = "red";
+          }
+        });
+
+        nextBtn.disabled = false;
+      }
+
+      function showQuizResult() {
+        contentArea.innerHTML = "";
+        const resultBox = document.createElement("section");
+        resultBox.id = "quizBox";
+
+        const scoreP = document.createElement("p");
+        scoreP.textContent = `퀴즈 종료! 총 ${quizData.length}문제 중 ${score}문제 맞추셨습니다.`;
+        scoreP.style.fontWeight = "700";
+        scoreP.style.fontSize = "1.3rem";
+        scoreP.style.marginBottom = "20px";
+        resultBox.appendChild(scoreP);
+
+        const retryBtn = document.createElement("button");
+        retryBtn.id = "retryBtn";
+        retryBtn.textContent = "다시 풀기";
+        retryBtn.addEventListener("click", () => {
+          generateQuizData();
+          showQuiz();
+        });
+        resultBox.appendChild(retryBtn);
+
+        contentArea.appendChild(resultBox);
+      }
+
+      // 초기 실행
+      const hash = window.location.hash;
+      if (hash.startsWith("#term=")) {
+        const term = decodeURIComponent(hash.split("=")[1]);
+        showTermDetail(term, false);
+      } else {
+        showTerms();
+      }
+      window.addEventListener("popstate", (e) => {
+        if (e.state && e.state.view === "detail") {
+          showTermDetail(e.state.term, false);
+        } else {
+          showTerms();
+        }
+      });
+    </script>
+  </body>
+</html>
