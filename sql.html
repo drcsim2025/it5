@@ -31,8 +31,18 @@
       aria-label="용어 검색"
     >
       <div id="searchContainer">
-        <img src="./images/mysqllogo.png" alt="로고" class="logo light" />
-        <img src="./images/mysqllogo_white.png" alt="로고" class="logo dark" />
+        <img
+          src="./images/mysqllogo.png"
+          alt="html"
+          class="logo light"
+          onclick="logopass(this)"
+        />
+        <img
+          src="./images/mysqllogo_white.png"
+          alt="html"
+          class="logo dark"
+          onclick="logopass(this)"
+        />
         <input
           type="text"
           id="searchBox"
@@ -54,7 +64,7 @@
     <script>
       // 용어 데이터추가 + 용어에 ex추가 예시는 ex에다가 넣으세요
       const terms = [
-                {
+        {
           term: "SELECT",
           desc: "데이터베이스에서 데이터를 추출",
           ex: "SELECT CustomerName, City FROM Customers;",
@@ -251,7 +261,7 @@
           desc: "SQL에서 정수 값을 저장할 때 사용하는 데이터 타입.",
           ex: "CREATE TABLE Students (ID INT, Age INT);",
           ex2: "사용법: 컬럼 정의 시 INT를 사용하면 정수만 저장할 수 있습니다.",
-        }
+        },
       ];
     </script>
     <script src="term.js" defer></script>
