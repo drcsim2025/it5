@@ -41,7 +41,7 @@
           aria-controls="autocompleteList"
           aria-expanded="false"
           aria-haspopup="listbox"
-          placeholder="검색어 입력 (예: span,form,table)"
+          placeholder="검색어 입력 (예: html,head,body)"
         />
         <button id="searchBtn" aria-label="검색">🔍</button>
         <ul id="autocompleteList" role="listbox" hidden></ul>
@@ -55,60 +55,161 @@
     <script>
       // 용어 데이터추가 + 용어에 ex추가 예시는 ex에다가 넣으세요
       const terms = [
-        {
-          term: "span",
-          desc: "인라인 요소로, 텍스트 일부를 감싸 스타일링할 때 사용.",
-          ex: "<span style='color:red;'>빨간 텍스트</span>",
-          ex2: "&lt;span style=&#x27;color:red;&#x27;&gt;빨간 텍스트&lt;/span&gt;",
-        },
-        {
-          term: "a",
-          desc: "HTML에서 하이퍼링크를 정의하는 태그.",
-          ex: "<a href='https://naver.com'>예시 링크</a>",
-          ex2: "&lt;a href=&#x27;https://naver.com&#x27;&gt;예시 링크&lt;/a&gt;",
-        },
-        {
-          term: "img",
-          desc: "이미지를 삽입하는 HTML 태그.",
-          ex: "<img src='image.jpg' alt='예시 이미지'>",
-          ex2: "&lt;img src=&#x27;image.jpg&#x27; alt=&#x27;예시 이미지&#x27;&gt;",
-        },
-        {
-          term: "ul",
-          desc: "순서 없는 리스트를 만드는 HTML 태그.",
-          ex: "<ul><li>항목 1</li><li>항목 2</li></ul>",
-          ex2: "&lt;ul&gt;&lt;li&gt;항목 1&lt;/li&gt;&lt;li&gt;항목 2&lt;/li&gt;&lt;/ul&gt;",
-        },
-        {
-          term: "ol",
-          desc: "순서 있는 리스트를 만드는 HTML 태그.",
-          ex: "<ol><li>첫 번째</li><li>두 번째</li></ol>",
-          ex2: "&lt;ol&gt;&lt;li&gt;첫 번째&lt;/li&gt;&lt;li&gt;두 번째&lt;/li&gt;&lt;/ol&gt;",
-        },
-        {
-          term: "form",
-          desc: "사용자 입력을 받는 HTML 폼 요소.",
-          ex: "<form><input type='text'></form>",
-          ex2: "&lt;form&gt;&lt;input type=&#x27;text&#x27;&gt;&lt;/form&gt;",
-        },
-        {
-          term: "input",
-          desc: "텍스트 필드, 체크박스 등의 사용자 입력 필드를 생성하는 HTML 태그.",
-          ex: "<input type='checkbox'>",
-          ex2: "&lt;input type=&#x27;checkbox&#x27;&gt;",
-        },
-        {
-          term: "button",
-          desc: "클릭 가능한 버튼을 생성하는 HTML 요소.",
-          ex: "<button>클릭</button>",
-          ex2: "&lt;button&gt;클릭&lt;/button&gt;",
-        },
-        {
-          term: "table",
-          desc: "표(table)를 만드는 HTML 태그.",
-          ex: "<table><tr><td>데이터</td></tr></table>",
-          ex2: "&lt;table&gt;&lt;tr&gt;&lt;td&gt;데이터&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;",
-        },
+    {
+    term: "html",
+    desc: "HTML 문서의 최상위 루트 요소로, 전체 문서를 감쌈.",
+    ex: "&lt;html lang=&#x27;ko&#x27;&gt;...&lt;/html&gt;"
+  },
+  {
+    term: "head",
+    desc: "문서의 메타 정보와 외부 리소스 등을 포함하는 영역.",
+    ex: "&lt;head&gt;&lt;title&gt;문서 제목&lt;/title&gt;&lt;/head&gt;"
+  },
+  {
+    term: "body",
+    desc: "실제 웹 페이지에 표시되는 콘텐츠를 포함하는 영역.",
+    ex: "&lt;body&gt;&lt;h1&gt;환영합니다&lt;/h1&gt;&lt;/body&gt;"
+  },
+  {
+    term: "title",
+    desc: "브라우저 탭에 표시되는 문서의 제목을 설정.",
+    ex: "&lt;title&gt;나의 웹페이지&lt;/title&gt;"
+  },
+  {
+    term: "meta",
+    desc: "문서 정보(인코딩, 설명 등)를 지정하는 빈 요소.",
+    ex: "<meta charset='UTF-8'>",
+    ex2: "&lt;meta charset=&#x27;UTF-8&#x27;&gt;"
+  },
+  {
+    term: "link",
+    desc: "외부 CSS 파일을 연결할 때 사용하는 빈 요소.",
+    ex: "<link rel='stylesheet' href='style.css'>",
+    ex2: "&lt;link rel=&#x27;stylesheet&#x27; href=&#x27;style.css&#x27;&gt;"
+  },
+  {
+    term: "style",
+    desc: "문서 내부에서 CSS 스타일을 정의할 때 사용.",
+    ex: "&lt;style&gt;body { color: blue; }&lt;/style&gt;"
+  },
+  {
+    term: "div",
+    desc: "블록 요소로, 웹 페이지의 구획을 나누는 데 사용.",
+    ex: "<div>블록 요소</div>",
+    ex2: "&lt;div&gt;블록 요소&lt;/div&gt;"
+  },
+  {
+    term: "span",
+    desc: "인라인 요소로, 텍스트 일부를 감싸 스타일링할 때 사용.",
+    ex2: "&lt;span style=&#x27;color:red;&#x27;&gt;빨간 텍스트&lt;/span&gt;"
+  },
+  {
+    term: "a",
+    desc: "하이퍼링크를 생성하며 다른 페이지나 주소로 연결.",
+    ex: "<a href='https://example.com'>링크</a>",
+    ex2: "&lt;a href=&#x27;https://example.com&#x27;&gt;링크&lt;/a&gt;"
+  },
+  {
+    term: "img",
+    desc: "이미지를 웹 페이지에 삽입할 때 사용.",
+    ex2: "&lt;img src=&#x27;image.jpg&#x27; alt=&#x27;설명&#x27;&gt;"
+  },
+  {
+    term: "br",
+    desc: "줄바꿈을 위한 빈 요소.",
+    ex: "첫줄<br>둘째줄",
+    ex2: "첫줄&lt;br&gt;둘째줄"
+  },
+  {
+    term: "hr",
+    desc: "수평선을 삽입하는 빈 요소.",
+    ex: "<hr>",
+    ex2: "&lt;hr&gt;"
+  },
+  {
+    term: "h1",
+    desc: "가장 큰 제목을 나타내는 태그. h1~h6까지 있음.",
+    ex: "<h1>제목</h1>",
+    ex2: "&lt;h1&gt;제목&lt;/h1&gt;"
+  },
+  {
+    term: "p",
+    desc: "문단을 나타내는 블록 요소.",
+    ex: "<p>이것은 문단입니다.</p>",
+    ex2: "&lt;p&gt;이것은 문단입니다.&lt;/p&gt;"
+  },
+  {
+    term: "ul",
+    desc: "순서 없는 목록을 나타내는 태그.",
+    ex: "<ul><li>항목1</li><li>항목2</li></ul>",
+    ex2: "&lt;ul&gt;&lt;li&gt;항목1&lt;/li&gt;&lt;li&gt;항목2&lt;/li&gt;&lt;/ul&gt;"
+  },
+  {
+    term: "ol",
+    desc: "순서 있는 목록을 나타내는 태그.",
+    ex: "<ol><li>첫째</li><li>둘째</li></ol>",
+    ex2: "&lt;ol&gt;&lt;li&gt;첫째&lt;/li&gt;&lt;li&gt;둘째&lt;/li&gt;&lt;/ol&gt;"
+  },
+  {
+    term: "li",
+    desc: "목록 항목을 나타내며 ul 또는 ol 안에서 사용.",
+    ex: "<li>목록 항목</li>",
+    ex2: "&lt;li&gt;목록 항목&lt;/li&gt;"
+  },
+  {
+    term: "form",
+    desc: "사용자 입력을 서버로 전송하기 위한 폼을 정의.",
+    ex: "<form action='/submit' method='post'></form>",
+    ex2: "&lt;form action=&#x27;/submit&#x27; method=&#x27;post&#x27;&gt;&lt;/form&gt;"
+  },
+  {
+    term: "input",
+    desc: "사용자 입력을 받기 위한 폼 요소.",
+    ex: "<input type='text' placeholder='이름 입력'>",
+    ex2: "&lt;input type=&#x27;text&#x27; placeholder=&#x27;이름 입력&#x27;&gt;"
+  },
+  {
+    term: "button",
+    desc: "클릭 가능한 버튼을 생성.",
+    ex: "<button type='submit'>제출</button>",
+    ex2: "&lt;button type=&#x27;submit&#x27;&gt;제출&lt;/button&gt;"
+  },
+  {
+    term: "label",
+    desc: "입력 요소와 연결되어 설명을 제공하는 태그.",
+    ex: "<label for='name'>이름</label><input id='name'>",
+    ex2: "&lt;label for=&#x27;name&#x27;&gt;이름&lt;/label&gt;&lt;input id=&#x27;name&#x27;&gt;"
+  },
+  {
+    term: "section",
+    desc: "시맨틱 태그로, 문서 내 독립적인 구획을 나타냄.",
+    ex: "<section><h2>소개</h2></section>",
+    ex2: "&lt;section&gt;&lt;h2&gt;소개&lt;/h2&gt;&lt;/section&gt;"
+  },
+  {
+    term: "article",
+    desc: "시맨틱 태그로, 독립적인 콘텐츠 단위를 나타냄.",
+    ex: "<article><h2>글 제목</h2><p>내용</p></article>",
+    ex2: "&lt;article&gt;&lt;h2&gt;글 제목&lt;/h2&gt;&lt;p&gt;내용&lt;/p&gt;&lt;/article&gt;"
+  },
+  {
+    term: "header",
+    desc: "머리말 영역. 문서나 섹션의 시작 부분을 정의.",
+    ex: "<header><h1>로고</h1></header>",
+    ex2: "&lt;header&gt;&lt;h1&gt;로고&lt;/h1&gt;&lt;/header&gt;"
+  },
+  {
+    term: "footer",
+    desc: "꼬리말 영역. 저작권, 연락처 등 페이지 하단 정보.",
+    ex: "<footer>© 2025 My Site</footer>",
+    ex2: "&lt;footer&gt;© 2025 My Site&lt;/footer&gt;"
+  },
+  {
+    term: "nav",
+    desc: "내비게이션 영역. 메뉴나 링크 그룹을 포함.",
+    ex: "<nav><a href='/home'>홈</a></nav>",
+    ex2: "&lt;nav&gt;&lt;a href=&#x27;/home&#x27;&gt;홈&lt;/a&gt;&lt;/nav&gt;"
+  }
       ];
       // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
       // 각 문제는 정답인 인덱스를 맞게 섞어서 설정
