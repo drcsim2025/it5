@@ -31,6 +31,8 @@
       aria-label="용어 검색"
     >
       <div id="searchContainer">
+        <img src="./images/mysqllogo.png" alt="로고" class="logo light" />
+        <img src="./images/mysqllogo_white.png" alt="로고" class="logo dark" />
         <input
           type="text"
           id="searchBox"
@@ -124,8 +126,7 @@
           ex: "대표적인 RDBMS: MySQL, Oracle, MS SQL Server, PostgreSQL 등",
           ex2: "사용법: 대부분의 기업 데이터베이스 시스템에서 RDBMS를 사용함",
         },
-        
-];
+      ];
       // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
       // 각 문제는 정답인 인덱스를 맞게 섞어서 설정
       let quizData = [];
@@ -419,41 +420,41 @@
       // 퀴즈 관련 코드
       let currentQuizIndex = 0;
       let score = 0;
-      function showStartButton() { // 퀴즈시작 버튼
-      contentArea.innerHTML = "";
+      function showStartButton() {
+        // 퀴즈시작 버튼
+        contentArea.innerHTML = "";
 
+        const startSection = document.createElement("section");
+        startSection.id = "quizBox";
 
-      const startSection = document.createElement("section");
-      startSection.id = "quizBox";
+        startSection.style.display = "flex";
+        startSection.style.flexDirection = "column";
+        startSection.style.alignItems = "center";
+        startSection.style.justifyContent = "center";
+        startSection.style.height = "300px"; // 원하는 높이로 조절
+        startSection.style.marginTop = "50px"; // 상단 여백
+        const startQuizBtn = document.createElement("button");
+        startQuizBtn.textContent = "퀴즈 시작";
 
-      startSection.style.display = "flex";
-      startSection.style.flexDirection = "column";
-      startSection.style.alignItems = "center";
-      startSection.style.justifyContent = "center";
-      startSection.style.height = "300px"; // 원하는 높이로 조절
-      startSection.style.marginTop = "50px"; // 상단 여백
-      const startQuizBtn = document.createElement("button");
-      startQuizBtn.textContent = "퀴즈 시작";
+        // 버튼 스타일
+        startQuizBtn.style.fontSize = "1.2rem";
+        startQuizBtn.style.padding = "12px 24px";
+        startQuizBtn.style.borderRadius = "8px";
+        startQuizBtn.style.border = "none";
+        startQuizBtn.style.backgroundColor = "#fc96aa";
+        startQuizBtn.style.color = "white";
+        startQuizBtn.style.cursor = "pointer";
+        startQuizBtn.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+        startQuizBtn.style.transition = "0.3s";
 
-      // 버튼 스타일
-      startQuizBtn.style.fontSize = "1.2rem";
-      startQuizBtn.style.padding = "12px 24px";
-      startQuizBtn.style.borderRadius = "8px";
-      startQuizBtn.style.border = "none";
-      startQuizBtn.style.backgroundColor = "#fc96aa";
-      startQuizBtn.style.color = "white";
-      startQuizBtn.style.cursor = "pointer";
-      startQuizBtn.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
-      startQuizBtn.style.transition = "0.3s";
+        startQuizBtn.addEventListener("click", () => {
+          showQuiz();
+          renderQuizQuestion();
+        });
 
-      startQuizBtn.addEventListener("click", () => {
-        showQuiz();
-        renderQuizQuestion();
-      });
-
-      startSection.appendChild(startQuizBtn);
-      contentArea.appendChild(startSection);
-    }
+        startSection.appendChild(startQuizBtn);
+        contentArea.appendChild(startSection);
+      }
 
       function showQuiz() {
         if (quizData.length === 0) {
