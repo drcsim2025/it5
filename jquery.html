@@ -546,9 +546,10 @@
           <form id="fo1">
             <p>${found.ex}</p>
             </form><br>
-          <form id="fo2">
-            <p>${found.ex2}</p>
-            </form>
+          ${found.ex2 ? `
+            <form id="fo2">
+              <p>${found.ex2}</p>
+            </form>` : ''}
           <button id="backToListBtn">목록으로</button>
         </section>
       `;
