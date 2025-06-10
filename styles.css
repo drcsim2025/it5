@@ -195,6 +195,36 @@ textarea {
   background-color: #5146e5;
 }
 
+/*다크모드 로고 새로추가*/
+/* 로고 스타일 */
+.logo {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  transition: opacity 0.3s ease;
+}
+
+/* 기본: 다크 모드 아님일 때는 dark 로고 숨기기 */
+.logo.dark {
+  display: none;
+}
+
+/* 다크 모드일 때 */
+body.dark-mode .logo.light {
+  display: none;
+}
+body.dark-mode .logo.dark {
+  display: inline;
+}
+
+/* 검색 컨테이너 정렬 */
+#searchContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
 /* 다크모드 대응 */
 body.dark-mode .term-detail {
   background-color: #424242;
