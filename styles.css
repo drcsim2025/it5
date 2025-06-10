@@ -1,3 +1,91 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+  
+  @-ms-viewport {
+		width: device-width;
+	}
+
+	body {
+		-ms-overflow-style: scrollbar;
+	}
+
+	@media screen and (max-width: 480px) {
+
+		html, body {
+			min-width: 320px;
+		}
+
+	}
+
+	html {
+		box-sizing: border-box;
+	}
+
+	*, *:before, *:after {
+		box-sizing: inherit;
+	}
+
+	body {
+		background-color: #5078b0;
+		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #5787ee 15%, #4e4d93 85%);
+		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #5787ee 15%, #4e4d93 85%);
+		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #5787ee 15%, #4e4d93 85%);
+		background-image: url("images/overlay.png"), linear-gradient(45deg, #5787ee 15%, #4e4d93 85%);
+	}
+
+		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
+			-moz-animation: none !important;
+			-webkit-animation: none !important;
+			-ms-animation: none !important;
+			animation: none !important;
+			-moz-transition: none !important;
+			-webkit-transition: none !important;
+			-ms-transition: none !important;
+			transition: none !important;
+		}
+
+/* Type */
+
+	body {
+		background-color: #935d8c;
+		color: rgba(255, 255, 255, 0.65);
+	}
+
+	body, input, select, textarea {
+    font-family: 'Pretendard-Regular' !important;
+		font-size: 17pt;
+		font-weight: 300;
+		line-height: 1.65;
+	}
+
+		@media screen and (max-width: 1680px) {
+
+			body, input, select, textarea {
+				font-size: 14pt;
+			}
+
+		}
+
+		@media screen and (max-width: 1280px) {
+
+			body, input, select, textarea {
+				font-size: 12pt;
+			}
+
+		}
+
+		@media screen and (max-width: 360px) {
+
+			body, input, select, textarea {
+				font-size: 11pt;
+			}
+
+		}
+
 /* 기본 리셋 및 공통 설정 */
 
 * {
@@ -14,7 +102,6 @@
   text-align: left;
 }
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
   margin: 0;
   padding: 0;
@@ -26,36 +113,11 @@ body {
   align-items: center;
 }
 
-body {
-  background-color: #5078b0;
-  background-image: url("images/overlay.png"),
-    -moz-linear-gradient(45deg, #5787ee 15%, #4e4d93 85%);
-  background-image: url("images/overlay.png"),
-    -webkit-linear-gradient(45deg, #5787ee 15%, #4e4d93 85%);
-  background-image: url("images/overlay.png"),
-    -ms-linear-gradient(45deg, #5787ee 15%, #4e4d93 85%);
-  background-image: url("images/overlay.png"),
-    linear-gradient(45deg, #5787ee 15%, #4e4d93 85%);
-}
-
-body.is-preload *,
-body.is-preload *:before,
-body.is-preload *:after {
-  -moz-animation: none !important;
-  -webkit-animation: none !important;
-  -ms-animation: none !important;
-  animation: none !important;
-  -moz-transition: none !important;
-  -webkit-transition: none !important;
-  -ms-transition: none !important;
-  transition: none !important;
-}
-
 /* Type */
 
 body {
   background-color: #935d8c;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(0, 0, 0, 0.65);
 }
 
 body,
@@ -68,33 +130,6 @@ textarea {
   line-height: 1.65;
 }
 
-@media screen and (max-width: 1680px) {
-  body,
-  input,
-  select,
-  textarea {
-    font-size: 14pt;
-  }
-}
-
-@media screen and (max-width: 1280px) {
-  body,
-  input,
-  select,
-  textarea {
-    font-size: 12pt;
-  }
-}
-
-@media screen and (max-width: 360px) {
-  body,
-  input,
-  select,
-  textarea {
-    font-size: 11pt;
-  }
-}
-
 #fo1 {
   background-color: #eeeef6;
   color: black;
@@ -105,6 +140,7 @@ textarea {
   flex-direction: column;
   min-height: 100px; /* 필요하면 조절 */
 }
+
 #fo2 {
   background-color: #eeeef4;
   color: black;
@@ -115,6 +151,7 @@ textarea {
   flex-direction: column;
   min-height: 100px; /* 필요하면 조절 */
 }
+
 .term-detail {
   padding: 1.5rem;
   border: 2px solid #ccc;
@@ -124,36 +161,60 @@ textarea {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  min-height: 200px; /* 필요하면 조절 */
+  margin-bottom: 0.75rem;
+  min-height: 200px;
 }
+
+#term-desc
+{
+  margin-bottom: 0.75rem;
+}
+
+.term-detail p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+  margin: 0;
+}
+
+#backToListBtn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-top : 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #7db1ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+#backToListBtn:hover {
+  background-color: #5146e5;
+}
+
+/* 다크모드 대응 */
 body.dark-mode .term-detail {
-  background-color: #222;
+  background-color: #424242;
   color: #eee;
   border-color: #444;
 }
 
-.term-detail h2 {
-  margin-top: 0;
+body.dark-mode #term-desc {
+  color: #ddd;
 }
 
-.term-detail p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
 
-#backToListBtn {
-  margin-top: auto;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  cursor: pointer;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 15px;
-}
+
 body.dark-mode #backToListBtn {
-  background-color: #3399ff;
-  color: #000;
+  background-color: #7db1ff;
+  color: #ddd;
+}
+
+body.dark-mode #backToListBtn:hover {
+  background-color: #5146e5;
 }
 
 .fade-in {
@@ -194,115 +255,106 @@ body.dark-mode button:hover {
   background: #444;
 }
 
-/* 상단 메뉴 버튼 */
+/* 메뉴 */
 #menuBtn {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 24px;
+  left: 24px;
   z-index: 1001;
-  background: #4a90e2;
+  background: #7db1ff; 
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 14px;
   border: none;
-  color: white;
-  font-size: 18px;
-  padding: 8px 12px;
-  border-radius: 4px;
+  box-shadow: 0 6px 14px rgba(99, 102, 241, 0.4);
   cursor: pointer;
-  transition: background-color 0.3s;
-}
-#menuBtn:hover {
-  background: #357abd;
+  transition: all 0.3s ease;
 }
 
-/* 좌측 메뉴박스 */
+#menuBtn:hover {
+  background: #5146e5; 
+  transform: translateX(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.45);
+}
+
+/* 메뉴박스 */
 #menuBox {
   position: fixed;
-  top: 55px;
-  left: -240px;
-  width: 200px;
-  height: 400px;
-  background: rgba(255, 255, 255, 0.601);
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-  border-right: 2px solid #ccc;
-  padding: 2rem;
+  top: -500px;
+  left: 24px;
+  width: 240px;
+  height: auto;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  transition: left 0.1s ease;
+  gap: 1.5rem;
+  transition: top 0.3s ease;
   z-index: 1000;
 }
+
 #menuBox.open {
-  left: 0;
-}
-#menuBox button {
-  background: #4a90e2;
-  border: none;
-  color: white;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.3s;
-}
-#menuBox button:hover {
-  background: #357abd;
+  top: 80px;
 }
 
-/* 검색 영역 전체 */
+/* 내부 버튼 */
+#menuBox button {
+  background: #f0f2f5;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 0 -1px 2px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+#menuBox button:hover {
+  background: #e4e7eb;
+  transform: translateY(-1px);
+}
+
+
+/* 검색 영역 */
 #searchContainer {
   margin: 70px 0 20px 0;
   width: 400px;
+  position: relative;
   display: flex;
-  align-items: center;
-  background: none;
-  box-shadow: none;
-  padding: 0;
-  gap: 8px;
+  gap: 4px;
 }
 
-/* 검색 입력창 */
 #searchBox {
-  flex: 1;
-  padding: 12px 16px;
+  flex-grow: 1;
+  padding: 10px 12px;
   font-size: 16px;
-  border: 2px solid #8bb7f7;   /* 연파란색 테두리 */
-  border-radius: 10px;
-  outline: none;
-  background: #fff;
-  color: #333;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: border-color 0.2s;
+  border: 2px solid #7db1ff;
+  border-radius: 8px;
+  outline-offset: 2px;
+  transition: border-color 0.3s;
 }
 #searchBox:focus {
-  border-color: #5c6bc0;        /* 포커스 시 더 진한 파란색 */
+  border-color: #7db1ff;
 }
-
-/* 검색 버튼 */
 #searchBtn {
-  background: #8bb7f7;
+  background: #7db1ff; 
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 14px;
   border: none;
-  border-radius: 16px;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  box-shadow: 0 6px 14px rgba(99, 102, 241, 0.4);
   cursor: pointer;
-  transition: background 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  padding: 0;
 }
 #searchBtn:hover {
-  background: #7e98e6;
-}
-#searchBtn svg {
-  display: block;
-}
-
-/* placeholder 색상 */
-#searchBox::placeholder {
-  color: #888;
-  opacity: 1;
+  background: #5146e5;
 }
 
 /* 자동완성 리스트 */
@@ -466,12 +518,6 @@ body.dark-mode #quizBox {
   background: #357abd;
 }
 
-body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f4f6f8;
-  color: #333;
-  line-height: 1.6;
-}
 
 .container {
   width: 90%;
@@ -534,22 +580,34 @@ header input[type="text"] {
 
 /* 용어 카드 */
 .term-card {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease;
+  background: linear-gradient(135deg, #f9f9f9, #ffffff);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .term-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
 }
 
 .term-card h2 {
-  color: #1e88e5;
-  margin-bottom: 10px;
+  color: #1565c0;
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  border-left: 4px solid #64b5f6;
+  padding-left: 12px;
 }
+
+.term-card p {
+  color: #555;
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
 
 /* 퀴즈 섹션 */
 #quiz {
