@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HTML 용어 사전 & 퀴즈</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -53,79 +54,60 @@
       // 용어 데이터추가 + 용어에 ex추가 예시는 ex에다가 넣으세요
       const terms = [
         {
-          term: "SELECT",
-          desc: "데이터베이스에서 데이터를 추출",
-          ex: "SELECT CustomerName, City FROM Customers;",
-          ex2: "사용법: SELECT 컬럼명 FROM 테이블명;",
+          term: "span",
+          desc: "인라인 요소로, 텍스트 일부를 감싸 스타일링할 때 사용.",
+          ex: "<span style='color:red;'>빨간 텍스트</span>",
+          ex2: "&lt;span style=&#x27;color:red;&#x27;&gt;빨간 텍스트&lt;/span&gt;",
         },
         {
-          term: "UPDATE",
-          desc: "데이터베이스에서 기존 데이터를 수정할 때 사용하는 SQL 명령어.",
-          ex: "UPDATE Customers SET City = 'Seoul' WHERE CustomerID = 1;",
-          ex2: "사용법: UPDATE 테이블명 SET 컬럼명=값 WHERE 조건;",
+          term: "a",
+          desc: "HTML에서 하이퍼링크를 정의하는 태그.",
+          ex: "<a href='https://naver.com'>예시 링크</a>",
+          ex2: "&lt;a href=&#x27;https://naver.com&#x27;&gt;예시 링크&lt;/a&gt;",
         },
         {
-          term: "DELETE",
-          desc: "데이터베이스에서 데이터를 삭제할 때 사용하는 SQL 명령어.",
-          ex: "DELETE FROM Customers WHERE CustomerID = 1;",
-          ex2: "사용법: DELETE FROM 테이블명 WHERE 조건;",
+          term: "img",
+          desc: "이미지를 삽입하는 HTML 태그.",
+          ex: "<img src='image.jpg' alt='예시 이미지'>",
+          ex2: "&lt;img src=&#x27;image.jpg&#x27; alt=&#x27;예시 이미지&#x27;&gt;",
         },
         {
-          term: "INSERT INTO",
-          desc: "데이터베이스에 새로운 데이터를 추가할 때 사용하는 SQL 명령어.",
-          ex: "INSERT INTO Customers (CustomerName, City) VALUES ('홍길동', 'Seoul');",
-          ex2: "사용법: INSERT INTO 테이블명 (컬럼1, 컬럼2) VALUES (값1, 값2);",
+          term: "ul",
+          desc: "순서 없는 리스트를 만드는 HTML 태그.",
+          ex: "<ul><li>항목 1</li><li>항목 2</li></ul>",
+          ex2: "&lt;ul&gt;&lt;li&gt;항목 1&lt;/li&gt;&lt;li&gt;항목 2&lt;/li&gt;&lt;/ul&gt;",
         },
         {
-          term: "CREATE DATABASE",
-          desc: "새로운 데이터베이스를 생성할 때 사용하는 SQL 명령어.",
-          ex: "CREATE DATABASE SchoolDB;",
-          ex2: "사용법: CREATE DATABASE 데이터베이스명;",
+          term: "ol",
+          desc: "순서 있는 리스트를 만드는 HTML 태그.",
+          ex: "<ol><li>첫 번째</li><li>두 번째</li></ol>",
+          ex2: "&lt;ol&gt;&lt;li&gt;첫 번째&lt;/li&gt;&lt;li&gt;두 번째&lt;/li&gt;&lt;/ol&gt;",
         },
         {
-          term: "ALTER DATABASE",
-          desc: "기존 데이터베이스의 속성이나 설정을 변경할 때 사용하는 SQL 명령어.",
-          ex: "ALTER DATABASE SchoolDB MODIFY NAME = NewSchoolDB;",
-          ex2: "사용법: ALTER DATABASE 데이터베이스명 옵션;",
+          term: "form",
+          desc: "사용자 입력을 받는 HTML 폼 요소.",
+          ex: "<form><input type='text'></form>",
+          ex2: "&lt;form&gt;&lt;input type=&#x27;text&#x27;&gt;&lt;/form&gt;",
         },
         {
-          term: "CREATE TABLE",
-          desc: "새로운 테이블(표 구조)을 생성할 때 사용하는 SQL 명령어.",
-          ex: "CREATE TABLE Students (ID int, Name varchar(50));",
-          ex2: "사용법: CREATE TABLE 테이블명 (컬럼1 데이터타입, 컬럼2 데이터타입, ...);",
+          term: "input",
+          desc: "텍스트 필드, 체크박스 등의 사용자 입력 필드를 생성하는 HTML 태그.",
+          ex: "<input type='checkbox'>",
+          ex2: "&lt;input type=&#x27;checkbox&#x27;&gt;",
         },
         {
-          term: "ALTER TABLE",
-          desc: "기존 테이블의 구조(컬럼 추가, 삭제, 수정 등)를 변경할 때 사용하는 SQL 명령어.",
-          ex: "ALTER TABLE Students ADD Age int;",
-          ex2: "사용법: ALTER TABLE 테이블명 변경내용;",
+          term: "button",
+          desc: "클릭 가능한 버튼을 생성하는 HTML 요소.",
+          ex: "<button>클릭</button>",
+          ex2: "&lt;button&gt;클릭&lt;/button&gt;",
         },
         {
-          term: "DROP TABLE",
-          desc: "데이터베이스에서 기존 테이블을 완전히 삭제할 때 사용하는 SQL 명령어.",
-          ex: "DROP TABLE Students;",
-          ex2: "사용법: DROP TABLE 테이블명;",
+          term: "table",
+          desc: "표(table)를 만드는 HTML 태그.",
+          ex: "<table><tr><td>데이터</td></tr></table>",
+          ex2: "&lt;table&gt;&lt;tr&gt;&lt;td&gt;데이터&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;",
         },
-        {
-          term: "CREATE INDEX",
-          desc: "데이터베이스에서 검색 속도를 높이기 위해 인덱스를 생성할 때 사용하는 SQL 명령어.",
-          ex: "CREATE INDEX idx_name ON Students (Name);",
-          ex2: "사용법: CREATE INDEX 인덱스명 ON 테이블명 (컬럼명);",
-        },
-        {
-          term: "DROP INDEX",
-          desc: "데이터베이스에서 기존 인덱스를 삭제할 때 사용하는 SQL 명령어.",
-          ex: "DROP INDEX idx_name ON Students;",
-          ex2: "사용법: DROP INDEX 인덱스명 ON 테이블명;",
-        },
-        {
-          term: "RDBMS",
-          desc: "관계형 데이터베이스 관리 시스템(Relational Database Management System)의 약자. 데이터를 표(테이블) 형태로 저장하고, 테이블 간의 관계를 설정하여 데이터를 효율적으로 관리하는 시스템.",
-          ex: "대표적인 RDBMS: MySQL, Oracle, MS SQL Server, PostgreSQL 등",
-          ex2: "사용법: 대부분의 기업 데이터베이스 시스템에서 RDBMS를 사용함",
-        },
-        
-];
+      ];
       // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
       // 각 문제는 정답인 인덱스를 맞게 섞어서 설정
       let quizData = [];
@@ -225,7 +207,7 @@
         contentArea.innerHTML = `
         <section class="term-detail fade-in" tabindex="0">
           <h2>${found.term}</h2>
-          <p>${found.desc}</p>
+          <p id = "term-desc">${found.desc}</p>
           <form id="fo1">
             <p>${found.ex}</p>
             </form><br>
