@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   // 다크모드 상태 복원
   if (sessionStorage.getItem("darkMode") === "on") {
     document.body.classList.add("dark-mode");
@@ -12,9 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  renderTerms(terms);
-  setupSearch(terms);
-  setupQuiz(terms);
 });
 
 // 퀴즈 데이터 (같은 용어들로 문제+보기 구성)
@@ -284,13 +282,27 @@ searchForm.addEventListener("submit", (e) => {
 });
 
 // 메뉴 버튼들 클릭 이벤트
-showTermsBtn.addEventListener("click", () => {
-  closeMenu();
-  searchBox.value = "";
-  autocompleteList.innerHTML = "";
-  autocompleteList.hidden = true;
-  searchBox.setAttribute("aria-expanded", "false");
-  showTerms();
+const termsDropdown = document.getElementById("termsDropdown");
+const termButtons = termsDropdown.querySelectorAll(".term-link");
+
+document.getElementById("showTermsBtn").addEventListener("click", () => {
+  document.getElementById("termsDropdown").classList.toggle("show");
+});
+
+const rawPage  = location.pathname.split("/").pop();
+const currentPage = rawPage.split('?')[0].split('#')[0];
+console.log("현재 페이지:", currentPage);
+
+termButtons.forEach((btn) => {
+  const target = btn.dataset.target;
+  if (target === currentPage) {
+    btn.classList.add("active");
+  }
+
+  btn.addEventListener("click", () => {
+    closeMenu();
+    window.location.href = target;
+  });
 });
 
 homeBtn.addEventListener("click", () => {

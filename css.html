@@ -17,7 +17,14 @@
       ☰ 메뉴
     </button>
     <nav id="menuBox" role="menu" aria-hidden="true" tabindex="-1">
-      <button id="showTermsBtn" role="menuitem">용어 사전 보기</button>
+      <button id="showTermsBtn" role="menuitem" aria-expanded="false">용어 사전 보기</button>
+          <div id="termsDropdown" class="dropdown">
+            <button class="term-link" data-target="html.html">HTML</button>
+            <button class="term-link" data-target="css.html">CSS</button>
+            <button class="term-link" data-target="js.html">javaScript</button>
+            <button class="term-link" data-target="jquery.html">jQuery</button>
+            <button class="term-link" data-target="sql.html">SQL</button>
+          </div>
       <button id="showQuizBtn" role="menuitem">퀴즈 풀기</button>
       <button id="toggleDarkBtn" role="menuitem" aria-pressed="false">
         다크모드 토글
