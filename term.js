@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 다크모드 상태 복원
+  if (sessionStorage.getItem("darkMode") === "on") {
+    document.body.classList.add("dark-mode");
+    toggleDarkBtn.setAttribute("aria-pressed", true);
+  } else {
+    toggleDarkBtn.setAttribute("aria-pressed", false);
+  }
+
   if (typeof terms === "undefined") {
     console.error("terms 배열이 정의되지 않았습니다.");
     return;
@@ -295,10 +303,12 @@ showQuizBtn.addEventListener("click", () => {
   generateQuizData();
   showStartButton();
 });
-
+// 다크모드시 다크모드풀림방지 로컬저장
 toggleDarkBtn.addEventListener("click", () => {
   const isDark = document.body.classList.toggle("dark-mode");
   toggleDarkBtn.setAttribute("aria-pressed", isDark);
+  // 상태 저장
+  sessionStorage.setItem("darkMode", isDark ? "on" : "off");
 });
 
 // 퀴즈 관련 코드
