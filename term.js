@@ -291,7 +291,6 @@ document.getElementById("showTermsBtn").addEventListener("click", () => {
 
 const rawPage  = location.pathname.split("/").pop();
 const currentPage = rawPage.split('?')[0].split('#')[0];
-console.log("현재 페이지:", currentPage);
 
 termButtons.forEach((btn) => {
   const target = btn.dataset.target;
