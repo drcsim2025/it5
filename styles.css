@@ -377,7 +377,7 @@ body.dark-mode button:hover {
   display: flex;
   flex-direction: column;
   margin-top: 0;
-  padding-left: 0.5rem; 
+  padding-left: 0.5rem;
 }
 
 /* 드롭다운 활성화 시 */
@@ -405,9 +405,9 @@ body.dark-mode button:hover {
 }
 
 .term-link.active {
-  pointer-events: none;      
+  /* pointer-events:none;       */
+  display: none;
 }
-
 
 /* 검색 영역 */
 #searchContainer {
